@@ -4,7 +4,7 @@
 <HEAD>
 <META http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
 <title>{$title}</title>
 <SCRIPT type="text/javascript">
  
@@ -22,6 +22,7 @@ function ConfirmChoice(question) {
 <BODY>
 
 <div class="sim">
+	<img class="logo" src="gfx/logo.png" />
 	<div id="header" class="header">SimulatorGUI</div>
 	<div id="loginInfo">Innlogget som: {$fullname} ({$username}) - Tilgangsnivå: {$accesslevel}</div>
 </div>
@@ -34,7 +35,7 @@ function ConfirmChoice(question) {
 <div id="logMessages">{$logMessages}</div>
 {/if}
 
-<div id="content">{$content}</div>
+<div id="content" class="sim">{$content}</div>
 
 <div id="footer" class="sim">Copyright &copy; Gruppe2IT - 2013</div>
 
