@@ -1,13 +1,37 @@
+<SCRIPT type="text/javascript">
+ 
+function changeNumPersons() {
+	var numPersons = document.getElementById('numPersons');
+	
+	alert(numPersons.selectedIndex);
+	
+	
+}
+</SCRIPT>
 <div>
 	<img class="logo" src="gfx/logo.png" />
 	
 	<!-- Formen -->
 	<form method="post" action="{$scriptURL}">
-		<label>Antall Personer i Husstand</label><br />
-		<input type="text" name="antall_i_hus"/><br />
+		<label>Type byggning</label><br />
 	
-		<label>Gjennomsnittsalder</label><br />
-		<input type="text" name="gjen_alder"/><br />
+		<select name="byggType">
+			<option value="enebolig">Enebolig</option>
+			<option value="leilighet">to be specified</option>
+			<option value="rekkehus">to be specified</option>
+		</select><br />
+	
+		<label>Antall Personer i Husstand</label><br />
+		<select onChange="javacript:changeNumPersons()" id="numPersons" name="antall_i_hus">
+		{for $i=0 to 20}
+			<option value="{$i}">{$i}</option>
+		{/for}
+		</select><br />
+
+		<label>Beboere:</label><br />
+		<label>Alder:</label><input type="text" id="occupantAge" name="tmpOccupantAge"/>
+		<label>Yrke:</label><input type="text" id="occupantOccupation" name="tmpOccupantOccupation"/><br />
+
 	
 		<label>Bygge&aring;r</label><br />
 	
@@ -33,7 +57,20 @@
 			<option value="mn-innland">Midt-Norge, innland</option>
 			<option value="nn-kyst">Nord-Norge, kyst</option>
 			<option value="ft">Finnmark og innland Troms</option>
-		</select><br /><br />
+		</select><br />
+		
+		<!--  Spesifisering av lyskilder -->
+		<label>Belysningstype</label><br />
+	
+		<select name="belysningstype">
+			<option value="60">Gl&oslash;de p&aelig;rer</option>
+			<option value="14">Sparep&aelig;rer</option>
+			<option value="10">LED p&aelig;rer</option>
+			<option value="30">Lysr&oslash;r</option>
+		</select><br />
+		
+		<label>Antall lyskilder</label><br />
+		<input type="text" name="antall_lyskilder"/><br /><br />
 	
 		<input type="hidden" name="function" value="{$function}" />
 		<input type='submit' class="button" value='Beregn' />
