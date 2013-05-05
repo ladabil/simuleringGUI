@@ -293,9 +293,9 @@ class Site
 			$es->_numLys = 2;
 		}
 		
-		if ( isset($_REQUEST['antall_hvitvarer']) && intval($_REQUEST['antall_hvitvarer']) > 0 )
+		if ( isset($_REQUEST['antall_hvitevarer']) && intval($_REQUEST['antall_hvitevarer']) > 0 )
 		{
-			$es->_numHvit = intval($_REQUEST['antall_hvitvarer']);
+			$es->_numHvit = intval($_REQUEST['antall_hvitevarer']);
 		}
 		else
 		{
