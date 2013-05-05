@@ -5,10 +5,34 @@ class EnegrySimulator
 	var $_inhabitantsWork = Array();
 	var $_inhabitantsAge = Array();
 	
+	var $_houseTotalArea = 0;
+	var $_housePrimaryArea = 0;
+
+	var $_numLys = 0;
+	var $_lightType = 0;
+	
+	var $_climateZone = 0;
+	var $_numHvit = 0;
+	var $_numBrun = 0;
+	
 	function __construct()
 	{
 		
 		
+	}
+	
+	function getEnergyUsage()
+	{
+		// antall pers * (watt lys * antall) + (normatall oppvarming klimasone 97 mod * total areal) / 1000 (kw) * 12 timer i døgnet * dager i året
+		//$tmpResult = (($es->_numPersons*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea) + (($es->_numHvit*50) + $es->_numBrun*25)) / 1000 *(12*365);
+		
+		return ((count($this->_inhabitantsAge)*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea) + (($es->_numHvit*50) + $es->_numBrun*25)) / 1000 *(12*365);
+		
+		// eks:
+		// antall i huset * styrke lys * antall lys * 12 timer i dÃ¸gnet * dager i Ã¥ret
+		// anna ikke kordan man regna ut dettan doh.........
+		// Omregner så til kWh --> antall i huset * styrke lys * antall lys / 1000 --> * 12 timer i døgnet * dager i året
+		return (count($this->_inhabitantsAge)*($es->_lightType*$es->_numLys))/ 1000 *(12*365);		
 	}
 	
 	static function getInhabitantWorkTypesAsArray()

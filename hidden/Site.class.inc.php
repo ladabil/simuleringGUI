@@ -320,15 +320,6 @@ class Site
 			return static::getEnergyWizard($es);
 		}
 		
-		// antall pers * (watt lys * antall) + (normatall oppvarming klimasone 97 mod * total areal) / 1000 (kw) * 12 timer i døgnet * dager i året
-		//$tmpResult = (($es->_numPersons*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea) + (($es->_numHvit*50) + $es->_numBrun*25)) / 1000 *(12*365);
-		
-		// eks:
-		// antall i huset * styrke lys * antall lys * 12 timer i dÃ¸gnet * dager i Ã¥ret
-		// anna ikke kordan man regna ut dettan doh.........
-		// Omregner så til kWh --> antall i huset * styrke lys * antall lys / 1000 --> * 12 timer i døgnet * dager i året
-		$tmpResult = ($es->_numPersons*($es->_lightType*$es->_numLys))/ 1000 *(12*365);
-		
 		return static::getEnergyWizard($tmpResult);
 	}
 }

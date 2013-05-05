@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 19:01:40
+<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 20:57:39
          compiled from "C:\Program Files (x86)\Zend\Apache2\htdocs\simuleringGUI\hidden\templates\main.tpl.html" */ ?>
 <?php /*%%SmartyHeaderCode:226251865b58717921-67351433%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '477d8e05fda19052bc2ab752d6046a7baf8eabe5' => 
     array (
       0 => 'C:\\Program Files (x86)\\Zend\\Apache2\\htdocs\\simuleringGUI\\hidden\\templates\\main.tpl.html',
-      1 => 1367773297,
+      1 => 1367780253,
       2 => 'file',
     ),
   ),
@@ -20,6 +20,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'variables' => 
   array (
     'title' => 0,
+    'isUser' => 0,
     'fullname' => 0,
     'username' => 0,
     'accesslevel' => 0,
@@ -56,10 +57,12 @@ function ConfirmChoice(question) {
 <div class="sim">
 	<img class="logo" src="gfx/logo.png" />
 	<div id="header" class="header">SimulatorGUI</div>
+<?php if ($_smarty_tpl->tpl_vars['isUser']->value==true){?>
 	<div id="loginInfo">Innlogget som: <?php echo $_smarty_tpl->tpl_vars['fullname']->value;?>
  (<?php echo $_smarty_tpl->tpl_vars['username']->value;?>
 ) - Tilgangsnivå: <?php echo $_smarty_tpl->tpl_vars['accesslevel']->value;?>
 </div>
+<?php }?>
 </div>
 
 <?php if (isset($_smarty_tpl->tpl_vars['infoMessage']->value)&&strlen($_smarty_tpl->tpl_vars['infoMessage']->value)>0){?>

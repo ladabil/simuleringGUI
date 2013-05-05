@@ -90,13 +90,6 @@ function removeTag(divid)
 			<option value="rekkehus">to be specified</option>
 		</select><br />
 	
-		<label>Antall Personer i Husstand</label><br />
-		<select onChange="javacript:changeNumPersons()" id="numPersons" name="antall_i_hus">
-		{for $i=0 to 20}
-			<option value="{$i}">{$i}</option>
-		{/for}
-		</select><br />
-
 		<label>Alder:</label>
 		<select id="tmpInhabAge" name="tmpInhabAge">
 		<option value="-1">Velg alder</option>
@@ -130,10 +123,10 @@ function removeTag(divid)
 		
 		<!-- Husets størrelse -->
 		<label>Boenhet: Brutto Areal</label><br />
-		<input type="text" name="houseTotalArea"/><br />
+		<input type="text" name="houseTotalArea" value="{$enegrySimulator->_houseTotalArea}" /><br />
 	
 		<label>Boenhet: P-Rom</label><br />
-		<input type="text" name="housePrimaryArea"/><br />
+		<input type="text" name="housePrimaryArea" value="{$enegrySimulator->_housePrimaryArea}" /><br />
 		
 		<!-- Valg av oppvarming -->
 		<label>Prim&aelig;r ppvarming</label><br />
@@ -171,25 +164,22 @@ function removeTag(divid)
 		</select><br />
 		
 		<label>Antall lyskilder</label><br />
-		<input type="text" name="antall_lyskilder"/><br />
+		<input type="text" name="antall_lyskilder" value="{$enegrySimulator->_numLys}" /><br />
 		
 		<!--  Hvitevarer / Brunevarer -->
 		<label>Antall hvitvarer</label><br />
-		<input type="text" name="antall_hvitevarer"/><br />
+		<input type="text" name="antall_hvitevarer" value="{$enegrySimulator->_numHvit}" /><br />
 		
 		<label>Antall brunevarer</label><br />
-		<input type="text" name="antall_brunevarer"/><br /><br />
+		<input type="text" name="antall_brunevarer" value="{$enegrySimulator->_numBrun}" /><br /><br />
 	
 		<input type="hidden" name="function" value="{$function}" />
 		<input type='submit' class="button" value='Beregn' />
 	</form>
-{if isset($result) && intval($result) > 0}
-	<h3>Resultat</h3>{$result} kWh i &aring;ret.	
+{if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
+	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}
 </div>
-
-
-
 
 <SCRIPT type="text/javascript">
 
