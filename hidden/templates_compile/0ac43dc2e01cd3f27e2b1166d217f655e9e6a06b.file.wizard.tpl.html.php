@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 20:29:03
+<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 20:53:19
          compiled from "C:\Program Files (x86)\Zend\Apache2\htdocs\simuleringGUI\hidden\templates\wizard.tpl.html" */ ?>
 <?php /*%%SmartyHeaderCode:3026851865b5e2fc825-78358369%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '0ac43dc2e01cd3f27e2b1166d217f655e9e6a06b' => 
     array (
       0 => 'C:\\Program Files (x86)\\Zend\\Apache2\\htdocs\\simuleringGUI\\hidden\\templates\\wizard.tpl.html',
-      1 => 1367778520,
+      1 => 1367779832,
       2 => 'file',
     ),
   ),
@@ -164,6 +164,11 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration == 1
 		
 		<!-- Beboere ferdig -->
 
+		<label>Beboere:</label><br />
+		<label>Alder:</label><input type="text" id="occupantAge" name="tmpOccupantAge"/>
+		<label>Yrke:</label><input type="text" id="occupantOccupation" name="tmpOccupantOccupation"/><br />
+
+	
 		<label>Bygge&aring;r</label><br />
 	
 		<select name="byggaar">

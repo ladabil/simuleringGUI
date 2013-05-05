@@ -145,6 +145,7 @@ class Site
 		$tpl = new MySmarty();
 		
 		$tpl->assign('enegrySimulator', $enegrySimulator);
+		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
 		$tpl->assign('function', static::$funcSetupEnergySimulator);
 		
 		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
