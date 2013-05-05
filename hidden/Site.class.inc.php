@@ -28,7 +28,7 @@ class Site
 				echo static::processLogin();
 				break;
 			case static::$funcSetupEnergySimulator:
-				echo static::setupSimulatior();
+				echo static::setupSimulator();
 				break;
 			default:
 			case static::$funcShowDefault:
@@ -122,7 +122,7 @@ class Site
 	{
 		$GLOBALS["siteInfoMessage"] = $value;
 	}
-	
+	//
 	static function addInfoMessage($value)
 	{
 		if ( !isset($GLOBALS["siteInfoMessage"]) )
@@ -133,19 +133,28 @@ class Site
 		$GLOBALS["siteInfoMessage"] .= $value;
 	}
 	
-	static function getEnergyWizard($tmpResult = NULL)
+	static function getEnergyWizard($enegrySimulator = NULL)
 	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		
+		if ( $enegrySimulator == NULL )
+		{
+			$enegrySimulator = new EnegrySimulator();
+		}
+			
 		$tpl = new MySmarty();
 		
-		$tpl->assign('result', $tmpResult);
+		$tpl->assign('enegrySimulator', $enegrySimulator);
 		$tpl->assign('function', static::$funcSetupEnergySimulator);
 		
 		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
 	}
 	
-	static function setupSimulatior()
+	static function setupSimulator()
 	{
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		
+		$tpl = new MySmarty();
 		
 		$es = new EnegrySimulator();
 		$errMsg = "";
@@ -235,6 +244,31 @@ class Site
 		{
 			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
 		}
+
+		// Antall beboere og type tidsfordiv
+		if ( isset($_REQUEST['inhabitantsAge'])
+				&& isset($_REQUEST['inhabitantsWork'])
+				&& count($_REQUEST['inhabitantsAge']) == count($_REQUEST['inhabitantsWork'])
+		) {
+			$es->_inhabitantsWork = $_REQUEST['inhabitantsWork'];
+			$es->_inhabitantsAge = $_REQUEST['inhabitantsAge'];
+		}
+		else
+		{
+			$errMsg .= "Mangler beboere og deres yrker..<br>\n";
+		}
+
+		// Lyskilder
+		
+		if ( isset($_REQUEST['belysningstype']) && intval($_REQUEST['belysningstype']) > 0 )
+		{
+			$es->_lightType = intval($_REQUEST['belysningstype']);
+		}
+		else
+		{
+			// Default 60 (Glødepære)
+			$es->_lightType = 60;
+		}
 		
 		// Lyskilder
 		
@@ -282,15 +316,17 @@ class Site
 		if ( strlen($errMsg) > 0 )
 		{
 			static::addInfoMessage($errMsg);
-			return static::getEnergyWizard(NULL);
+			return static::getEnergyWizard($es);
 		}
+		
+		// antall pers * (watt lys * antall) + (normatall oppvarming klimasone 97 mod * total areal) / 1000 (kw) * 12 timer i døgnet * dager i året
+		//$tmpResult = (($es->_numPersons*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea) + (($es->_numHvit*50) + $es->_numBrun*25)) / 1000 *(12*365);
 		
 		// eks:
 		// antall i huset * styrke lys * antall lys * 12 timer i dÃ¸gnet * dager i Ã¥ret
 		// anna ikke kordan man regna ut dettan doh.........
-		
-		// antall pers * (watt lys * antall) + (normatall oppvarming klimasone 97 mod * total areal) / 1000 (kw) * 12 timer i døgnet * dager i året
-		$tmpResult = (($es->_numPersons*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea) + (($es->_numHvit*50) + $es->_numBrun*25)) / 1000 *(12*365);
+		// Omregner så til kWh --> antall i huset * styrke lys * antall lys / 1000 --> * 12 timer i døgnet * dager i året
+		$tmpResult = ($es->_numPersons*($es->_lightType*$es->_numLys))/ 1000 *(12*365);
 		
 		return static::getEnergyWizard($tmpResult);
 	}
