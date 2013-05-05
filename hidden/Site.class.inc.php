@@ -258,6 +258,27 @@ class Site
 			$es->_numLys = 2;
 		}
 		
+		if ( isset($_REQUEST['antall_hvitvarer']) && intval($_REQUEST['antall_hvitvarer']) > 0 )
+		{
+			$es->_numHvit = intval($_REQUEST['antall_hvitvarer']);
+		}
+		else
+		{
+			// Default 2 hvitevarer
+			$es->_numHvit = 2;
+		}
+		
+		if ( isset($_REQUEST['antall_brunevarer']) && intval($_REQUEST['antall_brunevarer']) > 0 )
+		{
+			$es->_numBrun = intval($_REQUEST['antall_brunevarer']);
+		}
+		else
+		{
+			// Default 2 brunevarer
+			$es->_numBrun = 2;
+		}
+		
+		
 		if ( strlen($errMsg) > 0 )
 		{
 			static::addInfoMessage($errMsg);
@@ -269,7 +290,7 @@ class Site
 		// anna ikke kordan man regna ut dettan doh.........
 		
 		// antall pers * (watt lys * antall) + (normatall oppvarming klimasone 97 mod * total areal) / 1000 (kw) * 12 timer i døgnet * dager i året
-		$tmpResult = (($es->_numPersons*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea)) / 1000 *(12*365);
+		$tmpResult = (($es->_numPersons*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea) + (($es->_numHvit*50) + $es->_numBrun*25) / 1000 *(12*365);
 		
 		return static::getEnergyWizard($tmpResult);
 	}
