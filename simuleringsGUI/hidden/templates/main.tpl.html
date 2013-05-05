@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+
+<HTML>
+<HEAD>
+<META http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<title>{$title}</title>
+<SCRIPT type="text/javascript">
+ 
+function ConfirmChoice(question) {
+	 answer = confirm(question)
+	 if (answer !=0)
+	  	return true
+	 else
+	  	return false
+}
+</SCRIPT>
+
+
+</HEAD>
+<BODY>
+
+<div id="header">Simulator</div>
+<div id="loginInfo">Innlogget som: {$fullname} ({$username}) - Tilgangsnivå: {$accesslevel}</div>
+
+{if isset($infoMessage) && strlen($infoMessage) > 0}
+<div id="infoMessage">{$infoMessage}</div>
+{/if}
+
+{if isset($logMessages) && strlen($logMessages) > 0}
+<div id="logMessages">{$logMessages}</div>
+{/if}
+
+<div id="content">{$content}</div>
+
+<div id="footer">Copyright &copy; Gruppe2IT - 2013</div>
+
+</BODY>
+</HTML>
