@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 14:18:01
+<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 14:33:00
          compiled from "C:\Program Files (x86)\Zend\Apache2\htdocs\simuleringGUI\simuleringsGUI\hidden\templates\wizard.tpl.html" */ ?>
 <?php /*%%SmartyHeaderCode:197805186440f0173b6-29430266%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '8f776090c059257acbe8e4eeaf10e5aa4f8875c0' => 
     array (
       0 => 'C:\\Program Files (x86)\\Zend\\Apache2\\htdocs\\simuleringGUI\\simuleringsGUI\\hidden\\templates\\wizard.tpl.html',
-      1 => 1367756277,
+      1 => 1367757175,
       2 => 'file',
     ),
   ),
@@ -44,6 +44,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 			<option value="87-97">Mellom 1987 og 1997</option>
 			<option value="etter97">Etter 1997</option>
 		</select><br />
+		
+		<!-- Husets størrelse -->
+		<label>Boenhet: Brutto Areal</label><br />
+		<input type="text" name="houseTotalArea"/><br />
+	
+		<label>Boenhet: P-Rom</label><br />
+		<input type="text" name="housePrimaryArea"/><br />
 	
 	    <label>Klima</label><br />
 		<select name="klima">

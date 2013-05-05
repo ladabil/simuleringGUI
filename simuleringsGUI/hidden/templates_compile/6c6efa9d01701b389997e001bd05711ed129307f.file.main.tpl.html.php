@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 14:18:01
+<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 14:39:47
          compiled from "C:\Program Files (x86)\Zend\Apache2\htdocs\simuleringGUI\simuleringsGUI\hidden\templates\main.tpl.html" */ ?>
 <?php /*%%SmartyHeaderCode:24868518641cba46fe0-93161965%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '6c6efa9d01701b389997e001bd05711ed129307f' => 
     array (
       0 => 'C:\\Program Files (x86)\\Zend\\Apache2\\htdocs\\simuleringGUI\\simuleringsGUI\\hidden\\templates\\main.tpl.html',
-      1 => 1367756255,
+      1 => 1367757581,
       2 => 'file',
     ),
   ),
@@ -63,12 +63,12 @@ function ConfirmChoice(question) {
 </div>
 
 <?php if (isset($_smarty_tpl->tpl_vars['infoMessage']->value)&&strlen($_smarty_tpl->tpl_vars['infoMessage']->value)>0){?>
-<div id="infoMessage"><?php echo $_smarty_tpl->tpl_vars['infoMessage']->value;?>
+<div id="infoMessage" class="infomsg"><?php echo $_smarty_tpl->tpl_vars['infoMessage']->value;?>
 </div>
 <?php }?>
 
 <?php if (isset($_smarty_tpl->tpl_vars['logMessages']->value)&&strlen($_smarty_tpl->tpl_vars['logMessages']->value)>0){?>
-<div id="logMessages"><?php echo $_smarty_tpl->tpl_vars['logMessages']->value;?>
+<div id="logMessages" class="infomsg"><?php echo $_smarty_tpl->tpl_vars['logMessages']->value;?>
 </div>
 <?php }?>
 

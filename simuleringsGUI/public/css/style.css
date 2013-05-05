@@ -24,6 +24,18 @@ body {
 	margin: 20px auto;
 	padding: 25px;	
 }
+
+.infomsg {
+	color: #ff3a3a;
+	background-color: #e3e3e3;
+	border: 2px solid #eb8602;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	width: 30%;
+	margin: 20px auto;
+	padding: 25px;	
+}
+
 .logo {
 	float: right;
 	position:relative;

@@ -148,6 +148,7 @@ class Site
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
 		
 		$es = new EnegrySimulator();
+		$errMsg = "";
 		
 		if ( isset($_REQUEST['antall_i_hus']) && intval($_REQUEST['antall_i_hus']) > 0 )
 		{
@@ -187,6 +188,37 @@ class Site
 		{
 			// Default 1 (Sør-norge?)
 			$es->_climateZone = 1;
+		}
+		
+		// Brutto Areal
+		if ( isset($_REQUEST['houseTotalArea']) && intval($_REQUEST['houseTotalArea']) > 0 )
+		{
+			$es->_houseTotalArea = intval($_REQUEST['houseTotalArea']);
+		}
+		else
+		{
+			$errMsg .= "Mangler Brutto Areal<br>\n";
+		}
+		
+		// Primær Areal
+		if ( isset($_REQUEST['housePrimaryArea']) && intval($_REQUEST['housePrimaryArea']) > 0 )
+		{
+			$es->_housePrimaryArea = intval($_REQUEST['housePrimaryArea']);
+		}
+		else
+		{
+			$errMsg .= "Mangler Primær Areal<br>\n";
+		}
+		
+		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
+		{
+			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
+		}
+		
+		if ( strlen($errMsg) > 0 )
+		{
+			static::addInfoMessage($errMsg);
+			return static::getEnergyWizard(NULL);
 		}
 		
 		// eks:

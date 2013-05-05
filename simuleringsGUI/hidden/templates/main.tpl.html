@@ -28,11 +28,11 @@ function ConfirmChoice(question) {
 </div>
 
 {if isset($infoMessage) && strlen($infoMessage) > 0}
-<div id="infoMessage">{$infoMessage}</div>
+<div id="infoMessage" class="infomsg">{$infoMessage}</div>
 {/if}
 
 {if isset($logMessages) && strlen($logMessages) > 0}
-<div id="logMessages">{$logMessages}</div>
+<div id="logMessages" class="infomsg">{$logMessages}</div>
 {/if}
 
 <div id="content" class="sim">{$content}</div>
