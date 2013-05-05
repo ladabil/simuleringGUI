@@ -24,7 +24,9 @@ function ConfirmChoice(question) {
 <div class="sim">
 	<img class="logo" src="gfx/logo.png" />
 	<div id="header" class="header">SimulatorGUI</div>
+{if $isUser}
 	<div id="loginInfo">Innlogget som: {$fullname} ({$username}) - Tilgangsnivå: {$accesslevel}</div>
+{/if}
 </div>
 
 {if isset($infoMessage) && strlen($infoMessage) > 0}
