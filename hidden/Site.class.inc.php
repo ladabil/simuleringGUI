@@ -261,6 +261,23 @@ class Site
 			$es->_lightType = 60;
 		}
 		
+		
+		
+		
+		// Lyskilder
+		
+		// Lyskilder
+		
+		if ( isset($_REQUEST['belysningstype']) && intval($_REQUEST['belysningstype']) > 0 )
+		{
+			$es->_lightType = intval($_REQUEST['belysningstype']);
+		}
+		else
+		{
+			// Default 60 (Glødepære)
+			$es->_lightType = 60;
+		}
+		
 		if ( isset($_REQUEST['antall_lyskilder']) && intval($_REQUEST['antall_lyskilder']) > 0 )
 		{
 			$es->_numLys = intval($_REQUEST['antall_lyskilder']);
