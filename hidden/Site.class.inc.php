@@ -257,7 +257,8 @@ class Site
 		// eks:
 		// antall i huset * styrke lys * antall lys * 12 timer i dÃ¸gnet * dager i Ã¥ret
 		// anna ikke kordan man regna ut dettan doh.........
-		$tmpResult = $es->_numPersons*($es->_lightType*$es->_numLys)*(12*365);
+		// Omregner så til kWh --> antall i huset * styrke lys * antall lys / 1000 --> * 12 timer i døgnet * dager i året
+		$tmpResult = ($es->_numPersons*($es->_lightType*$es->_numLys))/ 1000 *(12*365);
 		
 		return static::getEnergyWizard($tmpResult);
 	}
