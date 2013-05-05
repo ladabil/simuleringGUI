@@ -6,6 +6,8 @@ require_once($GLOBALS["cfg_hiddendir"] . "/Site.class.inc.php");
 
 ob_start();
 
+header("content-type: text/html; charset: utf-8");
+
 $GLOBALS["authlib"] = new AuthLib();
 
 if ( !$GLOBALS["authlib"]->checkSession() )
