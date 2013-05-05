@@ -269,6 +269,11 @@ class AuthLib {
 		if ( $authLibSession->loadFromDbByNonNumericKeyAndValue("Username", $this->_usr, Base::SQL_AND, "SID", $this->_sid) == NULL )
 		{
 			$this->setStatusCode(AL_SC_CHECKSESSION_NOTFOUNDINDBTABLE);
+
+			// Fjern cookie
+			setcookie("authlib[user]", NULL, -1, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
+			setcookie("authlib[sid]", NULL, -1, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
+				
 			return FALSE;
 		}
 		

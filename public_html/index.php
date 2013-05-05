@@ -17,9 +17,8 @@ if ( !$GLOBALS["authlib"]->checkSession() )
 	}
 	else
 	{
-		echo "Here";
-		echo "<h1>" . $GLOBALS["authlib"]->getStatusMessage() . "</h1>";
-		echo "<br>\n";
+		Site::setInfoMessage($GLOBALS["authlib"]->getStatusMessage());
+		echo Site::getLoginForm();
 		die();
 	}
 }
