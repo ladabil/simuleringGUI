@@ -6,6 +6,7 @@ class Site
 {
 	public static $funcShowDefault = "showDefault";
 	public static $funcLogin = "login";
+	public static $funcSetupEnergySimulator = "setupEnergySimulator";
 	
 	static function parseRequest()
 	{
@@ -25,6 +26,9 @@ class Site
 		{
 			case static::$funcLogin:
 				echo static::processLogin();
+				break;
+			case static::$funcSetupEnergySimulator:
+				echo static::setupSimulatior();
 				break;
 			default:
 			case static::$funcShowDefault:
@@ -89,14 +93,6 @@ class Site
 		return static::getEnergyWizard();
 	}
 	
-	static function getEnergyWizard()
-	{
-		$tpl = new MySmarty();
-		
-		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
-	}
-	
-	
 	static function getMainFrame($content, $title="untitled")
 	{
 		$tpl = new MySmarty();
@@ -135,5 +131,69 @@ class Site
 		}
 		
 		$GLOBALS["siteInfoMessage"] .= $value;
-	}	
+	}
+	
+	static function getEnergyWizard($tmpResult = NULL)
+	{
+		$tpl = new MySmarty();
+		
+		$tpl->assign('result', $tmpResult);
+		$tpl->assign('function', static::$funcSetupEnergySimulator);
+		
+		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
+	}
+	
+	static function setupSimulatior()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		
+		$es = new EnegrySimulator();
+		
+		if ( isset($_REQUEST['antall_i_hus']) && intval($_REQUEST['antall_i_hus']) > 0 )
+		{
+			$es->_numPersons = intval($_REQUEST['antall_i_hus']);
+		}
+		else
+		{
+			// Default 1 person
+			$es->_numPersons = 1;
+		}
+		
+		if ( isset($_REQUEST['gjen_alder']) && intval($_REQUEST['gjen_alder']) > 0 )
+		{
+			$es->_personsAvgAge = intval($_REQUEST['gjen_alder']);
+		}
+		else
+		{
+			// Default 35 år
+			$es->_personsAvgAge = 35;
+		}
+		
+		if ( isset($_REQUEST['byggaar']) && intval($_REQUEST['byggaar']) > 0 )
+		{
+			$es->_houseBuildYear = intval($_REQUEST['byggaar']);
+		}
+		else
+		{
+			// Default 35 år
+			$es->_houseBuildYear = 1980;
+		}
+				
+		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
+		{
+			$es->_climateZone = intval($_REQUEST['klima']);
+		}
+		else
+		{
+			// Default 1 (Sør-norge?)
+			$es->_climateZone = 1;
+		}
+		
+		// eks:
+		// antall i huset * 60watt gange 2 lyspÃ¦rer per person * 12 timer i dÃ¸gnet * dager i Ã¥ret
+		// anna ikke kordan man regna ut dettan doh.........
+		$tmpResult = $es->_numPersons*(60*2)*(12*365);
+		
+		return static::getEnergyWizard($tmpResult);
+	}
 }

@@ -20,10 +20,9 @@ if ( !$GLOBALS["authlib"]->checkSession() )
 		echo "Here";
 		echo "<h1>" . $GLOBALS["authlib"]->getStatusMessage() . "</h1>";
 		echo "<br>\n";
+		die();
 	}
 }
-
-echo "Auth OK";
 
 echo Site::parseRequest();
 

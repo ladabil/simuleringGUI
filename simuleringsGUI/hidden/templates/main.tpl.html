@@ -21,8 +21,10 @@ function ConfirmChoice(question) {
 </HEAD>
 <BODY>
 
-<div id="header">Simulator</div>
-<div id="loginInfo">Innlogget som: {$fullname} ({$username}) - Tilgangsnivå: {$accesslevel}</div>
+<div class="sim">
+	<div id="header" class="header">SimulatorGUI</div>
+	<div id="loginInfo">Innlogget som: {$fullname} ({$username}) - Tilgangsnivå: {$accesslevel}</div>
+</div>
 
 {if isset($infoMessage) && strlen($infoMessage) > 0}
 <div id="infoMessage">{$infoMessage}</div>
@@ -34,7 +36,7 @@ function ConfirmChoice(question) {
 
 <div id="content">{$content}</div>
 
-<div id="footer">Copyright &copy; Gruppe2IT - 2013</div>
+<div id="footer" class="sim">Copyright &copy; Gruppe2IT - 2013</div>
 
 </BODY>
 </HTML>

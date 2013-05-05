@@ -9,6 +9,11 @@ body {
 	background-color: #3f3e50;
 }
 
+.header {
+	font-size: 20px;
+	text-align: center;
+}
+
 .sim {
 	color: #3f3e50;
 	background-color: #e3e3e3;

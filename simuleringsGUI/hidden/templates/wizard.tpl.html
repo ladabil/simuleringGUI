@@ -9,7 +9,7 @@
 			<img class="logo" src="gfx/logo.png" />
 			
 			<!-- Formen -->
-			<form method="post">
+			<form method="post" action="{$scriptURL}">
 				<label>Antall Personer i Husstand</label><br />
 				<input type="text" name="antall_i_hus"/><br />
 			
@@ -35,29 +35,12 @@
 					<option value="ft">Finnmark og innland Troms</option>
 				</select><br /><br />
 			
+				<input type="hidden" name="function" value="{$function}" />
 				<input type='submit' class="button" value='Beregn' />
 			</form>
-		
-		<?
-		
-		if($_POST) {
-			
-			$antall_i_huset = $_POST['antall_i_hus'];
-			$gjen_alder = $_POST['gjen_alder'];
-			$byggeaar = $_POST['byggaar'];
-			$klima = $_POST['klima'];
-			
-			
-			// eks: 
-			// antall i huset * 60watt gange 2 lyspærer per person * 12 timer i døgnet * dager i året
-			// anna ikke kordan man regna ut dettan doh.........
-			$resultat = $antall_i_huset*(60*2)*(12*365);
-			
-			echo "<h3>Resultat</h3>";
-			echo $resultat." watt i &aring;ret.";
-		}
-		
-		?>
+{if isset($result) && intval($result) > 0}
+		<h3>Resultat</h3>{$result} watt i &aring;ret.		
+{/if}
 		</div>
 	<body>
 </html>
