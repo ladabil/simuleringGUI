@@ -58,7 +58,7 @@ function addInhabitantHelper(ageId, workId)
 		}
 	}
 	
-	newDiv.innerHTML = 'Alder: ' + inhabitantsAgeOpt.options[ageId].value
+	newDiv.innerHTML = 'Alder: ' + ageId
 						+ '<input type="hidden" name="inhabitantsAge[]"'
 						+ ' value="' + ageId + '" />' 
 						+ '<input type="hidden" name="inhabitantsWork[]"'
@@ -129,7 +129,7 @@ function removeTag(divid)
 		<input type="text" name="housePrimaryArea" value="{$enegrySimulator->_housePrimaryArea}" /><br />
 		
 		<!-- Valg av oppvarming -->
-		<label>Prim&aelig;r ppvarming</label><br />
+		<label>Prim&aelig;r oppvarming</label><br />
 		<select name="priVarme">
 			<option value="olv">Oljekjel - vannb&aring;ren varme</option>
 			<option value="old">Oljekjel - direkte varme</option>

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 21:06:49
+<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 21:26:21
          compiled from "C:\Program Files (x86)\Zend\Apache2\htdocs\simuleringGUI\hidden\templates\wizard.tpl.html" */ ?>
 <?php /*%%SmartyHeaderCode:3026851865b5e2fc825-78358369%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '0ac43dc2e01cd3f27e2b1166d217f655e9e6a06b' => 
     array (
       0 => 'C:\\Program Files (x86)\\Zend\\Apache2\\htdocs\\simuleringGUI\\hidden\\templates\\wizard.tpl.html',
-      1 => 1367780774,
+      1 => 1367781978,
       2 => 'file',
     ),
   ),
@@ -88,7 +88,7 @@ function addInhabitantHelper(ageId, workId)
 		}
 	}
 	
-	newDiv.innerHTML = 'Alder: ' + inhabitantsAgeOpt.options[ageId].value
+	newDiv.innerHTML = 'Alder: ' + ageId
 						+ '<input type="hidden" name="inhabitantsAge[]"'
 						+ ' value="' + ageId + '" />' 
 						+ '<input type="hidden" name="inhabitantsWork[]"'
@@ -168,7 +168,7 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration == 1
 " /><br />
 		
 		<!-- Valg av oppvarming -->
-		<label>Prim&aelig;r ppvarming</label><br />
+		<label>Prim&aelig;r oppvarming</label><br />
 		<select name="priVarme">
 			<option value="olv">Oljekjel - vannb&aring;ren varme</option>
 			<option value="old">Oljekjel - direkte varme</option>
