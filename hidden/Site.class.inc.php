@@ -150,6 +150,17 @@ class Site
 		$es = new EnegrySimulator();
 		$errMsg = "";
 		
+		// Spesifiser byggnings type
+		if ( isset($_REQUEST['byggType']) && intval($_REQUEST['byggType']) > 0 )
+		{
+			$es->_buildning = intval($_REQUEST['byggType']);
+		}
+		else
+		{
+			// Default 1 (Enebolig)
+			$es->_buildning = 1;
+		}
+		
 		if ( isset($_REQUEST['antall_i_hus']) && intval($_REQUEST['antall_i_hus']) > 0 )
 		{
 			$es->_numPersons = intval($_REQUEST['antall_i_hus']);
@@ -244,7 +255,7 @@ class Site
 		}
 		
 		// eks:
-		// antall i huset * 60watt gange 2 lyspærer per person * 12 timer i døgnet * dager i året
+		// antall i huset * styrke lys * antall lys * 12 timer i døgnet * dager i året
 		// anna ikke kordan man regna ut dettan doh.........
 		$tmpResult = $es->_numPersons*($es->_lightType*$es->_numLys)*(12*365);
 		
