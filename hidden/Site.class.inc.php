@@ -190,6 +190,16 @@ class Site
 			// Default 35 år
 			$es->_houseBuildYear = 1980;
 		}
+		
+		if ( isset($_REQUEST['priVarme']) && intval($_REQUEST['priVarme']) > 0 )
+		{
+			$es->_priHeat = intval($_REQUEST['priVarme']);
+		}
+		else
+		{
+			// Default 1
+			$es->_priHeat = 1;
+		}
 				
 		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
 		{
@@ -257,8 +267,9 @@ class Site
 		// eks:
 		// antall i huset * styrke lys * antall lys * 12 timer i dÃ¸gnet * dager i Ã¥ret
 		// anna ikke kordan man regna ut dettan doh.........
-		// Omregner så til kWh --> antall i huset * styrke lys * antall lys / 1000 --> * 12 timer i døgnet * dager i året
-		$tmpResult = ($es->_numPersons*($es->_lightType*$es->_numLys))/ 1000 *(12*365);
+		
+		// antall pers * (watt lys * antall) + (normatall oppvarming klimasone 97 mod * total areal) / 1000 (kw) * 12 timer i døgnet * dager i året
+		$tmpResult = (($es->_numPersons*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea)) / 1000 *(12*365);
 		
 		return static::getEnergyWizard($tmpResult);
 	}
