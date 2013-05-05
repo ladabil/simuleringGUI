@@ -283,7 +283,7 @@ class Site
 			$es->_lightType = 60;
 		}
 		
-		if ( isset($_REQUEST['antall_lyskilder']) && intval($_REQUEST['antall_lyskilder']) > 0 )
+		if ( isset($_REQUEST['antall_lyskilder']) && intval($_REQUEST['antall_lyskilder']) >= 0 )
 		{
 			$es->_numLys = intval($_REQUEST['antall_lyskilder']);
 		}
@@ -293,7 +293,7 @@ class Site
 			$es->_numLys = 2;
 		}
 		
-		if ( isset($_REQUEST['antall_hvitevarer']) && intval($_REQUEST['antall_hvitevarer']) > 0 )
+		if ( isset($_REQUEST['antall_hvitevarer']) && intval($_REQUEST['antall_hvitevarer']) >= 0 )
 		{
 			$es->_numHvit = intval($_REQUEST['antall_hvitevarer']);
 		}
@@ -303,7 +303,7 @@ class Site
 			$es->_numHvit = 2;
 		}
 		
-		if ( isset($_REQUEST['antall_brunevarer']) && intval($_REQUEST['antall_brunevarer']) > 0 )
+		if ( isset($_REQUEST['antall_brunevarer']) && intval($_REQUEST['antall_brunevarer']) >= 0 )
 		{
 			$es->_numBrun = intval($_REQUEST['antall_brunevarer']);
 		}
