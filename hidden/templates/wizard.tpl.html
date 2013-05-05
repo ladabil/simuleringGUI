@@ -33,7 +33,20 @@
 			<option value="mn-innland">Midt-Norge, innland</option>
 			<option value="nn-kyst">Nord-Norge, kyst</option>
 			<option value="ft">Finnmark og innland Troms</option>
+		</select><br />
+		
+		<!--  Spesifisering av lyskilder -->
+		<label>Belysningstype</label><br />
+	
+		<select name="belysningstype">
+			<option value="b-glode">Gl&slash;de p&aelig;rer</option>
+			<option value="b-spare">Sparep&aelig;rer</option>
+			<option value="b-led">LED p&aelig;rer</option>
+			<option value="b-ror">Lysr&oslash;r</option>
 		</select><br /><br />
+		
+		<label>Antall lyskilder</label><br />
+		<input type="text" name="antall_lyskilder"/><br />
 	
 		<input type="hidden" name="function" value="{$function}" />
 		<input type='submit' class="button" value='Beregn' />
