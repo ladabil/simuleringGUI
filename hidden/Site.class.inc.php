@@ -199,6 +199,16 @@ class Site
 			// Default 35 år
 			$es->_houseBuildYear = 1980;
 		}
+		
+		if ( isset($_REQUEST['priVarme']) && intval($_REQUEST['priVarme']) > 0 )
+		{
+			$es->_priHeat = intval($_REQUEST['priVarme']);
+		}
+		else
+		{
+			// Default 1
+			$es->_priHeat = 1;
+		}
 				
 		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
 		{
@@ -260,6 +270,18 @@ class Site
 			$es->_lightType = 60;
 		}
 		
+		// Lyskilder
+		
+		if ( isset($_REQUEST['belysningstype']) && intval($_REQUEST['belysningstype']) > 0 )
+		{
+			$es->_lightType = intval($_REQUEST['belysningstype']);
+		}
+		else
+		{
+			// Default 60 (Glødepære)
+			$es->_lightType = 60;
+		}
+		
 		if ( isset($_REQUEST['antall_lyskilder']) && intval($_REQUEST['antall_lyskilder']) > 0 )
 		{
 			$es->_numLys = intval($_REQUEST['antall_lyskilder']);
@@ -270,11 +292,35 @@ class Site
 			$es->_numLys = 2;
 		}
 		
+		if ( isset($_REQUEST['antall_hvitvarer']) && intval($_REQUEST['antall_hvitvarer']) > 0 )
+		{
+			$es->_numHvit = intval($_REQUEST['antall_hvitvarer']);
+		}
+		else
+		{
+			// Default 2 hvitevarer
+			$es->_numHvit = 2;
+		}
+		
+		if ( isset($_REQUEST['antall_brunevarer']) && intval($_REQUEST['antall_brunevarer']) > 0 )
+		{
+			$es->_numBrun = intval($_REQUEST['antall_brunevarer']);
+		}
+		else
+		{
+			// Default 2 brunevarer
+			$es->_numBrun = 2;
+		}
+		
+		
 		if ( strlen($errMsg) > 0 )
 		{
 			static::addInfoMessage($errMsg);
 			return static::getEnergyWizard($es);
 		}
+		
+		// antall pers * (watt lys * antall) + (normatall oppvarming klimasone 97 mod * total areal) / 1000 (kw) * 12 timer i døgnet * dager i året
+		//$tmpResult = (($es->_numPersons*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea) + (($es->_numHvit*50) + $es->_numBrun*25)) / 1000 *(12*365);
 		
 		// eks:
 		// antall i huset * styrke lys * antall lys * 12 timer i dÃ¸gnet * dager i Ã¥ret
