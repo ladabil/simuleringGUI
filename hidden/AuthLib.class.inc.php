@@ -101,7 +101,7 @@ class AuthLib {
 			case AL_SC_CHECKSESSION_TOOMANYRESULTS:
 				return 'Sesjonsverifisering: for mange treff i databasen';
 			case AL_SC_CHECKSESSION_INVALIDLASTTIME:
-				return 'Sesjonsverifisering: ugyldig timestamp';
+				return 'Sesjonsverifisering: Timeout, vennligst logg inn på nytt igjen';
 			case AL_SC_CHECKSESSION_FAILED_UNKNOWN:
 				return 'Sesjonsverifisering: ukjent feil';
 			case AL_SC_CHECKSESSION_VALIDATED_OK:

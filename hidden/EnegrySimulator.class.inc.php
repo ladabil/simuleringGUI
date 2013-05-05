@@ -16,7 +16,7 @@ class EnegrySimulator
 		$workType[-1] = "--- Velg yrke ---";
 		$workType[2] = "Barnehage/Skole";
 		$workType[9] = "Arbeid";
-		$workType[24] = "Uføretrygdet/Pensjonist";
+		$workType[24] = "Uf&oslash;retrygdet/Pensjonist";
 
 		return $workType;
 	}
