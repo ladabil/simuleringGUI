@@ -28,7 +28,7 @@ class Site
 				echo static::processLogin();
 				break;
 			case static::$funcSetupEnergySimulator:
-				echo static::setupSimulatior();
+				echo static::setupSimulator();
 				break;
 			default:
 			case static::$funcShowDefault:
@@ -133,19 +133,33 @@ class Site
 		$GLOBALS["siteInfoMessage"] .= $value;
 	}
 	
-	static function getEnergyWizard($tmpResult = NULL)
+	static function getEnergyWizard($enegrySimulator = NULL)
 	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		
+		if ( $enegrySimulator == NULL )
+		{
+			$enegrySimulator = new EnegrySimulator();
+		}
+			
 		$tpl = new MySmarty();
 		
-		$tpl->assign('result', $tmpResult);
+		$tpl->assign('enegrySimulator', $enegrySimulator);
 		$tpl->assign('function', static::$funcSetupEnergySimulator);
+		
+		/*
+		 * Sett opp yrkesvalgene
+		 */
+		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
 		
 		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
 	}
 	
-	static function setupSimulatior()
+	static function setupSimulator()
 	{
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		
+		$tpl = new MySmarty();
 		
 		$es = new EnegrySimulator();
 		$errMsg = "";
@@ -215,10 +229,23 @@ class Site
 			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
 		}
 		
+		// Antall beboere og type tidsfordiv
+		if ( isset($_REQUEST['inhabitantsAge']) 
+				&& isset($_REQUEST['inhabitantsWork']) 
+				&& count($_REQUEST['inhabitantsAge']) == count($_REQUEST['inhabitantsWork'])
+		) {
+			$es->_inhabitantsWork = $_REQUEST['inhabitantsWork'];
+			$es->_inhabitantsAge = $_REQUEST['inhabitantsAge'];
+		}
+		else
+		{
+			$errMsg .= "Mangler beboere og deres yrker..<br>\n";
+		}
+		
 		if ( strlen($errMsg) > 0 )
 		{
 			static::addInfoMessage($errMsg);
-			return static::getEnergyWizard(NULL);
+			return static::getEnergyWizard($es);
 		}
 		
 		// eks:
