@@ -122,7 +122,7 @@ class Site
 	{
 		$GLOBALS["siteInfoMessage"] = $value;
 	}
-	
+	//
 	static function addInfoMessage($value)
 	{
 		if ( !isset($GLOBALS["siteInfoMessage"]) )
