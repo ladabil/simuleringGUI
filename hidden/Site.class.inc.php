@@ -164,6 +164,17 @@ class Site
 		$es = new EnegrySimulator();
 		$errMsg = "";
 		
+		// Spesifiser byggnings type
+		if ( isset($_REQUEST['byggType']) && intval($_REQUEST['byggType']) > 0 )
+		{
+			$es->_buildning = intval($_REQUEST['byggType']);
+		}
+		else
+		{
+			// Default 1 (Enebolig)
+			$es->_buildning = 1;
+		}
+		
 		if ( isset($_REQUEST['antall_i_hus']) && intval($_REQUEST['antall_i_hus']) > 0 )
 		{
 			$es->_numPersons = intval($_REQUEST['antall_i_hus']);
@@ -229,6 +240,28 @@ class Site
 			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
 		}
 		
+		// Lyskilder
+		
+		if ( isset($_REQUEST['belysningstype']) && intval($_REQUEST['belysningstype']) > 0 )
+		{
+			$es->_lightType = intval($_REQUEST['belysningstype']);
+		}
+		else
+		{
+			// Default 60 (Glødepære)
+			$es->_lightType = 60;
+		}
+		
+		if ( isset($_REQUEST['antall_lyskilder']) && intval($_REQUEST['antall_lyskilder']) > 0 )
+		{
+			$es->_numLys = intval($_REQUEST['antall_lyskilder']);
+		}
+		else
+		{
+			// Default 2 lyskilder
+			$es->_numLys = 2;
+		}
+		
 		// Antall beboere og type tidsfordiv
 		if ( isset($_REQUEST['inhabitantsAge']) 
 				&& isset($_REQUEST['inhabitantsWork']) 
@@ -249,9 +282,10 @@ class Site
 		}
 		
 		// eks:
-		// antall i huset * 60watt gange 2 lyspÃ¦rer per person * 12 timer i dÃ¸gnet * dager i Ã¥ret
+		// antall i huset * styrke lys * antall lys * 12 timer i dÃ¸gnet * dager i Ã¥ret
 		// anna ikke kordan man regna ut dettan doh.........
-		$tmpResult = $es->_numPersons*(60*2)*(12*365);
+		// Omregner så til kWh --> antall i huset * styrke lys * antall lys / 1000 --> * 12 timer i døgnet * dager i året
+		$tmpResult = ($es->_numPersons*($es->_lightType*$es->_numLys))/ 1000 *(12*365);
 		
 		return static::getEnergyWizard($tmpResult);
 	}
