@@ -1,0 +1,59 @@
+@font-face {
+  font-family: Korneuburg;
+  src: url('Korneuburg.ttf');
+}
+
+
+body {
+	font-family: Korneuburg;
+	background-color: #3f3e50;
+}
+
+.sim {
+	color: #3f3e50;
+	background-color: #e3e3e3;
+	border: 2px solid #eb8602;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	width: 30%;
+	margin: 20px auto;
+	padding: 25px;	
+}
+.logo {
+	float: right;
+	position:relative;
+    top:-15px;
+    right: -15px;
+    height: 30px;
+    display: block;
+}
+
+input,select {
+	font-family: Korneuburg;
+	color: #3f3e50;
+	background-color: white;
+	border: 2px solid #eb8602;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.button {
+	background-color: #3f3e50;
+	color: #eb8602;
+}
+
+::-moz-selection {
+    color: #3f3e50;
+	background-color: white;
+	border: 2px solid #eb8602;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+::webkit:select {
+    color: #3f3e50;
+	background-color: white;
+	border: 2px solid #eb8602;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
