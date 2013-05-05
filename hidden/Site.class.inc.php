@@ -147,11 +147,6 @@ class Site
 		$tpl->assign('enegrySimulator', $enegrySimulator);
 		$tpl->assign('function', static::$funcSetupEnergySimulator);
 		
-		/*
-		 * Sett opp yrkesvalgene
-		 */
-		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
-		
 		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
 	}
 	
@@ -239,7 +234,21 @@ class Site
 		{
 			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
 		}
-		
+
+		// Antall beboere og type tidsfordiv
+		if ( isset($_REQUEST['inhabitantsAge'])
+				&& isset($_REQUEST['inhabitantsWork'])
+				&& count($_REQUEST['inhabitantsAge']) == count($_REQUEST['inhabitantsWork'])
+		) {
+			$es->_inhabitantsWork = $_REQUEST['inhabitantsWork'];
+			$es->_inhabitantsAge = $_REQUEST['inhabitantsAge'];
+		}
+		else
+		{
+			$errMsg .= "Mangler beboere og deres yrker..<br>\n";
+		}
+
+
 		// Lyskilder
 		
 		if ( isset($_REQUEST['belysningstype']) && intval($_REQUEST['belysningstype']) > 0 )
@@ -260,19 +269,6 @@ class Site
 		{
 			// Default 2 lyskilder
 			$es->_numLys = 2;
-		}
-		
-		// Antall beboere og type tidsfordiv
-		if ( isset($_REQUEST['inhabitantsAge']) 
-				&& isset($_REQUEST['inhabitantsWork']) 
-				&& count($_REQUEST['inhabitantsAge']) == count($_REQUEST['inhabitantsWork'])
-		) {
-			$es->_inhabitantsWork = $_REQUEST['inhabitantsWork'];
-			$es->_inhabitantsAge = $_REQUEST['inhabitantsAge'];
-		}
-		else
-		{
-			$errMsg .= "Mangler beboere og deres yrker..<br>\n";
 		}
 		
 		if ( strlen($errMsg) > 0 )
