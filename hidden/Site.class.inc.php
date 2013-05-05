@@ -320,6 +320,6 @@ class Site
 			return static::getEnergyWizard($es);
 		}
 		
-		return static::getEnergyWizard($tmpResult);
+		return static::getEnergyWizard($es);
 	}
 }

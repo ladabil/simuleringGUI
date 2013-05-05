@@ -24,15 +24,15 @@ class EnegrySimulator
 	function getEnergyUsage()
 	{
 		// antall pers * (watt lys * antall) + (normatall oppvarming klimasone 97 mod * total areal) / 1000 (kw) * 12 timer i døgnet * dager i året
-		//$tmpResult = (($es->_numPersons*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea) + (($es->_numHvit*50) + $es->_numBrun*25)) / 1000 *(12*365);
+		//$tmpResult = (($this->_numPersons*($this->_lightType*$this->_numLys)) + ($this->_climateZone*$this->_houseTotalArea) + (($this->_numHvit*50) + $this->_numBrun*25)) / 1000 *(12*365);
 		
-		return ((count($this->_inhabitantsAge)*($es->_lightType*$es->_numLys)) + ($es->_climateZone*$es->_houseTotalArea) + (($es->_numHvit*50) + $es->_numBrun*25)) / 1000 *(12*365);
+		return ((count($this->_inhabitantsAge)*($this->_lightType*$this->_numLys)) + ($this->_climateZone*$this->_houseTotalArea) + (($this->_numHvit*50) + $this->_numBrun*25)) / 1000 *(12*365);
 		
 		// eks:
 		// antall i huset * styrke lys * antall lys * 12 timer i dÃ¸gnet * dager i Ã¥ret
 		// anna ikke kordan man regna ut dettan doh.........
 		// Omregner så til kWh --> antall i huset * styrke lys * antall lys / 1000 --> * 12 timer i døgnet * dager i året
-		return (count($this->_inhabitantsAge)*($es->_lightType*$es->_numLys))/ 1000 *(12*365);		
+		return (count($this->_inhabitantsAge)*($this->_lightType*$this->_numLys))/ 1000 *(12*365);		
 	}
 	
 	static function getInhabitantWorkTypesAsArray()

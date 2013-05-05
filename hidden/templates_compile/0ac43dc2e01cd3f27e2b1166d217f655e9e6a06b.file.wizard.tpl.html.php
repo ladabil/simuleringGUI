@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 20:55:46
+<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 21:06:49
          compiled from "C:\Program Files (x86)\Zend\Apache2\htdocs\simuleringGUI\hidden\templates\wizard.tpl.html" */ ?>
 <?php /*%%SmartyHeaderCode:3026851865b5e2fc825-78358369%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '0ac43dc2e01cd3f27e2b1166d217f655e9e6a06b' => 
     array (
       0 => 'C:\\Program Files (x86)\\Zend\\Apache2\\htdocs\\simuleringGUI\\hidden\\templates\\wizard.tpl.html',
-      1 => 1367780053,
+      1 => 1367780774,
       2 => 'file',
     ),
   ),
@@ -22,9 +22,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'scriptURL' => 0,
     'i' => 0,
     'inhabitantWorkTypesArr' => 0,
-    'function' => 0,
-    'result' => 0,
     'enegrySimulator' => 0,
+    'function' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
@@ -122,18 +121,6 @@ function removeTag(divid)
 			<option value="rekkehus">to be specified</option>
 		</select><br />
 	
-		<label>Antall Personer i Husstand</label><br />
-		<select onChange="javacript:changeNumPersons()" id="numPersons" name="antall_i_hus">
-		<?php $_smarty_tpl->tpl_vars['i'] = new Smarty_Variable;$_smarty_tpl->tpl_vars['i']->step = 1;$_smarty_tpl->tpl_vars['i']->total = (int)ceil(($_smarty_tpl->tpl_vars['i']->step > 0 ? 20+1 - (0) : 0-(20)+1)/abs($_smarty_tpl->tpl_vars['i']->step));
-if ($_smarty_tpl->tpl_vars['i']->total > 0){
-for ($_smarty_tpl->tpl_vars['i']->value = 0, $_smarty_tpl->tpl_vars['i']->iteration = 1;$_smarty_tpl->tpl_vars['i']->iteration <= $_smarty_tpl->tpl_vars['i']->total;$_smarty_tpl->tpl_vars['i']->value += $_smarty_tpl->tpl_vars['i']->step, $_smarty_tpl->tpl_vars['i']->iteration++){
-$_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration == 1;$_smarty_tpl->tpl_vars['i']->last = $_smarty_tpl->tpl_vars['i']->iteration == $_smarty_tpl->tpl_vars['i']->total;?>
-			<option value="<?php echo $_smarty_tpl->tpl_vars['i']->value;?>
-"><?php echo $_smarty_tpl->tpl_vars['i']->value;?>
-</option>
-		<?php }} ?>
-		</select><br />
-
 		<label>Alder:</label>
 		<select id="tmpInhabAge" name="tmpInhabAge">
 		<option value="-1">Velg alder</option>
@@ -173,10 +160,12 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration == 1
 		
 		<!-- Husets størrelse -->
 		<label>Boenhet: Brutto Areal</label><br />
-		<input type="text" name="houseTotalArea"/><br />
+		<input type="text" name="houseTotalArea" value="<?php echo $_smarty_tpl->tpl_vars['enegrySimulator']->value->_houseTotalArea;?>
+" /><br />
 	
 		<label>Boenhet: P-Rom</label><br />
-		<input type="text" name="housePrimaryArea"/><br />
+		<input type="text" name="housePrimaryArea" value="<?php echo $_smarty_tpl->tpl_vars['enegrySimulator']->value->_housePrimaryArea;?>
+" /><br />
 		
 		<!-- Valg av oppvarming -->
 		<label>Prim&aelig;r ppvarming</label><br />
@@ -214,27 +203,27 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration == 1
 		</select><br />
 		
 		<label>Antall lyskilder</label><br />
-		<input type="text" name="antall_lyskilder"/><br />
+		<input type="text" name="antall_lyskilder" value="<?php echo $_smarty_tpl->tpl_vars['enegrySimulator']->value->_numLys;?>
+" /><br />
 		
 		<!--  Hvitevarer / Brunevarer -->
 		<label>Antall hvitvarer</label><br />
-		<input type="text" name="antall_hvitevarer"/><br />
+		<input type="text" name="antall_hvitevarer" value="<?php echo $_smarty_tpl->tpl_vars['enegrySimulator']->value->_numHvit;?>
+" /><br />
 		
 		<label>Antall brunevarer</label><br />
-		<input type="text" name="antall_brunevarer"/><br /><br />
+		<input type="text" name="antall_brunevarer" value="<?php echo $_smarty_tpl->tpl_vars['enegrySimulator']->value->_numBrun;?>
+" /><br /><br />
 	
 		<input type="hidden" name="function" value="<?php echo $_smarty_tpl->tpl_vars['function']->value;?>
 " />
 		<input type='submit' class="button" value='Beregn' />
 	</form>
-<?php if (isset($_smarty_tpl->tpl_vars['result']->value)&&intval($_smarty_tpl->tpl_vars['result']->value)>0){?>
-	<h3>Resultat</h3><?php echo $_smarty_tpl->tpl_vars['result']->value;?>
+<?php if (isset($_smarty_tpl->tpl_vars['enegrySimulator']->value)&&intval($_smarty_tpl->tpl_vars['enegrySimulator']->value->getEnergyUsage())>0){?>
+	<h3>Resultat</h3><?php echo $_smarty_tpl->tpl_vars['enegrySimulator']->value->getEnergyUsage();?>
  kWh i &aring;ret.	
 <?php }?>
 </div>
-
-
-
 
 <SCRIPT type="text/javascript">
 
