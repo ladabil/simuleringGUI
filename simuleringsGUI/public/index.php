@@ -2,6 +2,7 @@
 
 require_once(dirname(__FILE__) . "/../hidden/config.inc.php");
 require_once($GLOBALS["cfg_hiddendir"] . "/AuthLib.class.inc.php");
+require_once($GLOBALS["cfg_hiddendir"] . "/Site.class.inc.php");
 
 ob_start();
 
@@ -11,7 +12,7 @@ if ( !$GLOBALS["authlib"]->checkSession() )
 {
 	if ( $GLOBALS["authlib"]->getStatusCode() == AL_SC_CHECKSESSION_NOCOOKIE )
 	{
-		echo "Loginskjema";
+		echo Site::processLogin();
 		die();
 	}
 	else
@@ -22,6 +23,8 @@ if ( !$GLOBALS["authlib"]->checkSession() )
 	}
 }
 
-echo "Test";
+echo "Auth OK";
+
+echo Site::parseRequest();
 
 ?>
