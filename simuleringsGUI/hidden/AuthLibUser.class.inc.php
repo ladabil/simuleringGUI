@@ -6,6 +6,9 @@
 * Runar Lyngmo - Gruppe 2 - 5/5-2013
 *
 */
+
+require_once(dirname(__FILE__) . "/Base.class.inc.php");
+
 class AuthLibUser extends Base
 {
 	public static $tableName = "AuthLibUser";

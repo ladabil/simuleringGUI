@@ -8,9 +8,7 @@ $GLOBALS["mysqli_database"] = "gruppe2it";
 
 ini_set("SMTP", "localhost");
 
-/*
- * Ikke rediger under denne linjen
- */
+date_default_timezone_set("Europe/Oslo");
 
 $GLOBALS["cfg_hiddendir"] = dirname(__FILE__);
 $GLOBALS["cfg_publicdir"] = dirname(__FILE__) . "/../public/";

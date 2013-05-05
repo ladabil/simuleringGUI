@@ -163,6 +163,17 @@ class Base
 		return $retstr;
 	}
 	
+	static function getDomainNameForCookie()
+	{
+		return $_SERVER['SERVER_NAME'];
+	}
+	
+	// TODO: Fix
+	static function getRelativePathForCookie()
+	{
+		return "/";
+	}
+	
 	static  function redirectNow($func = NULL, $varArr = NULL) {
 		$newurl = Base::getScripturl($func, $varArr);
 		$numvar = 0;

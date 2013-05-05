@@ -1,7 +1,5 @@
 <?php
 
-date_default_timezone_set("Europe/Oslo");
-
 require_once(dirname(__FILE__) . "/../hidden/config.inc.php");
 
 require_once($GLOBALS["cfg_hiddendir"] . "/AuthLib.class.inc.php");

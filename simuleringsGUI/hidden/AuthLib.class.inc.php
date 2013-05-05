@@ -23,9 +23,14 @@ define('AL_SC_CREATESESSION_FAILED_UNKNOWN', 402);
 define('AL_SC_PROCESSLOGIN_MISSING_USERNAME', 500);
 define('AL_SC_PROCESSLOGIN_MISSING_PASSWORD', 501);
 
+require_once(dirname(__FILE__) . "/Base.class.inc.php");
 require_once(dirname(__FILE__) . "/AuthLibUser.class.inc.php");
 require_once(dirname(__FILE__) . "/AuthLibSession.class.inc.php");
 
+/* 
+ * Security-TODO legg til domene og path i setcookie
+ */
+ 
 class AuthLib {
 	var $_sqlfd;
 	var $_usr;
@@ -246,12 +251,8 @@ class AuthLib {
 		//
 
 		if ( !isset($_COOKIE['authlib']) || !is_array($_COOKIE['authlib']) ) {
-			/*
-			 * Hvis cookie ikke er satt, tolker vi det som at vi er en anonym bruker.
-			 */
-			return TRUE;
-//			$this->setStatusCode(AL_SC_CHECKSESSION_NOCOOKIE);
-//			return FALSE;
+			$this->setStatusCode(AL_SC_CHECKSESSION_NOCOOKIE);
+			return FALSE;
 		}
 
 		$this->_usr = strtolower($_COOKIE['authlib']['user']);
@@ -282,8 +283,8 @@ class AuthLib {
 			return TRUE;
 		}
 		
-		setcookie("authlib[user]", NULL, -1);
-		setcookie("authlib[sid]", NULL, -1);
+		setcookie("authlib[user]", NULL, -1, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
+		setcookie("authlib[sid]", NULL, -1, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
 		
 		$this->setStatusCode(AL_SC_CHECKSESSION_INVALIDLASTTIME);
 		return FALSE;
@@ -319,8 +320,8 @@ class AuthLib {
 		}
 		
 		$authLibSession->markForDeletion();
-		setcookie("authlib[user]", NULL, -1);
-		setcookie("authlib[sid]", NULL, -1);
+		setcookie("authlib[user]", NULL, -1, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
+		setcookie("authlib[sid]", NULL, -1, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
 
 		return $authLibSession->commitToDb();
 	}
@@ -463,8 +464,8 @@ class AuthLib {
 		
 		if ( $authLibSession->commitToDb() == TRUE && intval($authLibSession->getDbId()) > 0 )
 		{
-			setcookie("authlib[user]", strtolower($this->_usr), time() + 64800);
-			setcookie("authlib[sid]", $sid, time() + 64800);
+			setcookie("authlib[user]", strtolower($this->_usr), time() + 64800, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
+			setcookie("authlib[sid]", $sid, time() + 64800, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
 			$this->_sid = $sid;
 			$this->setStatusCode(AL_SC_CREATESESSION_OK);
 			return TRUE;
