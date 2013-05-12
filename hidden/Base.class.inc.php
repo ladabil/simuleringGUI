@@ -17,9 +17,6 @@ define('LOGL_INFO', 200);
 define('LOGL_INF', LOGL_INFO);
 define('LOGL_DBG99', 999);
 
-define('DBTYPE_SIMPLEXML', "MySimpleXMLDatabase");
-define('DBTYPE_MYSQL', "MySQLDatabase");
-
 define('SQL_AND', 1);
 define('SQL_OR', 2);
 
@@ -656,6 +653,52 @@ class Base
 		
 		return $this->getDbId();
 						
+	}
+	
+	/*
+	 * tokens security functions
+	 */
+	
+	// Generer en token
+	static function getToken($functionName = "DefaultFunction")
+	{
+		if ( !isset($GLOBALS["cfg_tokentype"]) || strlen($GLOBALS["cfg_tokentype"]) <= 0 )
+		{
+			$type = "sha256";
+		}
+		else
+		{
+			$type = $GLOBALS["cfg_tokentype"];
+		}
+
+		if ( !isset($GLOBALS["cfg_tokensecret"]) || strlen($GLOBALS["cfg_tokensecret"]) <= 0 )
+		{
+			$type = "defaultNonSecureToken";
+		}
+		else
+		{
+			$type = $GLOBALS["cfg_tokensecret"];
+		}
+		
+		if ( strlen($functionName) <= 0 )
+		{
+			die("getToken(): Invalid functionName");
+		}
+	}
+	
+	// Sjekk en token mot den vi generere i getToken..
+	static function verifyToken($token, $functionName = "DefaultFunction")
+	{
+		$correctToken = Base::getToken($functionName());
+		
+		if ( strcmp($correctToken, $token) == 0 )
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 }
 

@@ -13,4 +13,7 @@ date_default_timezone_set("Europe/Oslo");
 $GLOBALS["cfg_hiddendir"] = dirname(__FILE__);
 $GLOBALS["cfg_publicdir"] = dirname(__FILE__) . "/../public/";
 
+$GLOBALS["cfg_tokensecret"] = "kdksl#dlsaDFfkdlskKSDK343432 2333";
+$GLOBALS["cfg_tokentype"] = "sha256";
+
 ?>
