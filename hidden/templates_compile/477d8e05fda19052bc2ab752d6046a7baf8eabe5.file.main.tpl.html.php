@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2013-05-12 22:33:28
+<?php /* Smarty version Smarty-3.1.13, created on 2013-05-12 22:39:14
          compiled from "C:\Program Files (x86)\Zend\Apache2\htdocs\simuleringGUI\hidden\templates\main.tpl.html" */ ?>
 <?php /*%%SmartyHeaderCode:226251865b58717921-67351433%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '477d8e05fda19052bc2ab752d6046a7baf8eabe5' => 
     array (
       0 => 'C:\\Program Files (x86)\\Zend\\Apache2\\htdocs\\simuleringGUI\\hidden\\templates\\main.tpl.html',
-      1 => 1368390805,
+      1 => 1368391131,
       2 => 'file',
     ),
   ),
@@ -36,7 +36,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 <HTML>
 <HEAD>
-<META http-equiv="Content-type" content="text/html;charset=UTF-8">
+<META http-equiv="Content-type" content="text/html;charset=ISO-8859-1">
 
 <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
 <title><?php echo $_smarty_tpl->tpl_vars['title']->value;?>
@@ -63,7 +63,7 @@ function ConfirmChoice(question) {
 	<div id="loginInfo">Innlogget som: <?php echo $_smarty_tpl->tpl_vars['fullname']->value;?>
  (<?php echo $_smarty_tpl->tpl_vars['username']->value;?>
 )</div>
-	<div id="loginInfo">TilgangsnivÃ¥: <?php echo $_smarty_tpl->tpl_vars['accesslevel']->value;?>
+	<div id="loginInfo">Tilgangsnivå: <?php echo $_smarty_tpl->tpl_vars['accesslevel']->value;?>
 </div>
 	<br>
 	<div>Meny: <a href="<?php echo $_smarty_tpl->tpl_vars['scriptURL']->value;?>

@@ -5,6 +5,7 @@ require_once($GLOBALS["cfg_hiddendir"] . "/MySmarty.class.inc.php");
 class Site 
 {
 	public static $funcShowDefault = "showDefault";
+	public static $funcLoginForm = "loginForm";
 	public static $funcLogin = "login";
 	public static $funcLogout = "logout";
 	public static $funcSetupEnergySimulator = "setupEnergySimulator";
@@ -22,6 +23,12 @@ class Site
 		if ( strcmp($function, static::$funcLogin) == 0 )
 		{
 			static::processLogin();
+			die();
+		}
+		else if ( strcmp($function, static::$funcLoginForm) == 0 )
+		{
+			// Og loginskjema..
+			echo static::getLoginForm();
 			die();
 		}
 
@@ -68,7 +75,7 @@ class Site
 	static function logMeOut()
 	{
 		AuthLib::processLogout();
-		Base::redirectNow("showDefault");
+		Base::redirectNow(static::$funcLoginForm);
 	}	
 	
 	static function getLoginForm()
