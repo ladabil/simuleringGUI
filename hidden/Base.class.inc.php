@@ -731,8 +731,10 @@ class Base
 		{
 			die("HACK STOPED!");
 		}
-		
-	
+	}
+	static function getTokenforFORM{$functionName}
+	{
+		return '<input type="hidden" name="' . $GLOBALS["cfg_tokenName"] . '" value="' . Base::getToken($functionName) . '" />';
 	}
 	
 	
