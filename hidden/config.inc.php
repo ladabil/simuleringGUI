@@ -15,5 +15,5 @@ $GLOBALS["cfg_publicdir"] = dirname(__FILE__) . "/../public/";
 
 $GLOBALS["cfg_tokensecret"] = "kdksl#dlsaDFfkdlskKSDK343432 2333";
 $GLOBALS["cfg_tokentype"] = "sha256";
-
+$GLOBALS["cfg_tokenName"] = "TokenName";
 ?>
