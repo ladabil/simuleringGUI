@@ -672,23 +672,25 @@ class Base
 
 		if ( !isset($GLOBALS["cfg_tokensecret"]) || strlen($GLOBALS["cfg_tokensecret"]) <= 0 )
 		{
-			$type = "defaultNonSecureToken";
+			$secret = "defaultNonSecureToken";
 		}
 		else
 		{
-			$type = $GLOBALS["cfg_tokensecret"];
+			$secret = $GLOBALS["cfg_tokensecret"];
 		}
 		
 		if ( strlen($functionName) <= 0 )
 		{
 			die("getToken(): Invalid functionName");
 		}
+		
+		return hash_hmac($type , $functionName + $secret , $_GLOBAL['PHP_SESSIONID']);
 	}
 	
 	// Sjekk en token mot den vi generere i getToken..
 	static function verifyToken($token, $functionName = "DefaultFunction")
 	{
-		$correctToken = Base::getToken($functionName());
+		$correctToken = Base::getToken($functionName);
 		
 		if ( strcmp($correctToken, $token) == 0 )
 		{
@@ -699,6 +701,41 @@ class Base
 			return FALSE;
 		}
 	}
+	static function verifyTokenbyRequest($functionName = "DefaultFunction")
+	{
+		if ( !isset($GLOBALS["cfg_tokentype"]) || strlen($GLOBALS["cfg_tokentype"]) <= 0 )
+		{
+			$type = "sha256";
+		}
+		else
+		{
+			$type = $GLOBALS["cfg_tokentype"];
+		}
+		
+		if ( !isset($GLOBALS["cfg_tokensecret"]) || strlen($GLOBALS["cfg_tokensecret"]) <= 0 )
+		{
+			$secret = "defaultNonSecureToken";
+		}
+		else
+		{
+			$secret = $GLOBALS["cfg_tokensecret"];
+		}
+		
+		$new_mac = hash_hmac($type , $functionName + $secret , $_GLOBAL['PHP_SESSIONID']);
+		
+		if ( $new_mac == $_POST['cfg_tokenName']) 
+		{
+			return TRUE;
+		}
+		else 
+		{
+			die("HACK STOPED!");
+		}
+		
+	
+	}
+	
+	
 }
 
 ?>
