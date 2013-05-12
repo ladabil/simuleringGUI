@@ -19,9 +19,9 @@ class MySmarty extends Smarty {
 		
 		if ( AuthLib::isUser() )
 		{
-			$this->assign('fullname', $GLOBALS["authlib"]->getFullname());
-			$this->assign('username', $GLOBALS["authlib"]->getUsername());
-			$this->assign('accesslevel', $GLOBALS["authlib"]->getAccessLevelAsStr());
+			$this->assign('fullname', AuthLib::getFullname());
+			$this->assign('username', AuthLib::getUsername());
+			$this->assign('accesslevel', AuthLib::getAccessLevelAsStr());
 		}
 		else
 		{

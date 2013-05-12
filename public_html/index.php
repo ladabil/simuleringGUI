@@ -9,24 +9,6 @@ header('Content-type: text/html; charset=utf-8');
 session_start();
 ob_start();
 
-$GLOBALS["authlib"] = new AuthLib();
-
-if ( !$GLOBALS["authlib"]->checkSession() )
-{
-	if ( $GLOBALS["authlib"]->getStatusCode() == AL_SC_CHECKSESSION_NOCOOKIE )
-	{
-		echo Site::processLogin();
-		die();
-	}
-	else
-	{
-		Site::setInfoMessage($GLOBALS["authlib"]->getStatusMessage());
-		unset($GLOBALS["authlib"]);
-		echo Site::getLoginForm();
-		die();
-	}
-}
-
 echo Site::parseRequest();
 
 ?>

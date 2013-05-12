@@ -8,6 +8,11 @@ class Site
 	public static $funcLogin = "login";
 	public static $funcSetupEnergySimulator = "setupEnergySimulator";
 	
+	static function checkSession()
+	{
+		
+	}
+	
 	static function parseRequest()
 	{
 		$function = NULL;
@@ -16,7 +21,22 @@ class Site
 		{
 			$function = $_REQUEST['function'];
 		}
-	
+		
+		// Spesialhåndtering av loginfunksjon..
+		if ( strcmp($function, static::$funcLogin) == 0 )
+		{
+			static::processLogin();
+			die();
+		}
+
+		// Sjekk om brukeren er autentisert..
+		if ( !AuthLib::checkSession() )
+		{
+			static::setInfoMessage(AuthLib::getStatusMessage());
+			echo static::getLoginForm();
+			die();
+		}
+		
 		if ( isset($_REQUEST["infoMessage"]) && strlen($_REQUEST["infoMessage"]) > 0 )
 		{
 			static::setInfoMessage($_REQUEST["infoMessage"]);
@@ -39,13 +59,7 @@ class Site
 	
 	static function logMeOut()
 	{
-		if ( !isset($GLOBALS["authlib"]) || !is_object($GLOBALS["authlib"]) )
-		{
-			die("Logout failed");
-			return FALSE;
-		}
-	
-		$GLOBALS["authlib"]->deleteSession();
+		AuthLib::processLogout();
 		Base::redirectNow("showDefault");
 	}	
 	
@@ -75,9 +89,9 @@ class Site
 		) {
 			return static::getLoginForm();
 		}
-		elseif ( !$GLOBALS["authlib"]->processLogin() )
+		elseif ( !AuthLib::processLogin() )
 		{
-			static::setInfoMessage($GLOBALS["authlib"]->getStatusMessage());
+			static::setInfoMessage(AuthLib::getStatusMessage());
 			return static::getLoginForm();
 			die();
 		}

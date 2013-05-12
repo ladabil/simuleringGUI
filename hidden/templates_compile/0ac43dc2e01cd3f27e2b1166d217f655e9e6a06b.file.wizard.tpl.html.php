@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2013-05-05 21:26:21
+<?php /* Smarty version Smarty-3.1.13, created on 2013-05-12 22:01:38
          compiled from "C:\Program Files (x86)\Zend\Apache2\htdocs\simuleringGUI\hidden\templates\wizard.tpl.html" */ ?>
 <?php /*%%SmartyHeaderCode:3026851865b5e2fc825-78358369%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '0ac43dc2e01cd3f27e2b1166d217f655e9e6a06b' => 
     array (
       0 => 'C:\\Program Files (x86)\\Zend\\Apache2\\htdocs\\simuleringGUI\\hidden\\templates\\wizard.tpl.html',
-      1 => 1367781978,
+      1 => 1368381654,
       2 => 'file',
     ),
   ),
@@ -207,7 +207,7 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration == 1
 " /><br />
 		
 		<!--  Hvitevarer / Brunevarer -->
-		<label>Antall hvitvarer</label><br />
+		<label>Antall hvitevarer</label><br />
 		<input type="text" name="antall_hvitevarer" value="<?php echo $_smarty_tpl->tpl_vars['enegrySimulator']->value->_numHvit;?>
 " /><br />
 		

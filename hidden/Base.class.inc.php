@@ -34,7 +34,6 @@ class Base
 	
 	var $_userId = 0;
 	
-	public static $dataBaseHandlerClass = DBTYPE_SIMPLEXML;
 	const SQL_AND = 1;
 	const SQL_OR = 2;
 	
