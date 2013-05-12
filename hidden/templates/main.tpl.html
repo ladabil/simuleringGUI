@@ -24,8 +24,11 @@ function ConfirmChoice(question) {
 <div class="sim">
 	<img class="logo" src="gfx/logo.png" />
 	<div id="header" class="header">SimulatorGUI</div>
-{if $isUser}
-	<div id="loginInfo">Innlogget som: {$fullname} ({$username}) - Tilgangsnivå: {$accesslevel}</div>
+{if $isUser || $isAdmin }
+	<div id="loginInfo">Innlogget som: {$fullname} ({$username})</div>
+	<div id="loginInfo">Tilgangsnivå: {$accesslevel}</div>
+	<br>
+	<div>Meny: <a href="{$scriptURL}?function=logout">logg ut</a></div>
 {/if}
 </div>
 

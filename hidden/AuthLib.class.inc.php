@@ -390,8 +390,41 @@ class AuthLib {
 	 */
 	static function checkAccessLevel($level)
 	{
-		return static::getAccessLevel();
+			// Sjekk om vi har ett gyldig
+		if ( static::getAccessLevel() <= 0 )
+		{
+			return FALSE;
+		}
+		
+		// Sjekk nivået
+		if ( static::getAccessLevel() == intval($level) )
+		{
+			return TRUE;
+		}
+		
+		return FALSE;
 	}
+	
+	/*
+	 * Sjekker om aksessnivået til den innloggde brukeren er minst $level
+	*/
+	static function checkAccessLevelEqualOrBetter($level)
+	{
+		// Sjekk om vi har ett gyldig
+		if ( static::getAccessLevel() <= 0 )
+		{
+			return FALSE;
+		}
+		
+		// Sjekk nivået
+		if ( static::getAccessLevel() <= intval($level) )
+		{
+			return TRUE;
+		}
+	
+		return FALSE;
+	}
+	
 	
 	/*
 	 * returnerer brukerID for innlogget bruker..

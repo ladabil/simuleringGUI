@@ -6,12 +6,8 @@ class Site
 {
 	public static $funcShowDefault = "showDefault";
 	public static $funcLogin = "login";
+	public static $funcLogout = "logout";
 	public static $funcSetupEnergySimulator = "setupEnergySimulator";
-	
-	static function checkSession()
-	{
-		
-	}
 	
 	static function parseRequest()
 	{
@@ -47,12 +43,24 @@ class Site
 			case static::$funcLogin:
 				echo static::processLogin();
 				break;
+			case static::$funcLogout:
+				echo static::logMeOut();
+				break;
 			case static::$funcSetupEnergySimulator:
 				echo static::setupSimulator();
 				break;
 			default:
 			case static::$funcShowDefault:
-				echo static::showDefault();
+				if ( AuthLib::isUser() )
+				{
+					echo static::showDefault();
+				}
+				else if ( AuthLib::isAdmin() )
+				{
+					$content = "Admin siden kommer i løpet av Sprint 3<br>";
+
+					echo static::getMainFrame($content, "Admin-side");
+				}
 				break;
 		}
 	}	

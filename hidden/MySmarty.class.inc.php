@@ -17,7 +17,7 @@ class MySmarty extends Smarty {
 		$this->assign('isUser', AuthLib::isUser());
 		$this->assign('isAdmin', AuthLib::isAdmin());
 		
-		if ( AuthLib::isUser() )
+		if ( AuthLib::isUser() || AuthLib::isAdmin() )
 		{
 			$this->assign('fullname', AuthLib::getFullname());
 			$this->assign('username', AuthLib::getUsername());
