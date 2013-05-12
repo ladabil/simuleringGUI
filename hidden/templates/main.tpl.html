@@ -2,7 +2,7 @@
 
 <HTML>
 <HEAD>
-<META http-equiv="Content-type" content="text/html;charset=UTF-8">
+<META http-equiv="Content-type" content="text/html;charset=ISO-8859-1">
 
 <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
 <title>{$title}</title>
@@ -26,7 +26,7 @@ function ConfirmChoice(question) {
 	<div id="header" class="header">SimulatorGUI</div>
 {if $isUser || $isAdmin }
 	<div id="loginInfo">Innlogget som: {$fullname} ({$username})</div>
-	<div id="loginInfo">TilgangsnivÃ¥: {$accesslevel}</div>
+	<div id="loginInfo">Tilgangsnivå: {$accesslevel}</div>
 	<br>
 	<div>Meny: <a href="{$scriptURL}?function=logout">logg ut</a></div>
 {/if}
