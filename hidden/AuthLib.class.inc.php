@@ -250,42 +250,27 @@ class AuthLib {
 		// Leser cookie hos bruker og oppdaterer timestamp i sqldb
 		//
 
-		if ( !isset($_COOKIE['authlib']) || !is_array($_COOKIE['authlib']) ) {
+		if ( !isset($_SESSION['user']) || !is_array($_COOKIE['user']) ) {
 			$this->setStatusCode(AL_SC_CHECKSESSION_NOCOOKIE);
 			return FALSE;
 		}
-
-		$this->_usr = strtolower($_COOKIE['authlib']['user']);
-		$this->_sid = $_COOKIE['authlib']['sid'];
 		
-		if ( isset($_COOKIE['authlib']['name']) ) {
-			$this->_name = $_COOKIE['authlib']['name'];
+		$this->_usr = strtolower($_SESSION['user']);
+		
+		if ( isset($_SESSION['name']) ) {
+			$this->_name = $_SESSION['name'];
 		} else {
 			$this->_name = '';
 		}
 		
-		$authLibSession = new AuthLibSession();
-		
-		if ( $authLibSession->loadFromDbByNonNumericKeyAndValue("Username", $this->_usr, Base::SQL_AND, "SID", $this->_sid) == NULL )
+		if ( $_SESSION['isLoggedIn'] == TRUE )
 		{
-			$this->setStatusCode(AL_SC_CHECKSESSION_NOTFOUNDINDBTABLE);
-
-			// Fjern cookie
-			setcookie("authlib[user]", NULL, -1, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
-			setcookie("authlib[sid]", NULL, -1, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
-				
-			return FALSE;
-		}
-		
-		if ( $authLibSession->getLastuseDateTime()->getTimestamp() > (time() - static::$sessionTimeout) )
-		{
-			$authLibSession->setLastuseDateTime("now");
-			$authLibSession->commitToDb();
-
-			$this->loadAuthLibUser();
-			
-			$this->setStatusCode(AL_SC_CHECKSESSION_VALIDATED_OK);
-			return TRUE;
+			if ( $_SESSION['lastUseTimeAsLong'] > (time() - static::$sessionTimeout) )
+			{
+				$_SESSION['lastUseTimeAsLong'] = time();
+				$this->setStatusCode(AL_SC_CHECKSESSION_VALIDATED_OK);
+				return TRUE;
+			}
 		}
 		
 		setcookie("authlib[user]", NULL, -1, Base::getRelativePathForCookie(), Base::getDomainNameForCookie());
