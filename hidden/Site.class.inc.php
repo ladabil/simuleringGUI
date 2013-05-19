@@ -340,7 +340,7 @@ class Site
 		{
 			if ( AuthLib::registerUser($_REQUEST["alUsername"], $_REQUEST["alPassword"], $_REQUEST["alName"], $_REQUEST["alEmail"] ) !== TRUE )
 			{
-				$errMsg = "Registrering feilet..";
+				$errMsg = "Registrering feilet.." ;
 			}
 			else 
 			{
