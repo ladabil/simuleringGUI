@@ -8,11 +8,9 @@ require_once($GLOBALS["cfg_hiddendir"] . "/AuthLibSession.class.inc.php");
 
 // Slett alle tabeller
 AuthLibSession::dropTable();
-AuthLibUser::dropTable();
 
 // Opprett tabeller
 AuthLibUser::createTableIfNotExists();
-AuthLibSession::createTableIfNotExists();
 
 // Legg til testdata
 
