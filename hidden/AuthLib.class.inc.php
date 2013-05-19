@@ -27,7 +27,6 @@ define('AL_SC_PROCESSLOGIN_MISSING_PASSWORD', 501);
 
 require_once(dirname(__FILE__) . "/Base.class.inc.php");
 require_once(dirname(__FILE__) . "/AuthLibUser.class.inc.php");
-require_once(dirname(__FILE__) . "/AuthLibSession.class.inc.php");
 
 /* 
  * Security-TODO legg til domene og path i setcookie
@@ -111,7 +110,7 @@ class AuthLib {
 		}
 	}
 	
-	static function registerUser($username, $clearTXTpassword, $fullname ="noName", $emailAddress = NULL, $accessLevel = NULL, $isConfirmed = FALSE)
+	static function registerUser($username, $clearTXTpassword, $fullname ="noName", $emailAddress = NULL, $accessLevel = NULL)
 	{
 		if ( $emailAddress === NULL )
 		{
@@ -147,87 +146,18 @@ class AuthLib {
 		$authLibUser->setFullname($fullname);
 		$authLibUser->setEmailAddress($emailAddress);
 		$authLibUser->setAccessLevel($accessLevel);
-		$authLibUser->setConfirmCode(static::genRandomString(50));
-		$authLibUser->setIsConfirmed($isConfirmed);
+
 		
 		if ( $authLibUser->commitToDb() )
 		{
-			if ( $isConfirmed === FALSE )
-			{
-				$authLibUser->sendConfirmMail();
-			}
-			
+	
 			return TRUE;
 		}
 		
 		return FALSE;
 	}
 	
-	static function confirmUser($confirmCode)
-	{
-		if ( strlen($confirmCode) < 10 )
-		{
-			die('Invalid confirmcode');
-		}
-		
-		$authLibUser = new AuthLibUser();
-		
-		if ( $authLibUser->loadFromDbByNonNumericKey("ConfirmCode", $confirmCode) !== NULL )
-		{
-			$authLibUser->setIsConfirmed(TRUE);
-			
-			if ( $authLibUser->commitToDb() )
-			{
-				return TRUE;
-			}
-		}
-		
-		return FALSE;
-	}
 	
-	static function genAndSendNewPasswordByEmailAddress($emailAddress)
-	{
-		if ( strlen($emailAddress) < 5 )
-		{
-			return "ugyldig e-postadresse";
-		}
-	
-		$authLibUser = new AuthLibUser();
-	
-		if ( $authLibUser->loadFromDbByNonNumericKey("EmailAddress", $emailAddress) !== NULL )
-		{
-			$authLibUser->generateAndSendNewPassword();
-				
-			if ( $authLibUser->commitToDb() )
-			{
-				return TRUE;
-			}
-		}
-	
-		return "Fant ikke brukeren";
-	}	
-
-	static function genAndSendNewPasswordByUsername($username)
-	{
-		if ( strlen($username) < 5 )
-		{
-			return "ugyldig brukernavn";
-		}
-	
-		$authLibUser = new AuthLibUser();
-	
-		if ( $authLibUser->loadFromDbByNonNumericKey("Username", $username) !== NULL )
-		{
-			$authLibUser->generateAndSendNewPassword();
-	
-			if ( $authLibUser->commitToDb() )
-			{
-				return TRUE;
-			}
-		}
-	
-		return "Fant ikke brukeren";
-	}	
 	
 	static function checkSession() {
 		//
