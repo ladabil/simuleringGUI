@@ -1,0 +1,79 @@
+<!-- Side for veiviser som tar for seg oppvarming -->
+
+<div>
+	<img class="logo" src="gfx/logo.png" />
+	
+	<!-- Formen -->
+	<form method="post" action="{$scriptURL}">
+		
+		<!-- Valg av primær oppvarming -->
+		<label>Prim&aelig;r oppvarming</label><br />
+		<select name="priVarme">
+			<option value="priH_oljevann">Oljekjel - vannb&aring;ren varme</option>
+			<option value="priH_oljedir">Olje/parafinkamin - direkte varme</option>
+			<option value="priH_gas">Gasspeis</option>
+			<option value="priH_pelletsvann">Pelletskjell - vannb&aring;ren varme</option>
+			<option value="priH_jordvarm">Jord/fjell varmepumpe til vannb&aring;ren varme</option>
+			<option value="priH_luftvann">Luft varmepumpe til vannb&aring;en varme</option>
+			<option value="priH_luftluft">Luft varmepumpe til luft</option>
+			<option value="priH_elektro">Elektrokjel - vannb&aring; varme</option>
+			<option value="priH_elektrisk">Helelektrisk oppvarming</option>
+			<option value="priH_fjernvarm">Fjernvarme - vannb&aring;ren varme</option>
+			<option value="priH_pelletsdir">Pelletskamin</option>
+			<option value="priH_vedovn">Vedovn</option>
+		</select><br /><br />
+		
+		<!-- Valg av sekundær oppvarming -->
+		<label>Sekund&aelig;r oppvarming</label><br />
+		<select name="priVarme">
+			<option value="secH_ingen"></option>
+			<option value="secH_oljevann">Oljekjel - vannb&aring;ren varme</option>
+			<option value="secH_oljedir">Olje/parafinkamin - direkte varme</option>
+			<option value="secH_gas">Gasspeis</option>
+			<option value="secH_pelletsvann">Pelletskjell - vannb&aring;ren varme</option>
+			<option value="secH_jordvarm">Jord/fjell varmepumpe til vannb&aring;ren varme</option>
+			<option value="secH_luftvann">Luft varmepumpe til vannb&aring;en varme</option>
+			<option value="secH_luftluft">Luft varmepumpe til luft</option>
+			<option value="secH_elektro">Elektrokjel - vannb&aring; varme</option>
+			<option value="secH_elektrisk">Helelektrisk oppvarming</option>
+			<option value="secH_fjernvarm">Fjernvarme - vannb&aring;ren varme</option>
+			<option value="secH_pelletsdir">Pelletskamin</option>
+			<option value="secH_vedovn">Vedovn</option>
+		</select><br /><br />
+		
+		<!-- Fordelign primær/sekundær oppvarming -->
+		<!-- Erstatt med slider -->
+		<label>Andel oppvarming som dekkes av sekund&aelig;r oppvarming</label><br />
+		<input type="text" name="secheatvalue" value="" /> %
+		<br /><br />
+		
+		<label>Gulvvarme vannb&aring;ren varme fra prim&aelig;r oppvarming</label><br />
+		<input type="text" name="floorheating" value="" /> m2
+		<br /><br />
+		<label>Gulvvarme elektrisk</label><br />
+		<input type="text" name="floorheating" value="" /> m2
+		<br /><br />
+		<!--  Valg for tappevann -->
+		<label>Definer eventuelle elektrokjeler som benyttes for oppvarming av tappevann</label><br />
+		<br />
+		<label>Prim&aelig;r elektrokjel</label><br /> 
+		<input type="text" name="priBoilerSize" value="" /> liter<br />
+		<input type="text" name="priBoilerPower" value="" /> watt<br />
+		
+		<label>Sekund&aelig;r elektrokjel</label><br />
+		<input type="text" name="secBoilerSize" value="" /> liter<br />
+		<input text="text" name="secBoilerPower" value="" /> watt
+	
+		<br/><br />
+		<input type="hidden" name="function" value="{$function}" />
+		<input type='submit' class="button" value='Beregn' />
+		<input type='submit' class="button" value='Lagre oppvarming' />
+		<a href="{$scriptURL}?function=showWizLight">
+		<input type="button" class="button" value='Neste -> Belysning' />
+		</a>
+	</form>
+{if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
+	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
+{/if}
+</div>
+
