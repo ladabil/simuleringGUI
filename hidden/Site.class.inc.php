@@ -330,7 +330,7 @@ class Site
 		}
 		else
 		{
-			$allVarsSet = TRUE;
+			$allVarsSet = FALSE;
 		}
 		
 		/*
@@ -338,9 +338,9 @@ class Site
 		 */
 		if ( strlen($errMsg) <= 0 && $allVarsSet == TRUE)
 		{
-			if ( AuthLib::registerUser($_REQUEST["alName"], $_REQUEST["alUsername"], $_REQUEST["alPassword"], $_REQUEST["alEmail"] ) !== TRUE )
+			if ( AuthLib::registerUser($_REQUEST["alUsername"], $_REQUEST["alPassword"], $_REQUEST["alName"], $_REQUEST["alEmail"] ) !== TRUE )
 			{
-				$errMsg = "Registrering feilet..";
+				$errMsg = "Registrering feilet.." ;
 			}
 			else 
 			{
@@ -353,7 +353,7 @@ class Site
 			}
 		}
 		
-		return static::setInfoMessage($errMsg);
+		static::setInfoMessage($errMsg);
 		
 		return static::getMainFrame($tpl->fetch("adminCreateUser.tpl.html"), "Admin-side - Brukere");
 	}
