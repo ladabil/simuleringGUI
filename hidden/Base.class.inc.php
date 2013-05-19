@@ -701,38 +701,27 @@ class Base
 			return FALSE;
 		}
 	}
-	static function verifyTokenbyRequest($functionName = "DefaultFunction")
+	
+	// Sjekker en token mot en request variabel ($GLOBALS["cfg_tokenName"]).
+	// Dør ved feil i token..
+	
+	static function verifyTokenFromRequest($functionName = "DefaultFunction")
 	{
-		if ( !isset($GLOBALS["cfg_tokentype"]) || strlen($GLOBALS["cfg_tokentype"]) <= 0 )
+		if ( !isset($_REQUEST[$GLOBALS["cfg_tokenName"]]) || strlen($_REQUEST[$GLOBALS["cfg_tokenName"]]) <= 0 )
 		{
-			$type = "sha256";
-		}
-		else
-		{
-			$type = $GLOBALS["cfg_tokentype"];
+			die("Token (" . $GLOBALS["cfg_tokenName"] . ") not set");
 		}
 		
-		if ( !isset($GLOBALS["cfg_tokensecret"]) || strlen($GLOBALS["cfg_tokensecret"]) <= 0 )
-		{
-			$secret = "defaultNonSecureToken";
-		}
-		else
-		{
-			$secret = $GLOBALS["cfg_tokensecret"];
-		}
-		
-		$new_mac = hash_hmac($type , $functionName + $secret , $_GLOBAL['PHP_SESSIONID']);
-		
-		if ( $new_mac == $_POST['cfg_tokenName']) 
-		{
-			return TRUE;
-		}
-		else 
+		if ( $this->verifyToken($_REQUEST[$GLOBALS["cfg_tokenName"]], $functionName) !== TRUE )
 		{
 			die("HACK STOPED!");
 		}
+		
+		return TRUE;
 	}
-	static function getTokenforFORM($functionName)
+	
+	// Returner input hidden for web-skjema..
+	static function getTokenforFORM($functionName = "DefaultFunction")
 	{
 		return '<input type="hidden" name="' . $GLOBALS["cfg_tokenName"] . '" value="' . Base::getToken($functionName) . '" />';
 	}
