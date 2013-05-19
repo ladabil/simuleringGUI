@@ -1,0 +1,27 @@
+<div>
+	<img class="logo" src="gfx/logo.png" />
+	
+	<!-- Formen -->
+	<form method="post" action="{$scriptURL}">
+	<input type="hidden" name="function" value="{$function}">
+	<div id="createUserForm">
+		<div>Full navn</div>
+		<div><input type="text" name="alName" value="{$alName}"></div>
+		<div>Angi ønsket brukernavn</div>
+		<div><input type="text" name="alUsername" value="{$alUsername}"></div>
+		<div>Angi passord</div>
+		<div><input type="password" name="alPassword" value=""></div>
+		<div>Gjenta passord</div>
+		<div><input type="password" name="alPassword2" value=""></div>
+		<div>E-post til bruker</div>
+		<div><input type="email" name="alEmail" value="{$alEmail}"></div>
+		<div><input type="submit" value="Opprett bruker"></div>		
+		
+		<a href="{$scriptURL}?function=showUserMenu">
+		<input type="button" class="button" value='Avbryt' />
+		</a>
+		
+	</div>
+	</form>
+
+</div>

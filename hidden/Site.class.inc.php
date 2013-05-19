@@ -10,6 +10,16 @@ class Site
 	public static $funcLogout = "logout";
 	public static $funcSetupEnergySimulator = "setupEnergySimulator";
 	
+	public static $funcShowUserDefault = "showUserDefault";
+	public static $funcShowWizard = "getEnergyWizard";
+	public static $funcShowWizardHeat = "showWizHeat";
+	public static $funcShowWizardLight = "showWizLight";
+	
+	public static $funcShowAdminDefault = "showAdminDefault";
+	public static $funcShowUserMenu = "showUserMenu";
+	public static $funcCreateNewUser =  "createNewUser";
+	public static $funcCreateNewUserForm = "createNewUserForm";
+	
 	static function parseRequest()
 	{
 		$function = NULL;
@@ -60,13 +70,11 @@ class Site
 			case static::$funcShowDefault:
 				if ( AuthLib::isUser() )
 				{
-					echo static::showDefault();
+					echo static::showUserDefault();
 				}
 				else if ( AuthLib::isAdmin() )
 				{
-					$content = "Admin siden kommer i løpet av Sprint 3<br>";
-
-					echo static::getMainFrame($content, "Admin-side");
+					echo static::showAdminDefault();
 				}
 				break;
 		}
@@ -112,7 +120,7 @@ class Site
 		}
 		else
 		{
-			Base::redirectNow(static::$funcShowDefault);
+			Base::redirectNow(static::$funcShowUserDefault);
 			die();
 		}
 	}
@@ -120,6 +128,86 @@ class Site
 	static function showDefault()
 	{
 		return static::getEnergyWizard();
+	}
+	
+	static function showUserDefault()
+	{
+		if ( AuthLib::isUser() )
+		{
+			$function = NULL;
+				
+			if ( isset($_REQUEST['function']) && strlen($_REQUEST['function']) > 0 )
+			{
+				$function = $_REQUEST['function'];
+			}
+	
+			$tpl = new MySmarty();
+	
+			switch ( $function )
+			{
+				case static::$funcShowWizard:
+					echo static::showDefault();
+					break;
+				case static::$funcShowWizardHeat:
+					echo static::showWizHeat();
+					break;
+ 				case static::$funcShowWizardLight:
+ 					echo static::showWizLight();
+ 					break;
+// 				case static::$funcLog:
+// 					echo static::logMeOut();
+// 					break;
+				default:
+					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
+					break;
+			}
+	
+		}
+		else
+		{
+			return static::logMeOut();
+		}
+	
+	}
+	
+	static function showAdminDefault()
+	{
+		if ( AuthLib::isAdmin() )
+		{
+			$function = NULL;
+			
+			if ( isset($_REQUEST['function']) && strlen($_REQUEST['function']) > 0 )
+			{
+				$function = $_REQUEST['function'];
+			}
+		
+			$tpl = new MySmarty();
+		
+			switch ( $function )
+			{
+				case static::$funcShowUserMenu:
+					echo static::showUserMenu();
+					break;
+ 				case static::$funcCreateNewUser:
+ 					echo static::createNewUser();
+ 					break;
+// 				case static::$funcKeyNumbers:
+// 					echo static::logMeOut();
+// 					break;
+// 				case static::$funcLog:
+// 					echo static::logMeOut();
+// 					break;
+				default:
+					return static::getMainFrame($tpl->fetch("adminMain.tpl.html"), "Admin-side");
+					break;
+			}
+		
+		}
+		else 
+		{
+			return static::logMeOut();
+		}
+		
 	}
 	
 	static function getMainFrame($content, $title="untitled")
@@ -160,6 +248,145 @@ class Site
 		}
 		
 		$GLOBALS["siteInfoMessage"] .= $value;
+	}
+	
+	static function showUserMenu()
+	{
+		$tpl = new MySmarty();
+	
+		return static::getMainFrame($tpl->fetch("adminUserMenu.tpl.html"), "Admin-side - Brukere");
+	}
+	
+	static function createNewUser()
+	{
+		require_once(dirname(__FILE__) . "/AuthLib.class.inc.php");
+		require_once(dirname(__FILE__) . "/AuthLibUser.class.inc.php");
+		
+		$tpl = new MySmarty();
+		$tpl->assign('function', static::$funcCreateNewUser);
+		
+		$errMsg = "";
+		$allVarsSet = TRUE;
+		
+		/* sjekk lengde navn */
+		if (isset($_REQUEST["alName"]) )
+		{
+			$tpl -> assign("alName", $_REQUEST["alName"]);
+			
+			if ( strlen($_REQUEST["alName"]) < 6 )
+			{
+				$errMsg .= "Navnet må være mer en 6 tegn<br>\n";
+			}
+		}
+		else
+		{
+			$tpl -> assign("alName", "");
+			$allVarsSet = FALSE;
+		}
+		
+		/* sjekk lengde brukernavn */
+		if (isset($_REQUEST["alUsername"]) )
+		{
+			$tpl -> assign("alUsername", $_REQUEST["alUsername"]);
+				
+			if ( strlen($_REQUEST["alUsername"]) < 4 )
+			{
+				$errMsg .= "Brukernavnet må være mer en 4 tegn<br>\n";
+			}
+		}
+		else
+		{
+			$tpl -> assign("alUsername", "");
+			$allVarsSet = FALSE;
+		}
+		
+		/* sjekk lengde e-post addresse */
+		if (isset($_REQUEST["alEmail"]) )
+		{
+			$tpl -> assign("alEmail", $_REQUEST["alEmail"]);
+				
+			if ( strlen($_REQUEST["alEmail"]) < 6 || substr_count($_REQUEST["alEmail"], '@') !== 1 )
+			{
+				$errMsg .= "Feil i e-post addressen<br>\n";
+			}
+		}
+		else
+		{
+			$tpl -> assign("alEmail", "");
+			$allVarsSet = FALSE;
+		}
+		
+		/* sjekk passordlengde og rett skrevet */
+		if (isset($_REQUEST["alPassword"]) && isset($_REQUEST["alPassword2"]) )
+		{
+			if ( strlen($_REQUEST["alPassword"]) < 8 )
+			{
+				$errMsg .= "Passordet må være mer enn 8 tegn<br>\n";
+			}
+			else if ( strcmp($_REQUEST["alPassword"], $_REQUEST["alPassword2"]) != 0) 
+			{
+				$errMsg .= "Passordene er ikke like, forsøk igjen<br>\n";
+			}
+		}
+		else
+		{
+			$allVarsSet = TRUE;
+		}
+		
+		/*
+		 * Register bruker viss kontrollen er OK
+		 */
+		if ( strlen($errMsg) <= 0 && $allVarsSet == TRUE)
+		{
+			if ( AuthLib::registerUser($_REQUEST["alName"], $_REQUEST["alUsername"], $_REQUEST["alPassword"], $_REQUEST["alEmail"] ) !== TRUE )
+			{
+				$errMsg = "Registrering feilet..";
+			}
+			else 
+			{
+				Base::redirectNow(static::$funcShowUserMenu
+									,Array(
+											"infoMessage"=>"Registrering OK"
+											)
+								);
+				die('Registrering OK');
+			}
+		}
+		
+		return static::setInfoMessage($errMsg);
+		
+		return static::getMainFrame($tpl->fetch("adminCreateUser.tpl.html"), "Admin-side - Brukere");
+	}
+	
+	static function showWizHeat($enegrySimulator = NULL)
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+
+		$tpl = new MySmarty();
+		
+		$tpl->assign('enegrySimulator', $enegrySimulator);
+// 		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
+		$tpl->assign('function', static::$funcSetupEnergySimulator);
+		
+		return static::getMainFrame($tpl->fetch("wizard_Heating.tpl.html"), "Wizard");
+	}
+	
+	static function showWizLight($enegrySimulator = NULL)
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		
+		if ( $enegrySimulator == NULL )
+		{
+			$enegrySimulator = new EnegrySimulator();
+		}
+		
+		$tpl = new MySmarty();
+		
+		$tpl->assign('enegrySimulator', $enegrySimulator);
+// 		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
+ 		$tpl->assign('function', static::$funcSetupEnergySimulator);
+		
+		return static::getMainFrame($tpl->fetch("wizard_Lightning.tpl.html"), "Wizard");
 	}
 	
 	static function getEnergyWizard($enegrySimulator = NULL)

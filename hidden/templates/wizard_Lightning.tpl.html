@@ -1,0 +1,41 @@
+<!-- Side for veiviser som tar for seg oppvarming -->
+
+<div>
+	<img class="logo" src="gfx/logo.png" />
+	
+	<!-- Formen -->
+	<form method="post" action="{$scriptURL}">
+		
+		<!--  Spesifisering av lyskilder -->
+		<label>Belysningstype</label><br />
+	
+		<select name="belysningstype">
+			<option value="60">Gl&oslash;de p&aelig;rer</option>
+			<option value="14">Sparep&aelig;rer</option>
+			<option value="10">LED p&aelig;rer</option>
+			<option value="30">Lysr&oslash;r</option>
+		</select><br />
+		
+		<label>Antall lyskilder</label><br />
+		<input type="text" name="antall_lyskilder" value="{$enegrySimulator->_numLys}" /><br />
+		
+		<!--  Hvitevarer / Brunevarer -->
+		<label>Antall hvitevarer</label><br />
+		<input type="text" name="antall_hvitevarer" value="{$enegrySimulator->_numHvit}" /><br />
+		
+		<label>Antall brunevarer</label><br />
+		<input type="text" name="antall_brunevarer" value="{$enegrySimulator->_numBrun}" /><br /><br />
+	
+	
+		<input type="hidden" name="function" value="{$function}" />
+		<input type='submit' class="button" value='Beregn' />
+		<input type='submit' class="button" value='Lagre belysning' />
+		<a href="{$scriptURL}?function=">
+		<input type="button" class="button" value='Vis resulat' />
+		</a>
+	</form>
+{if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
+	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
+{/if}
+</div>
+
