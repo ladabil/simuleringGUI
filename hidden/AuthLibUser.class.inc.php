@@ -18,8 +18,6 @@ class AuthLibUser extends Base
 	var $_fullname = "";
 	var $_accessLevel = "";
 	var $_emailAddress = "";
-	var $_isConfirmed = FALSE;
-	var $_confirmCode = "";
 	var $_passwordSalt = "";
 	
 	static function createTableIfNotExists() {
@@ -30,8 +28,6 @@ class AuthLibUser extends Base
 							`PasswordSalt` varchar(250),
 							`Fullname` varchar(250),
 							`AccessLevel` integer(11) default " . AuthLib::$accessLevelAnonymous . ",
-							`IsConfirmed` tinyint(1) default 0,
-							`ConfirmCode` varchar(250),
 							`EmailAddress` varchar(250),
 							`TimeCreated` datetime default NULL,
 							`TimeUpdated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -60,58 +56,10 @@ class AuthLibUser extends Base
 						`PasswordSalt` = '" . $this->getPasswordSalt() . "',
 						`Fullname` = '" . $this->getFullname() . "',
 						`AccessLevel` = " . intval($this->getAccessLevel()) . ",
-						`IsConfirmed` = " . intval($this->isConfirmed()) . ",
-						`ConfirmCode` = '" . $this->getConfirmCode() . "',
 						`EmailAddress` = '" . $this->getEmailAddress() . "'
 				";
 	}	
 	
-	/*
-	 * Bekreft / aktiveringsfunksjoner
-	 */
-	
-	function sendConfirmMail()
-	{
-		$headers = 'MIME-Version: 1.0' . "\r\n";
-		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		
-		$headers .= "To: " . $this->getFullname() . " <" . $this->getEmailAddress() . ">\r\n";
-		$headers .= "From: " . $GLOBALS["cfg_blogname"] . " <" . $GLOBALS["cfg_blogmail"] . ">\r\n";
-		
-		mail(
-				$this->getEmailAddress()
-				,"Bekreft din konto"
-				,"Vennligst bekreft din konto ved å klikke på følgende URL: <a href=\"" . Base::getScripturl(MyBlog::$funcConfirmUser, Array("ConfirmCode"=>$this->getConfirmCode())) . "\">aktiver</a>"
-				,$headers
-			);
-		
-//		echo "link: <a href=\"" . Base::getScripturl(MyBlog::$funcConfirmUser, Array("ConfirmCode"=>$this->getConfirmCode())) . "\">Aktiver</a>\n";
-//		die();
-	}
-	
-	function generateAndSendNewPassword()
-	{
-		$newPassword = AuthLib::genRandomString(12);
-		
-		$headers = 'MIME-Version: 1.0' . "\r\n";
-		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		
-		$headers .= "To: " . $this->getFullname() . " <" . $this->getEmailAddress() . ">\r\n";
-		$headers .= "From: " . $GLOBALS["cfg_blogname"] . " <" . $GLOBALS["cfg_blogmail"] . ">\r\n";
-		
-		 mail(
-		 		$this->getEmailAddress()
-		 		,"Nytt passord"
-		 		,"Ditt nye passord er: " . $newPassword
-		 		,$headers
-		 );
-		
-		$this->setPassword($newPassword);
-		$this->commitToDb();
-		
-//		echo "Nytt passord: '" . $newPassword . "'\n";
-//		die();		
-	}
 	
 	/*
 	 * Autentisering og passordfunksjoner for brukeren
@@ -154,37 +102,6 @@ class AuthLibUser extends Base
 	 * Diverse aksessmetoder
 	 */
 	
-	// isConfirmed bestemmer om brukeren har aktivert / bekreftet kontoen via e-post
-	function setIsConfirmed($confirmed = TRUE)
-	{
-		if ( intval($confirmed) == 1 )
-		{
-			$confirmed = TRUE;
-		}
-		
-		if ( $confirmed !== TRUE )
-		{
-			$confirmed = FALSE;
-		}
-		
-		$this->_isConfirmed = $confirmed;
-	}
-	
-	function isConfirmed()
-	{
-		return $this->_isConfirmed;
-	}
-
-	// ConfirmCode - hemmelig kode som kommer på e-post til brukeren ved nyregistrering, denne benyttes for å bekrefte / aktivere kontoen
-	function setConfirmCode($value)
-	{
-		$this->_confirmCode = $value;
-	}
-	
-	function getConfirmCode()
-	{
-		return $this->_confirmCode;
-	}
 	
 	// Diverse brukervariabler
 	function setEmailAddress($value)
