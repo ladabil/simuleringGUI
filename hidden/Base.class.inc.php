@@ -684,13 +684,13 @@ class Base
 			die("getToken(): Invalid functionName");
 		}
 		
-		return hash_hmac($type , $functionName + $secret , $_GLOBAL['PHP_SESSIONID']);
+		return hash_hmac($type , $functionName + $secret , session_id());
 	}
 	
 	// Sjekk en token mot den vi generere i getToken..
 	static function verifyToken($token, $functionName = "DefaultFunction")
 	{
-		$correctToken = Base::getToken($functionName);
+		$correctToken = static::getToken($functionName);
 		
 		if ( strcmp($correctToken, $token) == 0 )
 		{
@@ -712,7 +712,7 @@ class Base
 			die("Token (" . $GLOBALS["cfg_tokenName"] . ") not set");
 		}
 		
-		if ( $this->verifyToken($_REQUEST[$GLOBALS["cfg_tokenName"]], $functionName) !== TRUE )
+		if ( static::verifyToken($_REQUEST[$GLOBALS["cfg_tokenName"]], $functionName) !== TRUE )
 		{
 			die("HACK STOPED!");
 		}
@@ -723,7 +723,7 @@ class Base
 	// Returner input hidden for web-skjema..
 	static function getTokenforFORM($functionName = "DefaultFunction")
 	{
-		return '<input type="hidden" name="' . $GLOBALS["cfg_tokenName"] . '" value="' . Base::getToken($functionName) . '" />';
+		return '<input type="hidden" name="' . $GLOBALS["cfg_tokenName"] . '" value="' . static::getToken($functionName) . '" />';
 	}
 }
 

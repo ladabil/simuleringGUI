@@ -188,6 +188,9 @@ class Site
 		
 		$es = new EnegrySimulator();
 		$errMsg = "";
+
+		// Verifiser token først..
+		Base::verifyTokenFromRequest("setupSimulator");
 		
 		// Spesifiser byggnings type
 		if ( isset($_REQUEST['byggType']) && intval($_REQUEST['byggType']) > 0 )

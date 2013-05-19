@@ -174,7 +174,7 @@ function removeTag(divid)
 		<input type="text" name="antall_brunevarer" value="{$enegrySimulator->_numBrun}" /><br /><br />
 	
 		<input type="hidden" name="function" value="{$function}" />
-		{Base::getTokenforFORM("testing")}
+		{Base::getTokenforFORM("setupSimulator")}
 		<input type='submit' class="button" value='Beregn' />
 	</form>
 {if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
