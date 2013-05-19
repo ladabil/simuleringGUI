@@ -127,20 +127,6 @@ function removeTag(divid)
 	
 		<label>Boenhet: P-Rom</label><br />
 		<input type="text" name="housePrimaryArea" value="{$enegrySimulator->_housePrimaryArea}" /><br />
-		
-		<!-- Valg av oppvarming -->
-		<label>Prim&aelig;r oppvarming</label><br />
-		<select name="priVarme">
-			<option value="olv">Oljekjel - vannb&aring;ren varme</option>
-			<option value="old">Oljekjel - direkte varme</option>
-			<option value="gas">Gasspeis</option>
-			<option value="luv">Varmepumpe luft til vann</option>
-			<option value="lul">Varmepumpe luft til luft</option>
-			<option value="elv">Elektrokjel - vannb&aring; varme</option>
-			<option value="el">Helelektrisk</option>
-			<option value="fjv">Fjernvarme - vannb&aring;ren varme</option>
-			<option value="ved">Vedovn</option>
-		</select><br />
 	
 	    <label>Klima</label><br />
 		<select name="klima">
@@ -153,29 +139,18 @@ function removeTag(divid)
 			<option value="10,82">Finnmark og innland Troms</option>
 		</select><br />
 		
-		<!--  Spesifisering av lyskilder -->
-		<label>Belysningstype</label><br />
-	
-		<select name="belysningstype">
-			<option value="60">Gl&oslash;de p&aelig;rer</option>
-			<option value="14">Sparep&aelig;rer</option>
-			<option value="10">LED p&aelig;rer</option>
-			<option value="30">Lysr&oslash;r</option>
-		</select><br />
-		
-		<label>Antall lyskilder</label><br />
-		<input type="text" name="antall_lyskilder" value="{$enegrySimulator->_numLys}" /><br />
-		
-		<!--  Hvitevarer / Brunevarer -->
-		<label>Antall hvitevarer</label><br />
-		<input type="text" name="antall_hvitevarer" value="{$enegrySimulator->_numHvit}" /><br />
-		
-		<label>Antall brunevarer</label><br />
-		<input type="text" name="antall_brunevarer" value="{$enegrySimulator->_numBrun}" /><br /><br />
 	
 		<input type="hidden" name="function" value="{$function}" />
+		<br />
+		{Base::getTokenforFORM("setupSimulator")}
 		<input type='submit' class="button" value='Beregn' />
+		<a href="{$scriptURL}?function=showWizHeat">
+		<input type="button" class="button" value='Neste -> Oppvarming' />
+		</a>
+
 	</form>
+	
+	
 {if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
 	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}
