@@ -725,6 +725,7 @@ class Base
 	{
 		return '<input type="hidden" name="' . $GLOBALS["cfg_tokenName"] . '" value="' . static::getToken($functionName) . '" />';
 	}
+	
 }
 
 ?>

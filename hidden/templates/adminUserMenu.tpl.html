@@ -13,6 +13,30 @@
 			<br /><br />
 			<label>Registrerte brukere</label>
 			
+			<div><table>
+			<tr><td>Navn</td><td>brukernavn</td><td>E-post</td><td> </td>
+			{foreach $userArr as $registeredUsers}
+			<tr>
+				<td>{$registeredUsers->getDbId()} {$registeredUsers->getFullName()}</td>
+				<td>{$registeredUsers->getUsername()}</td>
+				<td><a href="mailto:{$registeredUsers->getEmailAddress()}">{$registeredUsers->getEmailAddress()}</a></td>
+				<td>
+				<a href="{$scriptURL}?function=deleteUser&amp;userId={$registeredUsers->getDbId()}" 
+					onClick="
+					{if ( $registeredUsers->getDbId()) == 1 }
+					window.alert('Du kan ikke slette Admin brukeren!');">
+					{else}
+					javascript:return ConfirmChoice('Er du sikker på at du vil slette brukeren {$registeredUsers->getUsername()}?');">
+					{/if}
+				Slett
+				</a>
+					<input type="hidden" name="userId" value={$registeredUsers->getDbId()}>
+				</td>
+			</tr>
+			{/foreach}
+			</table>
+			</div>
+			
 			<br /><br />
 		<a href="{$scriptURL}?function=createNewUser">
 		<input type="button" class="button" value='Lag ny bruker' />

@@ -81,3 +81,20 @@ input,select {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 }
+
+table {
+	width: 100%;
+	border: 2px solid #eb8602;
+	-moz-border-radius: 5px;
+	border-radius: 2px;
+	border-collapse:collapse;
+
+}
+td {
+	border: 2px solid #eb8602;
+	-moz-border-radius: 5px;
+	border-radius: 2px;
+	text-align: left;
+	padding: 5px;
+}
+

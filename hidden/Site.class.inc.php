@@ -19,6 +19,7 @@ class Site
 	public static $funcShowUserMenu = "showUserMenu";
 	public static $funcCreateNewUser =  "createNewUser";
 	public static $funcCreateNewUserForm = "createNewUserForm";
+	public static $funcDeleteUser = "deleteUser";
 	
 	static function parseRequest()
 	{
@@ -252,7 +253,43 @@ class Site
 	
 	static function showUserMenu()
 	{
+		require_once (dirname(__FILE__) . "/AuthLibUser.class.inc.php"); 
+		
 		$tpl = new MySmarty();
+		
+		$query = "SELECT
+						`" . AuthLibUser::$tableName . "`.*
+					FROM
+						`" . AuthLibUser::$tableName . "`
+					";
+		
+		$registeredUsers = new AuthLibUser();
+		
+		$where = "";
+		if ( strlen($where) > 0 )
+		{
+			$query .= " WHERE " . $where . " ";
+		}
+		
+// 		echo $query;
+		
+		if ( ($res = Base::getMysqli()->query($query)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		
+		$userArr = Array();
+		
+		for ( $i=0; $i<$res->num_rows; $i++)
+		{
+		$registeredUsers = new AuthLibUser();
+		$registeredUsers->setFromResult($res, $i);
+		$userArr[] = $registeredUsers;
+		}
+		
+// 		print_r($userArr);
+		
+		$tpl->assign('userArr', $userArr);
 	
 		return static::getMainFrame($tpl->fetch("adminUserMenu.tpl.html"), "Admin-side - Brukere");
 	}
@@ -357,6 +394,30 @@ class Site
 		
 		return static::getMainFrame($tpl->fetch("adminCreateUser.tpl.html"), "Admin-side - Brukere");
 	}
+	
+	static function deleteUser()
+	{
+		require_once(dirname(__FILE__) . "/AuthLib.class.inc.php");
+		require_once(dirname(__FILE__) . "/AuthLibUser.class.inc.php");
+		
+		if ( !AuthLib::isAdmin())
+		{
+			Base::redirectNow(static::$funcLogout, Array("errormsg"=>"not authenticated"));
+			die(test);
+		}
+		
+		$alu = new AuthLibUser(NULL, $_REQUEST["dbId"]);
+		$alu->delete();
+		
+		Base::redirectNow(static::$funcShowUserMenu
+							,Array(
+								"infoMessage"=>"Brukeren ble slettet"
+								,"userId"=>$alu->getDbId()
+							)
+						);
+		die();
+		
+	} 
 	
 	static function showWizHeat($enegrySimulator = NULL)
 	{

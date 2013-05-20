@@ -163,6 +163,7 @@ class AuthLibUser extends Base
 	{
 		return $this->_accessLevel;
 	}
+	
 }
 
 ?>
