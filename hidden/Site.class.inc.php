@@ -397,16 +397,15 @@ class Site
 	
 	static function deleteUser()
 	{
-		require_once(dirname(__FILE__) . "/AuthLib.class.inc.php");
+		require_once(dirname(__FILE__) . "/Base.class.inc.php");
 		require_once(dirname(__FILE__) . "/AuthLibUser.class.inc.php");
 		
-		if ( !AuthLib::isAdmin())
-		{
-			Base::redirectNow(static::$funcLogout, Array("errormsg"=>"not authenticated"));
-			die(test);
-		}
+		echo ('hei');
+		die();
 		
-		$alu = new AuthLibUser(NULL, $_REQUEST["dbId"]);
+		$alu = new AuthLibUser($_REQUEST["dbId"]);
+		echo $alu;
+		die($alu);
 		$alu->delete();
 		
 		Base::redirectNow(static::$funcShowUserMenu
@@ -415,7 +414,7 @@ class Site
 								,"userId"=>$alu->getDbId()
 							)
 						);
-		die();
+		die('Slett bruker OK');
 		
 	} 
 	
