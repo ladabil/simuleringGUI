@@ -404,7 +404,8 @@ class Site
 		die();
 		
 		$alu = new AuthLibUser($_REQUEST["dbId"]);
-		echo $alu;
+		echo "<pre>\n";
+		print_r($alu);
 		die($alu);
 		$alu->delete();
 		
