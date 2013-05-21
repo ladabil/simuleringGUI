@@ -24,7 +24,7 @@
 				<a href="{$scriptURL}?function=deleteUser&amp;userId={$registeredUsers->getDbId()}" 
 					onClick="
 					{if ( $registeredUsers->getDbId()) == 1 }
-					window.alert('Du kan ikke slette Admin brukeren!');">
+					window.alert('Du kan ikke slette Admin brukeren!'); return false;">
 					{else}
 					javascript:return ConfirmChoice('Er du sikker på at du vil slette brukeren {$registeredUsers->getUsername()}?');">
 					{/if}

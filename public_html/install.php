@@ -4,10 +4,9 @@ require_once(dirname(__FILE__) . "/../hidden/config.inc.php");
 
 require_once($GLOBALS["cfg_hiddendir"] . "/AuthLib.class.inc.php");
 require_once($GLOBALS["cfg_hiddendir"] . "/AuthLibUser.class.inc.php");
-require_once($GLOBALS["cfg_hiddendir"] . "/AuthLibSession.class.inc.php");
 
 // Slett alle tabeller
-AuthLibSession::dropTable();
+AuthLibUser::dropTable();
 
 // Opprett tabeller
 AuthLibUser::createTableIfNotExists();

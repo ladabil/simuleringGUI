@@ -192,6 +192,9 @@ class Site
  				case static::$funcCreateNewUser:
  					echo static::createNewUser();
  					break;
+ 				case static::$funcDeleteUser:
+ 					echo static::deleteUser();
+ 					break;
 // 				case static::$funcKeyNumbers:
 // 					echo static::logMeOut();
 // 					break;
@@ -400,13 +403,13 @@ class Site
 		require_once(dirname(__FILE__) . "/Base.class.inc.php");
 		require_once(dirname(__FILE__) . "/AuthLibUser.class.inc.php");
 		
-		echo ('hei');
-		die();
+		if ( intval($_REQUEST["userId"]) <= 1 )
+		{
+			Base::redirectNow(static::$funcShowUserMenu, Array("infoMessage"=>"Kan ikke slette bruker"));
+			die("døøø ikke lov");
+		}
 		
-		$alu = new AuthLibUser($_REQUEST["dbId"]);
-		echo "<pre>\n";
-		print_r($alu);
-		die($alu);
+		$alu = new AuthLibUser($_REQUEST["userId"]);
 		$alu->delete();
 		
 		Base::redirectNow(static::$funcShowUserMenu
