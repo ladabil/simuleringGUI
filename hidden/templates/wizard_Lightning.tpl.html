@@ -3,37 +3,94 @@
 <div>
 	<img class="logo" src="gfx/logo.png" />
 	
+	<script type="text/javascript">
+		function displayForm(show){
+			if(show.value == "lightSimple"){
+				document.getElementById("simpleLight").style.visibility='visible';
+				document.getElementById("customLight").style.visibility='hidden';
+			}
+			else if(show.value == "lightCustom"){
+				document.getElementById("simpleLight").style.visibility='hidden';
+				document.getElementById("customLight").style.visibility='visible';
+			}
+			else{
+				
+			}
+		}
+		
+	</script>
+	
 	<!-- Formen -->
-	<form method="post" action="{$scriptURL}">
+
 		
 		<!--  Spesifisering av lyskilder -->
-		<label>Belysningstype</label><br />
+	<form>
+		<label class="header_wiz">Belysningstype</label><br /><br />
+		
+		<input type="radio" name="light" value="lightSimple" onClick="displayForm(this)">Enkel belysning<br />
+		<input type="radio" name="light" value="lightCustom" onClick="displayForm(this)">Egendefinert belysning<br />
+	</form>
 	
-		<select name="belysningstype">
+	<!-- Enkel innlegging av lyskilder -->
+	
+	<form style="visibility:hidden" id="simpleLight" align="top" method="post" action="{$scriptURL}">
+		
+		<label>Prim&aelig;r belysning</label><br />
+		<select name="pri_belysningstype">
+			<option value="60">Gl&oslash;de p&aelig;rer</option>
+			<option value="14">Sparep&aelig;rer</option>
+			<option value="10">LED p&aelig;rer</option>
+			<option value="30">Lysr&oslash;r</option>
+		</select><br />
+
+		<label>Alternativ belysning</label><br />
+		<select name="sek_belysningstype">
+			<option value="0">Ingen</option>
 			<option value="60">Gl&oslash;de p&aelig;rer</option>
 			<option value="14">Sparep&aelig;rer</option>
 			<option value="10">LED p&aelig;rer</option>
 			<option value="30">Lysr&oslash;r</option>
 		</select><br />
 		
+		<label>Fordeling belysningstype</label><br />
+		<input type="text" name="lys_fordeling" value="" /><br />
+		
 		<label>Antall lyskilder</label><br />
 		<input type="text" name="antall_lyskilder" value="{$enegrySimulator->_numLys}" /><br />
 		
-		<!--  Hvitevarer / Brunevarer -->
-		<label>Antall hvitevarer</label><br />
-		<input type="text" name="antall_hvitevarer" value="{$enegrySimulator->_numHvit}" /><br />
+		<label>Gjennomsnittelig brenntid</label><br />
+		<input type="text" name="lys_brenntid" value="" /><br />
+
+	</form>
+	
+	<!-- Egendefinert innlegging av lyspunkter -->
+	
+	<form style="visibility:hidden" id="customLight" align="top" method="post" action="{$scriptURL}">
+	
+		<label>Kommentar</label>
+		<input type="text" name="c_belys" value="" />
 		
-		<label>Antall brunevarer</label><br />
-		<input type="text" name="antall_brunevarer" value="{$enegrySimulator->_numBrun}" /><br /><br />
+		<label>Effekt belysning</label>
+		<input type="text" name="w_belys" value="" />
+		
+		<label> Brenntid </label><br />
+		<input type="text" name="t_belys" value="" />
+		
+		<br />
+	</form>
 	
-	
+	<form method="post" action="{$scriptURL}">
+		<br />
 		<input type="hidden" name="function" value="{$function}" />
+		{Base::getTokenforFORM("setupSimulator")}
 		<input type='submit' class="button" value='Beregn' />
 		<input type='submit' class="button" value='Lagre belysning' />
 		<a href="{$scriptURL}?function=">
 		<input type="button" class="button" value='Vis resulat' />
 		</a>
 	</form>
+	
+	
 {if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
 	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}

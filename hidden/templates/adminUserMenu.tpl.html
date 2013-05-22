@@ -27,8 +27,8 @@
 					window.alert('Du kan ikke slette Admin brukeren!'); return false;">
 					{else}
 					javascript:return ConfirmChoice('Er du sikker på at du vil slette brukeren {$registeredUsers->getUsername()}?');">
+					Slett
 					{/if}
-				Slett
 				</a>
 					<input type="hidden" name="userId" value={$registeredUsers->getDbId()}>
 				</td>

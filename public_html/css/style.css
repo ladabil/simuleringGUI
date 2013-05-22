@@ -14,6 +14,10 @@ body {
 	text-align: center;
 }
 
+.header_wiz {
+	font-size: 18px;
+}
+
 .javaButton {
 	width: 16px;
 	height: 16px;
