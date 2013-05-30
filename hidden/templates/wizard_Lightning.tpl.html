@@ -98,10 +98,10 @@
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("setupSimulator")}
 		<input type='submit' class="button" value='Beregn' />
-		<input type='submit' class="button" value='Lagre belysning' />
-		<a href="{$scriptURL}?function=">
-		<input type="button" class="button" value='Vis resulat' />
-		</a>
+		<input type='submit' class="button" value='Lagre bolig' onClick="window.alert('Funksjonen er ikke implementert enda'); return false;"/>
+		<input type="button" class="button" value="Tilbake" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" />
+		<a href="{$scriptURL}?function=showWizInhabitants"><input type="button" class="button" value='Neste -> Beboere' /></a>
+		<a href="{$scriptURL}?function="><input type="button" class="button" value='Vis resulat' onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" /></a>
 	</form>
 	
 	

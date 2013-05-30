@@ -9,36 +9,36 @@
 		<!-- Valg av primær oppvarming -->
 		<label>Prim&aelig;r oppvarming</label><br />
 		<select name="priVarme">
-			<option value="priH_oljevann">Oljekjel - vannb&aring;ren varme</option>
-			<option value="priH_oljedir">Olje/parafinkamin - direkte varme</option>
+			<option value="(250*7)/24">Oljekjel - vannb&aring;ren varme</option>
+			<option value="(250*9)/24">Olje/parafinkamin - direkte varme</option>
 			<option value="priH_gas">Gasspeis</option>
-			<option value="priH_pelletsvann">Pelletskjell - vannb&aring;ren varme</option>
-			<option value="priH_jordvarm">Jord/fjell varmepumpe til vannb&aring;ren varme</option>
-			<option value="priH_luftvann">Luft varmepumpe til vannb&aring;en varme</option>
-			<option value="priH_luftluft">Luft varmepumpe til luft</option>
-			<option value="priH_elektro">Elektrokjel - vannb&aring; varme</option>
-			<option value="priH_elektrisk">Helelektrisk oppvarming</option>
-			<option value="priH_fjernvarm">Fjernvarme - vannb&aring;ren varme</option>
-			<option value="priH_pelletsdir">Pelletskamin</option>
-			<option value="priH_vedovn">Vedovn</option>
+			<option value="(400*14)/24">Pelletskjell - vannb&aring;ren varme</option>
+			<option value="(8000*10)/24">Jord/fjell varmepumpe til vannb&aring;ren varme</option>
+			<option value="(4500*10)/24">Luft varmepumpe til vannb&aring;en varme</option>
+			<option value="(1500*20)/24">Luft varmepumpe til luft</option>
+			<option value="(2000*9)/24">Elektrokjel - vannb&aring; varme</option>
+			<option value="(8000*16)/24">Helelektrisk oppvarming</option>
+			<option value="(100*20)/24">Fjernvarme - vannb&aring;ren varme</option>
+			<option value="(150*7)/24">Pelletskamin</option>
+			<option value="0">Vedovn</option>
 		</select><br /><br />
 		
 		<!-- Valg av sekundær oppvarming -->
 		<label>Sekund&aelig;r oppvarming</label><br />
 		<select name="priVarme">
 			<option value="secH_ingen"></option>
-			<option value="secH_oljevann">Oljekjel - vannb&aring;ren varme</option>
-			<option value="secH_oljedir">Olje/parafinkamin - direkte varme</option>
+			<option value="(250*7)/24">Oljekjel - vannb&aring;ren varme</option>
+			<option value="(250*9)/24">Olje/parafinkamin - direkte varme</option>
 			<option value="secH_gas">Gasspeis</option>
-			<option value="secH_pelletsvann">Pelletskjell - vannb&aring;ren varme</option>
-			<option value="secH_jordvarm">Jord/fjell varmepumpe til vannb&aring;ren varme</option>
-			<option value="secH_luftvann">Luft varmepumpe til vannb&aring;en varme</option>
-			<option value="secH_luftluft">Luft varmepumpe til luft</option>
-			<option value="secH_elektro">Elektrokjel - vannb&aring; varme</option>
-			<option value="secH_elektrisk">Helelektrisk oppvarming</option>
-			<option value="secH_fjernvarm">Fjernvarme - vannb&aring;ren varme</option>
-			<option value="secH_pelletsdir">Pelletskamin</option>
-			<option value="secH_vedovn">Vedovn</option>
+			<option value="(400*14)/24">Pelletskjell - vannb&aring;ren varme</option>
+			<option value="(8000*10)/24">Jord/fjell varmepumpe til vannb&aring;ren varme</option>
+			<option value="(4500*10)/24">Luft varmepumpe til vannb&aring;en varme</option>
+			<option value="(1500*20)/24">Luft varmepumpe til luft</option>
+			<option value="(2000*9)/24">Elektrokjel - vannb&aring; varme</option>
+			<option value="(8000*16)/24">Helelektrisk oppvarming</option>
+			<option value="(100*20)/24">Fjernvarme - vannb&aring;ren varme</option>
+			<option value="(150*7)/24">Pelletskamin</option>
+			<option value="0">Vedovn</option>
 		</select><br /><br />
 		
 		<!-- Fordelign primær/sekundær oppvarming -->
@@ -75,7 +75,7 @@
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("setupSimulator")}
 		<input type='submit' class="button" value='Beregn' />
-		<input type='submit' class="button" value='Lagre oppvarming' />
+		<input type="button" class="button" value="Tilbake" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" />
 		<a href="{$scriptURL}?function=showWizLight">
 		<input type="button" class="button" value='Neste -> Belysning' />
 		</a>

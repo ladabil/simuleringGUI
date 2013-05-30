@@ -14,6 +14,7 @@ class Site
 	public static $funcShowWizard = "getEnergyWizard";
 	public static $funcShowWizardHeat = "showWizHeat";
 	public static $funcShowWizardLight = "showWizLight";
+	public static $funcShowWizardInhabitants = "showWizInhabitants";
 	
 	public static $funcShowAdminDefault = "showAdminDefault";
 	public static $funcShowUserMenu = "showUserMenu";
@@ -155,9 +156,9 @@ class Site
  				case static::$funcShowWizardLight:
  					echo static::showWizLight();
  					break;
-// 				case static::$funcLog:
-// 					echo static::logMeOut();
-// 					break;
+ 				case static::$funcShowWizardInhabitants:
+ 					echo static::showWizInhabitants();
+ 					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
 					break;
@@ -451,6 +452,19 @@ class Site
  		$tpl->assign('function', static::$funcSetupEnergySimulator);
 		
 		return static::getMainFrame($tpl->fetch("wizard_Lightning.tpl.html"), "Wizard");
+	}
+	
+	static function showWizInhabitants($enegrySimulator = NULL)
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+	
+		$tpl = new MySmarty();
+	
+		$tpl->assign('enegrySimulator', $enegrySimulator);
+		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
+		$tpl->assign('function', static::$funcSetupEnergySimulator);
+	
+		return static::getMainFrame($tpl->fetch("wizard_Inhabitants.tpl.html"), "Wizard");
 	}
 	
 	static function getEnergyWizard($enegrySimulator = NULL)

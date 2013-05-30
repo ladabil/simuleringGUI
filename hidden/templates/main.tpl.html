@@ -28,7 +28,11 @@ function ConfirmChoice(question) {
 	<div id="loginInfo">Innlogget som: {$fullname} ({$username})</div>
 	<div id="loginInfo">Tilgangsnivå: {$accesslevel}</div>
 	<br>
-	<div>Meny: <a href="{$scriptURL}?function=logout">logg ut</a></div>
+	<div>
+		<a href="{$scriptURL}?function=showDefault"><input type="button" class="button" value='Hovedmeny' /></a> 
+		&nbsp;
+		<a href="{$scriptURL}?function=logout"><input type="button" class="button" value='Logg ut' /></a>
+		</div>
 {/if}
 </div>
 
