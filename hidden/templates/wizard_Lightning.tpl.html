@@ -2,16 +2,21 @@
 
 <div>
 	<img class="logo" src="gfx/logo.png" />
-	
+
+	<!-- Script for valg av veiviser type -->	
 	<script type="text/javascript">
 		function displayForm(show){
 			if(show.value == "lightSimple"){
 				document.getElementById("simpleLight").style.visibility='visible';
+				document.getElementById("simpleLight").style.display='inline';
 				document.getElementById("customLight").style.visibility='hidden';
+				document.getElementById("customLight").style.display='none';
 			}
 			else if(show.value == "lightCustom"){
 				document.getElementById("simpleLight").style.visibility='hidden';
+				document.getElementById("simpleLight").style.display='none';
 				document.getElementById("customLight").style.visibility='visible';
+				document.getElementById("customLight").style.display='inline';
 			}
 			else{
 				
@@ -21,18 +26,16 @@
 	</script>
 	
 	<!-- Formen -->
-
-		
-		<!--  Spesifisering av lyskilder -->
+	
+	<!--  Valg veiviser lyskilder -->
 	<form>
-		<label class="header_wiz">Belysningstype</label><br /><br />
+		<label class="header_wiz">Belysning</label><br /><br />
 		
-		<input type="radio" name="light" value="lightSimple" onClick="displayForm(this)">Enkel belysning<br />
+		<input type="radio" name="light" value="lightSimple" onClick="displayForm(this)">Enkel veiviser belysning<br />
 		<input type="radio" name="light" value="lightCustom" onClick="displayForm(this)">Egendefinert belysning<br />
-	</form>
+	</form><br />
 	
 	<!-- Enkel innlegging av lyskilder -->
-	
 	<form style="visibility:hidden" id="simpleLight" align="top" method="post" action="{$scriptURL}">
 		
 		<label>Prim&aelig;r belysning</label><br />
@@ -52,14 +55,22 @@
 			<option value="30">Lysr&oslash;r</option>
 		</select><br />
 		
-		<label>Fordeling belysningstype</label><br />
-		<input type="text" name="lys_fordeling" value="" /><br />
+		<label>Fordeling belysningstype </label><br />
+		<input type="range" name="lys_fordeling" min="0" max="50" step="5" value="{$enegrySimulator->_lightDiff}" onChange="showValue (this.value)" />
+		<span id="range">0</span>
+			<script type="text/javascript">
+			function showValue(newValue)
+			{
+				document.getElementById("range").innerHTML=newValue;
+			}
+			</script>% dekkes av sekund&aelig;r belysning
+		<br />
 		
 		<label>Antall lyskilder</label><br />
-		<input type="text" name="antall_lyskilder" value="{$enegrySimulator->_numLys}" /><br />
+		<input type="text" name="antall_lyskilder" value="{$enegrySimulator->_numLight}" /><br />
 		
-		<label>Gjennomsnittelig brenntid</label><br />
-		<input type="text" name="lys_brenntid" value="" /><br />
+		<label>Gjennomsnittelig brenntid (timer per dag)</label><br />
+		<input type="text" name="lys_brenntid" value="{$enegrySimulator->_lightTime}" /><br />
 
 	</form>
 	
@@ -67,15 +78,18 @@
 	
 	<form style="visibility:hidden" id="customLight" align="top" method="post" action="{$scriptURL}">
 	
+		<label><b>Dette kommer i en senere sprint</b></label>
+		<br /><br />
+		
 		<label>Kommentar</label>
 		<input type="text" name="c_belys" value="" />
-		
 		<label>Effekt belysning</label>
 		<input type="text" name="w_belys" value="" />
-		
-		<label> Brenntid </label><br />
-		<input type="text" name="t_belys" value="" />
-		
+		<label>P&aring;sl&aring;tt mellom kl: </label>
+		<input type="text" name="tpa_belys" value="" />
+		<label>til kl: </label>
+		<input type="text" name="tav_belys" value="" />
+		<!--  <input type="image" onClick="addLight(); return false;" src="gfx/16x16_addplus.png" class="javaButton" /> -->
 		<br />
 	</form>
 	

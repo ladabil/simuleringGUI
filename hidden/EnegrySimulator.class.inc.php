@@ -8,8 +8,11 @@ class EnegrySimulator
 	var $_houseTotalArea = 0;
 	var $_housePrimaryArea = 0;
 
-	var $_numLys = 0;
-	var $_lightType = 0;
+	var $_numLight = 0;
+	var $_priLightType = 0;
+	var $_secLightType = 0;
+	var $_lightTime = 0;
+	var $_lightDiff = 0;
 	
 	var $_climateZone = 0;
 	var $_numHvit = 0;
@@ -23,16 +26,25 @@ class EnegrySimulator
 	
 	function getEnergyUsage()
 	{
-		// antall pers * (watt lys * antall) + (normatall oppvarming klimasone 97 mod * total areal) / 1000 (kw) * 12 timer i døgnet * dager i året
+// 		antall pers * noe
+// 		+ (watt primær belysning * (antall / prosentvis fordeling) * brenntid (timer/24) 
+// 		+ (watt sekundær belysning * (antall / prosentvis fordeling) * brenntid (timer/24)
+// 		+ (normatall oppvarming klimasone 97 mod * total areal) 
+// 		/ 1000 (kw) * 12 timer i døgnet * dager i året for omregning til kWh
 		//$tmpResult = (($this->_numPersons*($this->_lightType*$this->_numLys)) + ($this->_climateZone*$this->_houseTotalArea) + (($this->_numHvit*50) + $this->_numBrun*25)) / 1000 *(12*365);
 		
-		return ((count($this->_inhabitantsAge)*($this->_lightType*$this->_numLys)) + ($this->_climateZone*$this->_houseTotalArea) + (($this->_numHvit*50) + $this->_numBrun*25)) / 1000 *(12*365);
+		return ((count($this->_inhabitantsAge)) * 1
+				 	+ ($this->_priLightType * ($this->_numLight / ((100 - $this->_lightDiff) / 100)) * ($this->_lightTime /24)) 
+// 					+ ($this->_secLightType * ($this->_numLight / ($this->_lightDiff) / 100) * ($this->_lightTime / 24)) <-- mangler sjekk for 0, gir feilmedling kan ikke dele 0 på
+					+ ($this->_climateZone * $this->_houseTotalArea) 
+					+ (($this->_numHvit*50) + $this->_numBrun*25)) 
+					/ 1000 *(12*365);
 		
 		// eks:
 		// antall i huset * styrke lys * antall lys * 12 timer i dÃ¸gnet * dager i Ã¥ret
 		// anna ikke kordan man regna ut dettan doh.........
 		// Omregner så til kWh --> antall i huset * styrke lys * antall lys / 1000 --> * 12 timer i døgnet * dager i året
-		return (count($this->_inhabitantsAge)*($this->_lightType*$this->_numLys))/ 1000 *(12*365);		
+		return (count($this->_inhabitantsAge)*($this->_priLightType*$this->_numLight))/ 1000 *(12*365);		
 	}
 	
 	static function getInhabitantWorkTypesAsArray()

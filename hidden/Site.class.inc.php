@@ -581,39 +581,61 @@ class Site
 		{
 			$errMsg .= "Mangler beboere og deres yrker..<br>\n";
 		}
-
-		// Lyskilder
 		
-		if ( isset($_REQUEST['belysningstype']) && intval($_REQUEST['belysningstype']) > 0 )
+		// Primære lyskilder
+		
+		if ( isset($_REQUEST['pri_belysningstype']) && intval($_REQUEST['pri_belysningstype']) > 0 )
 		{
-			$es->_lightType = intval($_REQUEST['belysningstype']);
+			$es->_priLightType = intval($_REQUEST['pri_belysningstype']);
 		}
 		else
 		{
 			// Default 60 (Glødepære)
-			$es->_lightType = 60;
+			$es->_priLightType = 60;
 		}
 		
-		// Lyskilder
+		// Sekundære lyskilder
 		
-		if ( isset($_REQUEST['belysningstype']) && intval($_REQUEST['belysningstype']) > 0 )
+		if ( isset($_REQUEST['sek_belysningstype']) && intval($_REQUEST['sek_belysningstype']) > 0 )
 		{
-			$es->_lightType = intval($_REQUEST['belysningstype']);
+			$es->_secLightType = intval($_REQUEST['sek_belysningstype']);
 		}
 		else
 		{
-			// Default 60 (Glødepære)
-			$es->_lightType = 60;
+			// Default 0 (ingen valgt)
+			$es->_secLightType = 0;
 		}
 		
 		if ( isset($_REQUEST['antall_lyskilder']) && intval($_REQUEST['antall_lyskilder']) >= 0 )
 		{
-			$es->_numLys = intval($_REQUEST['antall_lyskilder']);
+			$es->_numLight = intval($_REQUEST['antall_lyskilder']);
 		}
 		else
 		{
 			// Default 2 lyskilder
-			$es->_numLys = 2;
+			$es->_numLight = 2;
+		}
+		
+		if ( isset($_REQUEST['lys_brenntid']) && intval($_REQUEST['lys_brenntid']) >= 0 )
+		{
+			$es->_lightTime = intval($_REQUEST['lys_brenntid']);
+		}
+		else
+		{
+			// Default 8 timer
+			$es->_lightTime = 8;
+		}
+		
+		// Fordeling lyskilder
+		
+		if ( isset($_REQUEST['lys_fordeling']) && intval($_REQUEST['lys_fordeling']) > 0 )
+		{
+			$es->_lightDiff = intval($_REQUEST['lys_fordeling']);
+		}
+		else
+		{
+			// Default 0 (ingen valgt)
+			$es->_lightDiff = 0;
 		}
 		
 		if ( isset($_REQUEST['antall_hvitevarer']) && intval($_REQUEST['antall_hvitevarer']) >= 0 )

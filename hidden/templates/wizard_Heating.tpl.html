@@ -44,7 +44,14 @@
 		<!-- Fordelign primær/sekundær oppvarming -->
 		<!-- Erstatt med slider -->
 		<label>Andel oppvarming som dekkes av sekund&aelig;r oppvarming</label><br />
-		<input type="text" name="secheatvalue" value="" /> %
+		<input type="range" name="secheatvalue" min="0" max="50" step="5" value="0" onChange="showValue (this.value)" />
+		<span id="range">0</span>
+			<script type="text/javascript">
+			function showValue(newValue)
+			{
+				document.getElementById("range").innerHTML=newValue;
+			}
+			</script> %
 		<br /><br />
 		
 		<label>Gulvvarme vannb&aring;ren varme fra prim&aelig;r oppvarming</label><br />
