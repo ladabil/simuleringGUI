@@ -76,9 +76,7 @@
 		{Base::getTokenforFORM("setupSimulator")}
 		<input type='submit' class="button" value='Beregn' />
 		<input type="button" class="button" value="Tilbake" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" />
-		<a href="{$scriptURL}?function=showWizLight">
-		<input type="button" class="button" value='Neste -> Belysning' />
-		</a>
+		<a href="{$scriptURL}?function=showWizLight"><input type="button" class="button" value='Neste -> Belysning' /></a>
 	</form>
 {if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
 	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
