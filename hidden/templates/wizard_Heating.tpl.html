@@ -4,20 +4,8 @@
 <!-- Storing of inputs via POST -->
 
 {php}
-	$byggType = $_POST['byggType'];
-	$this->assign('byggType','$byggType');
-	
-	$byggaar = $_POST['byggaar'];
-	$this->assign('byggaar','$byggaar');
-	
-	$houseTotalArea = $_POST['houseTotalArea'];
-	$this->assign('houseTotalArea','$houseTotalArea');
-	
-	$housePrimaryArea = $_POST['housePrimaryArea'];
-	$this->assign('housePrimaryArea','$housePrimaryArea');
-	
-	$klima = $_POST['klima'];
-	$this->assign('klima','$klima');
+
+	$this->assign('$_POST['klima']','$klima');
 	
 {/php}
 
