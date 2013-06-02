@@ -1,10 +1,39 @@
 <!-- Side for veiviser som tar for seg oppvarming -->
 
+
+<!-- Storing of inputs via POST -->
+
+{php}
+	$byggType = $_POST['byggType'];
+	$this->assign('byggType','$byggType');
+	
+	$byggaar = $_POST['byggaar'];
+	$this->assign('byggaar','$byggaar');
+	
+	$houseTotalArea = $_POST['houseTotalArea'];
+	$this->assign('houseTotalArea','$houseTotalArea');
+	
+	$housePrimaryArea = $_POST['housePrimaryArea'];
+	$this->assign('housePrimaryArea','$housePrimaryArea');
+	
+	$klima = $_POST['klima'];
+	$this->assign('klima','$klima');
+	
+{/php}
+
+
+
 <div>
 	<img class="logo" src="gfx/logo.png" />
 	
 	<!-- Formen -->
 	<form method="post" action="{$scriptURL}">
+		
+		<input type="hidden" name="byggType" value="{$byggType}" />
+		<input type="hidden" name="byggaar" value="{$byggaar}" />
+		<input type="hidden" name="houseTotalArea" value="{$houseTotalArea}" />
+		<input type="hidden" name="housePrimaryArea" value="{$housePrimaryArea}" />
+		<input type="hidden" name="klima" value="{$klima}" />
 		
 		<!-- Valg av primær oppvarming -->
 		<label>Prim&aelig;r oppvarming</label><br />
@@ -58,7 +87,7 @@
 		<input type="text" name="floorheating" value="" /> m2
 		<br /><br />
 		<label>Gulvvarme elektrisk</label><br />
-		<input type="text" name="floorheating" value="" /> m2
+		<input type="text" name="floorheating2" value="" /> m2
 		<br /><br />
 		<!--  Valg for tappevann -->
 		<label>Definer eventuelle elektrokjeler som benyttes for oppvarming av tappevann</label><br />
@@ -78,6 +107,8 @@
 		<input type="button" class="button" value="Tilbake" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" />
 		<a href="{$scriptURL}?function=showWizLight"><input type="button" class="button" value='Neste -> Belysning' /></a>
 	</form>
+	<p>{$klima}</p>
+	
 {if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
 	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}
