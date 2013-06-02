@@ -426,9 +426,10 @@ class Site
 	static function showWizHeat($enegrySimulator = NULL)
 	{
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		
 
 		$tpl = new MySmarty();
-		
+
 		$tpl->assign('enegrySimulator', $enegrySimulator);
 // 		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
 		$tpl->assign('function', static::$funcSetupEnergySimulator);

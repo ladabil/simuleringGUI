@@ -3,25 +3,12 @@
 
 <!-- Storing of inputs via POST -->
 
-{php}
-
-	$this->assign('$_POST['klima']','$klima');
-	
-{/php}
-
-
 
 <div>
 	<img class="logo" src="gfx/logo.png" />
 	
 	<!-- Formen -->
 	<form method="post" action="{$scriptURL}">
-		
-		<input type="hidden" name="byggType" value="{$byggType}" />
-		<input type="hidden" name="byggaar" value="{$byggaar}" />
-		<input type="hidden" name="houseTotalArea" value="{$houseTotalArea}" />
-		<input type="hidden" name="housePrimaryArea" value="{$housePrimaryArea}" />
-		<input type="hidden" name="klima" value="{$klima}" />
 		
 		<!-- Valg av primær oppvarming -->
 		<label>Prim&aelig;r oppvarming</label><br />
