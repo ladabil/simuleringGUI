@@ -22,10 +22,10 @@
 		
 		<!-- Husets størrelse -->
 		<label>Boenhet: Brutto Areal</label><br />
-		<input type="text" name="houseTotalArea" value="{$enegrySimulator->_houseTotalArea}" /><br />
+		<input type="text" name="houseTotalArea" value="{$smarty.session.es->_houseTotalArea}" /><br />
 	
 		<label>Boenhet: P-Rom</label><br />
-		<input type="text" name="housePrimaryArea" value="{$enegrySimulator->_housePrimaryArea}" /><br />
+		<input type="text" name="housePrimaryArea" value="{$smarty.session.es->_housePrimaryArea}" /><br />
 	
 	    <label>Klima</label><br />
 		<select name="klima">
@@ -37,18 +37,16 @@
 			<option value="8,11">Nord-Norge, kyst</option>
 			<option value="10,82">Finnmark og innland Troms</option>
 		</select><br /><br />
-		
 	
 		<input type="hidden" name="function" value="{$function}" />
-		{Base::getTokenforFORM("setupSimulator")}
+		{Base::getTokenforFORM("startNewWizard")}
 		<input type="button" class="button" value="Hent bolig" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" />
-		<input type='submit' class="button" value='Beregn' />
-		<a href="{$scriptURL}?function=showWizHeat"><input type="button" class="button" value='Neste -> Oppvarming' /></a>
+		<input type="submit" class="button" value='Neste -> Oppvarming' />
 
 	</form>
 	
 	
-{if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
-	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
+{if isset($energySimulator) && intval($energySimulator->getEnergyUsage()) > 0}
+	<h3>Resultat</h3>{$energySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}
 </div>

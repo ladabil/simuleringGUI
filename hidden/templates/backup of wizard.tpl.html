@@ -123,10 +123,10 @@ function removeTag(divid)
 		
 		<!-- Husets størrelse -->
 		<label>Boenhet: Brutto Areal</label><br />
-		<input type="text" name="houseTotalArea" value="{$enegrySimulator->_houseTotalArea}" /><br />
+		<input type="text" name="houseTotalArea" value="{$energySimulator->_houseTotalArea}" /><br />
 	
 		<label>Boenhet: P-Rom</label><br />
-		<input type="text" name="housePrimaryArea" value="{$enegrySimulator->_housePrimaryArea}" /><br />
+		<input type="text" name="housePrimaryArea" value="{$energySimulator->_housePrimaryArea}" /><br />
 		
 		<!-- Valg av oppvarming -->
 		<label>Prim&aelig;r oppvarming</label><br />
@@ -164,28 +164,28 @@ function removeTag(divid)
 		</select><br />
 		
 		<label>Antall lyskilder</label><br />
-		<input type="text" name="antall_lyskilder" value="{$enegrySimulator->_numLys}" /><br />
+		<input type="text" name="antall_lyskilder" value="{$energySimulator->_numLys}" /><br />
 		
 		<!--  Hvitevarer / Brunevarer -->
 		<label>Antall hvitevarer</label><br />
-		<input type="text" name="antall_hvitevarer" value="{$enegrySimulator->_numHvit}" /><br />
+		<input type="text" name="antall_hvitevarer" value="{$energySimulator->_numHvit}" /><br />
 		
 		<label>Antall brunevarer</label><br />
-		<input type="text" name="antall_brunevarer" value="{$enegrySimulator->_numBrun}" /><br /><br />
+		<input type="text" name="antall_brunevarer" value="{$energySimulator->_numBrun}" /><br /><br />
 	
 		<input type="hidden" name="function" value="{$function}" />
 		<input type='submit' class="button" value='Beregn' />
 	</form>
-{if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
-	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
+{if isset($energySimulator) && intval($energySimulator->getEnergyUsage()) > 0}
+	<h3>Resultat</h3>{$energySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}
 </div>
 
 <SCRIPT type="text/javascript">
 
-{if count($enegrySimulator->_inhabitantsWork) > 0 }
-	{for $i=0 to (count($enegrySimulator->_inhabitantsWork) - 1)}
-		addInhabitantHelper({$enegrySimulator->_inhabitantsAge[$i]}, {$enegrySimulator->_inhabitantsWork[$i]});
+{if count($energySimulator->_inhabitantsWork) > 0 }
+	{for $i=0 to (count($energySimulator->_inhabitantsWork) - 1)}
+		addInhabitantHelper({$energySimulator->_inhabitantsAge[$i]}, {$energySimulator->_inhabitantsWork[$i]});
 	{/for}
 {/if}
 

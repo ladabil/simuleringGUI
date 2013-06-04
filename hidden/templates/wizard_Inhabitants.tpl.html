@@ -114,10 +114,10 @@ function removeTag(divid)
 		<!--  Hvitevarer / Brunevarer -->
 		<br /><br />
 		<label>Antall hvitevarer</label><br />
-		<input type="text" name="antall_hvitevarer" value="0" /><br />
+		<input type="text" name="antall_hvitevarer" value="{$smarty.session.es->_numHvit}" /><br />
 		
 		<label>Antall brunevarer</label><br />
-		<input type="text" name="antall_brunevarer" value="0" /><br /><br />
+		<input type="text" name="antall_brunevarer" value="{$smarty.session.es->_numBrun}" /><br /><br />
 		
 		<br />
 		<input type="hidden" name="function" value="{$function}" />
@@ -125,21 +125,21 @@ function removeTag(divid)
 		<input type='submit' class="button" value='Beregn' />
 		<a href="{$scriptURL}?function="><input type="button" class="button" value='Lagre familie' onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" /></a>
 		<a href="{$scriptURL}?function="><input type="button" class="button" value="Tilbake" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" /></a>
-		<a href="{$scriptURL}?function="><input type="button" class="button" value='Vis resulat' onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" /></a>
+		<input type="submit" class="button" value='Vis resulat'  />
 
 	</form>
 	
 	
-{if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
-	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
+{if isset($energySimulator) && intval($energySimulator->getEnergyUsage()) > 0}
+	<h3>Resultat</h3>{$energySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}
 </div>
 
 <SCRIPT type="text/javascript">
 
-{if count($enegrySimulator->_inhabitantsWork) > 0 }
-	{for $i=0 to (count($enegrySimulator->_inhabitantsWork) - 1)}
-		addInhabitantHelper({$enegrySimulator->_inhabitantsAge[$i]}, {$enegrySimulator->_inhabitantsWork[$i]});
+{if count($energySimulator->_inhabitantsWork) > 0 }
+	{for $i=0 to (count($energySimulator->_inhabitantsWork) - 1)}
+		addInhabitantHelper({$energySimulator->_inhabitantsAge[$i]}, {$energySimulator->_inhabitantsWork[$i]});
 	{/for}
 {/if}
 

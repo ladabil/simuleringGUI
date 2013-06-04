@@ -1,12 +1,16 @@
 <?php
 
-class EnegrySimulator
+class energySimulator
 {
 	var $_inhabitantsWork = Array();
 	var $_inhabitantsAge = Array();
 	
 	var $_houseTotalArea = 0;
 	var $_housePrimaryArea = 0;
+	
+	var $_priHeat = 0;
+	var $_secHeat = 0;
+	var $_heatDiff = 0;
 
 	var $_numLight = 0;
 	var $_priLightType = 0;
