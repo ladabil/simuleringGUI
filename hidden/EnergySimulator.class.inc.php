@@ -11,7 +11,13 @@ class EnergySimulator
 	var $_priHeat = 0;
 	var $_secHeat = 0;
 	var $_heatDiff = 0;
-	var $_heatFloor = 0;
+	var $_floorHeatWa = 0;
+	var $_floorHeatEl = 0;
+	var $_priBoilerSize = 0;
+	var $_priBoilerPower = 0;
+	var $_secBoilerSize = 0;
+	var $_secBoilerPower = 0;
+	
 
 	var $_numLight = 0;
 	var $_priLightType = 0;
@@ -39,6 +45,8 @@ class EnergySimulator
 		//$tmpResult = (($this->_numPersons*($this->_lightType*$this->_numLys)) + ($this->_climateZone*$this->_houseTotalArea) + (($this->_numHvit*50) + $this->_numBrun*25)) / 1000 *(12*365);
 		
 		return ((count($this->_inhabitantsAge)) * 1
+					+ (($this->_priBoilerPower * 12) + ($this->_secBoilerPower * 12) + ($this->_floorHeatEl * 8))
+					+ ((($this->_priHeat)/100) * (100 - ($this->_heatDiff))) + ((($this->_secHeat)/100) * ($this->_heatDiff))
 				 	+ ($this->_priLightType * ($this->_numLight / ((100 - $this->_lightDiff) / 100)) * ($this->_lightTime /24)) 
 // 					+ ($this->_secLightType * ($this->_numLight / ($this->_lightDiff) / 100) * ($this->_lightTime / 24)) <-- mangler sjekk for 0, gir feilmedling kan ikke dele 0 på
 					+ ($this->_climateZone * $this->_houseTotalArea) 

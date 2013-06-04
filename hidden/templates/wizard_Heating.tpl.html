@@ -12,36 +12,36 @@
 		
 		<!-- Valg av primær oppvarming -->
 		<label>Prim&aelig;r oppvarming</label><br />
-		<select name="priVarme">
-			<option value="(250*7)/24">Oljekjel - vannb&aring;ren varme</option>
-			<option value="(250*9)/24">Olje/parafinkamin - direkte varme</option>
-			<option value="priH_gas">Gasspeis</option>
-			<option value="(400*14)/24">Pelletskjell - vannb&aring;ren varme</option>
-			<option value="(8000*10)/24">Jord/fjell varmepumpe til vannb&aring;ren varme</option>
-			<option value="(4500*10)/24">Luft varmepumpe til vannb&aring;en varme</option>
-			<option value="(1500*20)/24">Luft varmepumpe til luft</option>
-			<option value="(2000*9)/24">Elektrokjel - vannb&aring; varme</option>
-			<option value="(8000*16)/24">Helelektrisk oppvarming</option>
-			<option value="(100*20)/24">Fjernvarme - vannb&aring;ren varme</option>
-			<option value="(150*7)/24">Pelletskamin</option>
+		<select name="priVarme" value="{$smarty.session.es->_priHeat}">
+			<option value="73">Oljekjel - vannb&aring;ren varme</option>
+			<option value="94">Olje/parafinkamin - direkte varme</option>
+			<option value="20">Gasspeis</option>
+			<option value="233">Pelletskjell - vannb&aring;ren varme</option>
+			<option value="3333">Jord/fjell varmepumpe til vannb&aring;ren varme</option>
+			<option value="1875">Luft varmepumpe til vannb&aring;en varme</option>
+			<option value="1250">Luft varmepumpe til luft</option>
+			<option value="750">Elektrokjel - vannb&aring; varme</option>
+			<option value="5333">Helelektrisk oppvarming</option>
+			<option value="83">Fjernvarme - vannb&aring;ren varme</option>
+			<option value="43">Pelletskamin</option>
 			<option value="0">Vedovn</option>
 		</select><br /><br />
 		
 		<!-- Valg av sekundær oppvarming -->
 		<label>Sekund&aelig;r oppvarming</label><br />
-		<select name="priVarme">
-			<option value="secH_ingen"></option>
-			<option value="(250*7)/24">Oljekjel - vannb&aring;ren varme</option>
-			<option value="(250*9)/24">Olje/parafinkamin - direkte varme</option>
-			<option value="secH_gas">Gasspeis</option>
-			<option value="(400*14)/24">Pelletskjell - vannb&aring;ren varme</option>
-			<option value="(8000*10)/24">Jord/fjell varmepumpe til vannb&aring;ren varme</option>
-			<option value="(4500*10)/24">Luft varmepumpe til vannb&aring;en varme</option>
-			<option value="(1500*20)/24">Luft varmepumpe til luft</option>
-			<option value="(2000*9)/24">Elektrokjel - vannb&aring; varme</option>
-			<option value="(8000*16)/24">Helelektrisk oppvarming</option>
-			<option value="(100*20)/24">Fjernvarme - vannb&aring;ren varme</option>
-			<option value="(150*7)/24">Pelletskamin</option>
+		<select name="secVarme" value="{$smarty.session.es->_secHeat}">
+			<option value="0"></option>
+			<option value="73">Oljekjel - vannb&aring;ren varme</option>
+			<option value="94">Olje/parafinkamin - direkte varme</option>
+			<option value="20">Gasspeis</option>
+			<option value="233">Pelletskjell - vannb&aring;ren varme</option>
+			<option value="3333">Jord/fjell varmepumpe til vannb&aring;ren varme</option>
+			<option value="1875">Luft varmepumpe til vannb&aring;en varme</option>
+			<option value="1250">Luft varmepumpe til luft</option>
+			<option value="750">Elektrokjel - vannb&aring; varme</option>
+			<option value="5333">Helelektrisk oppvarming</option>
+			<option value="83">Fjernvarme - vannb&aring;ren varme</option>
+			<option value="43">Pelletskamin</option>
 			<option value="0">Vedovn</option>
 		</select><br /><br />
 		
@@ -59,21 +59,21 @@
 		<br /><br />
 		
 		<label>Gulvvarme vannb&aring;ren varme fra prim&aelig;r oppvarming</label><br />
-		<input type="text" name="floorheating" value="" /> m2
+		<input type="text" name="floorheating" value="{$smarty.session.es->_floorHeatWa}" /> m2
 		<br /><br />
 		<label>Gulvvarme elektrisk</label><br />
-		<input type="text" name="floorheating2" value="" /> m2
+		<input type="text" name="floorheating2" value="{$smarty.session.es->_floorHeatEl}" /> m2
 		<br /><br />
 		<!--  Valg for tappevann -->
 		<label>Definer eventuelle elektrokjeler som benyttes for oppvarming av tappevann</label><br />
 		<br />
 		<label>Prim&aelig;r elektrokjel</label><br /> 
-		<input type="text" name="priBoilerSize" value="" /> liter<br />
-		<input type="text" name="priBoilerPower" value="" /> watt<br />
+		<input type="text" name="priBoilerSize" value="{$smarty.session.es->_priBoilerSize}" /> liter<br />
+		<input type="text" name="priBoilerPower" value="{$smarty.session.es->_priBoilerPower}" /> watt<br />
 		
 		<label>Sekund&aelig;r elektrokjel</label><br />
-		<input type="text" name="secBoilerSize" value="" /> liter<br />
-		<input text="text" name="secBoilerPower" value="" /> watt
+		<input type="text" name="secBoilerSize" value="{$smarty.session.es->_secBoilerSize}" /> liter<br />
+		<input text="text" name="secBoilerPower" value="{$smarty.session.es->_secBoilerPower}" /> watt
 	
 		<br/><br />
 		<input type="hidden" name="function" value="{$function}" />

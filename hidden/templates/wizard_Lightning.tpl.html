@@ -39,7 +39,7 @@
 	<form style="visibility:hidden" id="simpleLight" align="top" method="post" action="{$scriptURL}">
 		
 		<label>Prim&aelig;r belysning</label><br />
-		<select name="pri_belysningstype">
+		<select name="pri_belysningstype" value="{$smarty.session.es->_priLightType}">
 			<option value="60">Gl&oslash;de p&aelig;rer</option>
 			<option value="14">Sparep&aelig;rer</option>
 			<option value="10">LED p&aelig;rer</option>
@@ -47,7 +47,7 @@
 		</select><br />
 
 		<label>Alternativ belysning</label><br />
-		<select name="sek_belysningstype">
+		<select name="sek_belysningstype" value="{$smarty.session.es->_secLightType}">
 			<option value="0">Ingen</option>
 			<option value="60">Gl&oslash;de p&aelig;rer</option>
 			<option value="14">Sparep&aelig;rer</option>
@@ -100,7 +100,6 @@
 		<input type='submit' class="button" value='Lagre bolig' onClick="window.alert('Funksjonen er ikke implementert enda'); return false;"/>
 		<input type="button" class="button" value="Tilbake" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" />
 		<input type="submit" class="button" value='Neste -> Beboere' />
-		<a href="{$scriptURL}?function="><input type="button" class="button" value='Vis resulat' onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" /></a>
 	</form>
 	
 	

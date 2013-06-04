@@ -20,6 +20,8 @@ class Site
 	public static $funcParseWizardLight = "parseWizLight";
 	public static $funcShowWizardInhabitants = "showWizInhabitants";
 	public static $funcParseWizardInhabitants = "parseWizInhabitants";
+	public static $funcShowWizardClimateZone = "showWizClimateZone";
+	public static $funcParseWizardClimateZone = "parseWizClimateZone";
 	
 	public static $funcShowAdminDefault = "showAdminDefault";
 	public static $funcShowUserMenu = "showUserMenu";
@@ -192,6 +194,12 @@ class Site
  					break;
  				case static::$funcParseWizardInhabitants:
  					echo static::parseWizInhabitants();
+ 					break;
+ 				case static::$funcShowWizardClimateZone:
+ 					echo static::showWizClimateZone();
+ 					break;
+ 				case static::$funcParseWizardClimateZone:
+ 					echo static::parseWizClimateZone();
  					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
@@ -579,6 +587,7 @@ class Site
 		// Verifiser token først..
 		Base::verifyTokenFromRequest("setupSimulator");
 		
+		//Primær oppvarming
 		if ( isset($_REQUEST['priVarme']) && intval($_REQUEST['priVarme']) > 0 )
 		{
 			$_SESSION['es']->_priHeat = intval($_REQUEST['priVarme']);
@@ -587,6 +596,79 @@ class Site
 		{
 			// Default 1
 			$_SESSION['es']->_priHeat = 1;
+		}
+		
+		// Sekundær oppvarming
+		if ( isset($_REQUEST['secVarme']) && intval($_REQUEST['secVarme']) > 0 )
+		{
+			$_SESSION['es']->_secHeat = intval($_REQUEST['secVarme']);
+		}
+		else
+		{
+			// Default 1
+			$_SESSION['es']->_secHeat = 0;
+		}
+		
+		if ( isset($_REQUEST['secheatvalue']) && intval($_REQUEST['secheatvalue']) > 0 )
+		{
+			$_SESSION['es']->_heatDiff = intval($_REQUEST['secheatvalue']);
+		}
+		else
+		{
+			// Default 1
+			$_SESSION['es']->_heatDiff = 1;
+		}
+		
+		if ( isset($_REQUEST['floorheating2']) && intval($_REQUEST['floorheating2']) > 0 )
+		{
+			$_SESSION['es']->_floorHeatEl = intval($_REQUEST['floorheating2']);
+		}
+		else
+		{
+			// Default 1
+			$_SESSION['es']->_floorHeatEl = 0;
+		}
+		
+		// Primær varmtvannstank elektrisk 
+		if ( isset($_REQUEST['priBoilerSize']) && intval($_REQUEST['priBoilerSize']) > 0 )
+		{
+			$_SESSION['es']->_priBoilerSize = intval($_REQUEST['priBoilerSize']);
+		}
+		else
+		{
+			// Default 0
+			$_SESSION['es']->_priBoilerSize = 0;
+		}
+		
+		if ( isset($_REQUEST['priBoilerPower']) && intval($_REQUEST['priBoilerPower']) > 0 )
+		{
+			$_SESSION['es']->_priBoilerPower = intval($_REQUEST['priBoilerPower']);
+		}
+		else
+		{
+			// Default 0
+			$_SESSION['es']->_priBoilerPower = 0;
+		}
+		
+		// Sekundær varmtvannstank elektrisk
+		if ( isset($_REQUEST['secBoilerSize']) && intval($_REQUEST['secBoilerSize']) > 0 )
+		{
+			$_SESSION['es']->_secBoilerSize = intval($_REQUEST['secBoilerSize']);
+		}
+		else
+		{
+			// Default 0
+			$_SESSION['es']->_priBoilerSize = 0;
+		}
+		
+		if ( isset($_REQUEST['secBoilerPower']) && intval($_REQUEST['secBoilerPower']) > 0 )
+		{
+			$_SESSION['es']->_secBoilerPower = intval($_REQUEST['secBoilerPower']);
+		}
+		else
+		{
+			// Default 0
+			$_SESSION['es']->_secBoilerPower = 0;
 		}
 		
 		// Parse return and redirect
@@ -745,6 +827,26 @@ class Site
 			$errMsg .= "Mangler beboere og deres yrker..<br>\n";
 		}
 		
+		// Hvite og brunevarer
+		if ( isset($_REQUEST['antall_hvitevarer']) && intval($_REQUEST['antall_hvitevarer']) >= 0 )
+		{
+			$_SESSION['es']->_numHvit = intval($_REQUEST['antall_hvitevarer']);
+		}
+		else
+		{
+			// Default 2 hvitevarer
+			$_SESSION['es']->_numHvit = 2;
+		}
+		
+		if ( isset($_REQUEST['antall_brunevarer']) && intval($_REQUEST['antall_brunevarer']) >= 0 )
+		{
+			$_SESSION['es']->_numBrun = intval($_REQUEST['antall_brunevarer']);
+		}
+		else
+		{
+			// Default 2 brunevarer
+			$_SESSION['es']->_numBrun = 2;
+		}
 		
 		// Parse return and redirect
 		if ( strlen($errMsg) > 0 )
@@ -756,8 +858,53 @@ class Site
 		echo "<pre>\n";
 		print_r($_SESSION['es']);
 		
-		return static::showWizInhabitants();
+		return static::showWizClimateZone();
 	}
+	
+	static function showWizClimateZone()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$tpl = static::wizardInit();
+		$tpl->assign('function', static::$funcParseWizardClimateZone);
+	
+		return static::getMainFrame($tpl->fetch("wizard_ClimateZone.tpl.html"), "Wizard");
+	}
+	
+	static function parseWizClimateZone()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$errMsg = "";
+		static::wizardInit();
+	
+		// Verifiser token først..
+		Base::verifyTokenFromRequest("setupSimulator");
+	
+	if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
+		{
+			$_SESSION['es']->_climateZone = intval($_REQUEST['klima']);
+		}
+		else
+		{
+			// Default 1 (Sør-norge?)
+			$_SESSION['es']->_climateZone = 1;
+		}
+	
+		// Parse return and redirect
+		if ( strlen($errMsg) > 0 )
+		{
+			static::addInfoMessage($errMsg);
+			return static::showWizClimateZone();
+		}
+	
+		echo "<pre>\n";
+		print_r($_SESSION['es']);
+	
+		return static::showWizClimateZone();
+	
+	}
+	
 	
 	static function getEnergyWizard($EnergySimulator = NULL)
 	{
