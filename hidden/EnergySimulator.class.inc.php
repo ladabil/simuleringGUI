@@ -1,6 +1,6 @@
 <?php
 
-class energySimulator
+class EnergySimulator
 {
 	var $_inhabitantsWork = Array();
 	var $_inhabitantsAge = Array();

@@ -146,7 +146,7 @@ class Site
 	
 		$tpl = new MySmarty();
 	
-		$tpl->assign('energySimulator', $_SESSION['es']);
+		$tpl->assign('EnergySimulator', $_SESSION['es']);
 	
 		return $tpl;
 	}
@@ -459,11 +459,11 @@ class Site
 	
 	static function startNewWizard()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 		
 		$tpl = new MySmarty();
 		
-		$_SESSION['es'] = new energySimulator();
+		$_SESSION['es'] = new EnergySimulator();
 		$errMsg = "";
 		
 		return static::showWizBuilding();
@@ -472,7 +472,7 @@ class Site
 	
 	static function showWizBuilding()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 			
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseWizardBuilding);
@@ -482,7 +482,7 @@ class Site
 	
 	static function parseWizBuilding()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 		
 		$errMsg = "";
 		static::wizardInit();
@@ -561,7 +561,7 @@ class Site
 	
 	static function showWizHeat()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseWizardHeat);
@@ -571,7 +571,7 @@ class Site
 	
 	static function parseWizHeat()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 		
 		$errMsg = "";
 		static::wizardInit();
@@ -605,7 +605,7 @@ class Site
 	
 	static function showWizLight()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 		
 		$tpl = static::wizardInit();
  		$tpl->assign('function', static::$funcParseWizardLight);
@@ -615,7 +615,7 @@ class Site
 	
 	static function parseWizLight()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 		
 		$errMsg = "";
 		static::wizardInit();
@@ -693,10 +693,10 @@ class Site
 	
 	static function showWizInhabitants()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 	
 		$tpl = static::wizardInit();
-		$tpl->assign('inhabitantWorkTypesArr', energySimulator::getInhabitantWorkTypesAsArray());
+		$tpl->assign('inhabitantWorkTypesArr', EnergySimulator::getInhabitantWorkTypesAsArray());
 		$tpl->assign('function', static::$funcParseWizardInhabitants);
 	
 		return static::getMainFrame($tpl->fetch("wizard_Inhabitants.tpl.html"), "Wizard");
@@ -704,7 +704,7 @@ class Site
 	
 	static function parseWizInhabitants()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 		
 		$errMsg = "";
 		static::wizardInit();
@@ -759,19 +759,19 @@ class Site
 		return static::showWizInhabitants();
 	}
 	
-	static function getEnergyWizard($energySimulator = NULL)
+	static function getEnergyWizard($EnergySimulator = NULL)
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 		
-		if ( $energySimulator == NULL )
+		if ( $EnergySimulator == NULL )
 		{
-			$energySimulator = new energySimulator();
+			$EnergySimulator = new EnergySimulator();
 		}
 			
 		$tpl = new MySmarty();
 				
-		$tpl->assign('energySimulator', $energySimulator);
-		$tpl->assign('inhabitantWorkTypesArr', energySimulator::getInhabitantWorkTypesAsArray());
+		$tpl->assign('EnergySimulator', $EnergySimulator);
+		$tpl->assign('inhabitantWorkTypesArr', EnergySimulator::getInhabitantWorkTypesAsArray());
 		$tpl->assign('function', static::$funcSetupEnergySimulator);
 		
  		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
@@ -779,14 +779,14 @@ class Site
 	
 	static function setupSimulator()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 		
 		$tpl = new MySmarty();
 		
-		$es = new energySimulator();
+		$es = new EnergySimulator();
 		$errMsg = "";
 		
-		$_SESSION['es'] = new energySimulator();
+		$_SESSION['es'] = new EnergySimulator();
 
 		// Verifiser token først..
 		Base::verifyTokenFromRequest("setupSimulator");

@@ -130,16 +130,16 @@ function removeTag(divid)
 	</form>
 	
 	
-{if isset($energySimulator) && intval($energySimulator->getEnergyUsage()) > 0}
-	<h3>Resultat</h3>{$energySimulator->getEnergyUsage()} kWh i &aring;ret.	
+{if isset($EnergySimulator) && intval($EnergySimulator->getEnergyUsage()) > 0}
+	<h3>Resultat</h3>{$EnergySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}
 </div>
 
 <SCRIPT type="text/javascript">
 
-{if count($energySimulator->_inhabitantsWork) > 0 }
-	{for $i=0 to (count($energySimulator->_inhabitantsWork) - 1)}
-		addInhabitantHelper({$energySimulator->_inhabitantsAge[$i]}, {$energySimulator->_inhabitantsWork[$i]});
+{if count($EnergySimulator->_inhabitantsWork) > 0 }
+	{for $i=0 to (count($EnergySimulator->_inhabitantsWork) - 1)}
+		addInhabitantHelper({$EnergySimulator->_inhabitantsAge[$i]}, {$EnergySimulator->_inhabitantsWork[$i]});
 	{/for}
 {/if}
 
