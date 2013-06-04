@@ -11,6 +11,7 @@ class energySimulator
 	var $_priHeat = 0;
 	var $_secHeat = 0;
 	var $_heatDiff = 0;
+	var $_heatFloor = 0;
 
 	var $_numLight = 0;
 	var $_priLightType = 0;
