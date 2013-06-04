@@ -56,7 +56,7 @@
 		</select><br />
 		
 		<label>Fordeling belysningstype </label><br />
-		<input type="range" name="lys_fordeling" min="0" max="50" step="5" value="{$enegrySimulator->_lightDiff}" onChange="showValue (this.value)" />
+		<input type="range" name="lys_fordeling" min="0" max="50" step="5" value="{$smarty.session.es->_lightDiff}" onChange="showValue (this.value)" />
 		<span id="range">0</span>
 			<script type="text/javascript">
 			function showValue(newValue)
@@ -67,10 +67,10 @@
 		<br />
 		
 		<label>Antall lyskilder</label><br />
-		<input type="text" name="antall_lyskilder" value="{$enegrySimulator->_numLight}" /><br />
+		<input type="text" name="antall_lyskilder" value="{$smarty.session.es->_numLight}" /><br />
 		
 		<label>Gjennomsnittelig brenntid (timer per dag)</label><br />
-		<input type="text" name="lys_brenntid" value="{$enegrySimulator->_lightTime}" /><br />
+		<input type="text" name="lys_brenntid" value="{$smarty.session.es->_lightTime}" /><br />
 
 	</form>
 	
@@ -97,16 +97,15 @@
 		<br />
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("setupSimulator")}
-		<input type='submit' class="button" value='Beregn' />
 		<input type='submit' class="button" value='Lagre bolig' onClick="window.alert('Funksjonen er ikke implementert enda'); return false;"/>
 		<input type="button" class="button" value="Tilbake" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" />
-		<a href="{$scriptURL}?function=showWizInhabitants"><input type="button" class="button" value='Neste -> Beboere' /></a>
+		<input type="submit" class="button" value='Neste -> Beboere' />
 		<a href="{$scriptURL}?function="><input type="button" class="button" value='Vis resulat' onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" /></a>
 	</form>
 	
 	
-{if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
-	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
+{if isset($energySimulator) && intval($energySimulator->getEnergyUsage()) > 0}
+	<h3>Resultat</h3>{$energySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}
 </div>
 

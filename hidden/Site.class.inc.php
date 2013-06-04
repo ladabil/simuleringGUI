@@ -11,10 +11,15 @@ class Site
 	public static $funcSetupEnergySimulator = "setupEnergySimulator";
 	
 	public static $funcShowUserDefault = "showUserDefault";
-	public static $funcShowWizard = "getEnergyWizard";
+	public static $funcStartWizard = "startNewWizard";
+	public static $funcShowWizardBuilding = "showWizBuilding";
+	public static $funcParseWizardBuilding = "parseWizBuilding";
 	public static $funcShowWizardHeat = "showWizHeat";
+	public static $funcParseWizardHeat = "parseWizHeat";
 	public static $funcShowWizardLight = "showWizLight";
+	public static $funcParseWizardLight = "parseWizLight";
 	public static $funcShowWizardInhabitants = "showWizInhabitants";
+	public static $funcParseWizardInhabitants = "parseWizInhabitants";
 	
 	public static $funcShowAdminDefault = "showAdminDefault";
 	public static $funcShowUserMenu = "showUserMenu";
@@ -132,6 +137,20 @@ class Site
 		return static::getEnergyWizard();
 	}
 	
+	static function wizardInit()
+	{
+		if ( !isset($_SESSION["es"]) || !is_object($_SESSION["es"]) )
+		{
+			die("Invalid ES in session");
+		}
+	
+		$tpl = new MySmarty();
+	
+		$tpl->assign('energySimulator', $_SESSION['es']);
+	
+		return $tpl;
+	}
+	
 	static function showUserDefault()
 	{
 		if ( AuthLib::isUser() )
@@ -147,17 +166,32 @@ class Site
 	
 			switch ( $function )
 			{
-				case static::$funcShowWizard:
-					echo static::showDefault();
+				case static::$funcStartWizard:
+					echo static::startNewWizard();
+					break;
+				case static::$funcShowWizardBuilding:
+					echo static::showWizBuilding();
+					break;
+				case static::$funcParseWizardBuilding:
+					echo static::parseWizBuilding();
 					break;
 				case static::$funcShowWizardHeat:
 					echo static::showWizHeat();
 					break;
+				case static::$funcParseWizardHeat:
+					echo static::parseWizHeat();
+					break;
  				case static::$funcShowWizardLight:
  					echo static::showWizLight();
  					break;
+ 				case static::$funcParseWizardLight:
+ 					echo static::parseWizLight();
+ 					break;
  				case static::$funcShowWizardInhabitants:
  					echo static::showWizInhabitants();
+ 					break;
+ 				case static::$funcParseWizardInhabitants:
+ 					echo static::parseWizInhabitants();
  					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
@@ -407,7 +441,7 @@ class Site
 		if ( intval($_REQUEST["userId"]) <= 1 )
 		{
 			Base::redirectNow(static::$funcShowUserMenu, Array("infoMessage"=>"Kan ikke slette bruker"));
-			die("døøø ikke lov");
+			die("Dette er ikke lov");
 		}
 		
 		$alu = new AuthLibUser($_REQUEST["userId"]);
@@ -423,77 +457,336 @@ class Site
 		
 	} 
 	
-	static function showWizHeat($enegrySimulator = NULL)
+	static function startNewWizard()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
 		
-
 		$tpl = new MySmarty();
+		
+		$_SESSION['es'] = new energySimulator();
+		$errMsg = "";
+		
+		return static::showWizBuilding();
+		
+	}
+	
+	static function showWizBuilding()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+			
+		$tpl = static::wizardInit();
+		$tpl->assign('function', static::$funcParseWizardBuilding);
+	
+		return static::getMainFrame($tpl->fetch("wizard_Building.tpl.html"), "Wizard");
+	}
+	
+	static function parseWizBuilding()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		
+		$errMsg = "";
+		static::wizardInit();
+		
+		// Verifiser token først..
+		Base::verifyTokenFromRequest("setupSimulator");
+		
+		// Spesifiser byggnings type
+		if ( isset($_REQUEST['byggType']) && intval($_REQUEST['byggType']) > 0 )
+		{
+			$_SESSION['es']->_building = intval($_REQUEST['byggType']);
+		}
+		else
+		{
+			// Default 1 (Enebolig)
+			$_SESSION['es']->_building = 1;
+		}
+		
+		// Spesifiser byggeaar
+		if ( isset($_REQUEST['byggaar']) && intval($_REQUEST['byggaar']) > 0 )
+		{
+			$_SESSION['es']->_houseBuildYear = intval($_REQUEST['byggaar']);
+		}
+		else
+		{
+			// Default byggår
+			$_SESSION['es']->_houseBuildYear = 1980;
+		}
+		
+		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
+		{
+			$_SESSION['es']->_climateZone = intval($_REQUEST['klima']);
+		}
+		else
+		{
+			// Default 1 (Sør-norge?)
+			$_SESSION['es']->_climateZone = 1;
+		}
+		
+		// Brutto Areal
+		if ( isset($_REQUEST['houseTotalArea']) && intval($_REQUEST['houseTotalArea']) > 0 )
+		{
+			$_SESSION['es']->_houseTotalArea = intval($_REQUEST['houseTotalArea']);
+		}
+		else
+		{
+			$errMsg .= "Mangler Brutto Areal<br>\n";
+		}
+		
+		// Primær Areal
+		if ( isset($_REQUEST['housePrimaryArea']) && intval($_REQUEST['housePrimaryArea']) > 0 )
+		{
+			$_SESSION['es']->_housePrimaryArea = intval($_REQUEST['housePrimaryArea']);
+		}
+		else
+		{
+			$errMsg .= "Mangler Primær Areal<br>\n";
+		}
+		
+		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
+		{
+			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
+		}
+		
+		if ( strlen($errMsg) > 0 )
+		{
+			static::addInfoMessage($errMsg);
+			return static::showWizBuilding();
+		}
+		
+		echo "<pre>\n";
+		print_r($_SESSION['es']);
+		
+		return static::showWizHeat();
+	}
+	
+	static function showWizHeat()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
 
-		$tpl->assign('enegrySimulator', $enegrySimulator);
-// 		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
-		$tpl->assign('function', static::$funcSetupEnergySimulator);
+		$tpl = static::wizardInit();
+		$tpl->assign('function', static::$funcParseWizardHeat);
 		
 		return static::getMainFrame($tpl->fetch("wizard_Heating.tpl.html"), "Wizard");
 	}
 	
-	static function showWizLight($enegrySimulator = NULL)
+	static function parseWizHeat()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
 		
-		if ( $enegrySimulator == NULL )
+		$errMsg = "";
+		static::wizardInit();
+		
+		// Verifiser token først..
+		Base::verifyTokenFromRequest("setupSimulator");
+		
+		if ( isset($_REQUEST['priVarme']) && intval($_REQUEST['priVarme']) > 0 )
 		{
-			$enegrySimulator = new EnegrySimulator();
+			$_SESSION['es']->_priHeat = intval($_REQUEST['priVarme']);
+		}
+		else
+		{
+			// Default 1
+			$_SESSION['es']->_priHeat = 1;
 		}
 		
-		$tpl = new MySmarty();
+		// Parse return and redirect
+		if ( strlen($errMsg) > 0 )
+		{
+			static::addInfoMessage($errMsg);
+			return static::showWizHeat();
+		}
 		
-		$tpl->assign('enegrySimulator', $enegrySimulator);
-// 		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
- 		$tpl->assign('function', static::$funcSetupEnergySimulator);
+		echo "<pre>\n";
+		print_r($_SESSION['es']);
+		
+		return static::showWizLight();
+		
+	}
+	
+	static function showWizLight()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		
+		$tpl = static::wizardInit();
+ 		$tpl->assign('function', static::$funcParseWizardLight);
 		
 		return static::getMainFrame($tpl->fetch("wizard_Lightning.tpl.html"), "Wizard");
 	}
 	
-	static function showWizInhabitants($enegrySimulator = NULL)
+	static function parseWizLight()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		
+		$errMsg = "";
+		static::wizardInit();
+		
+		// Verifiser token først..
+		Base::verifyTokenFromRequest("setupSimulator");
+		
+		// Primære lyskilder
+		
+		if ( isset($_REQUEST['pri_belysningstype']) && intval($_REQUEST['pri_belysningstype']) > 0 )
+		{
+			$_SESSION['es']->_priLightType = intval($_REQUEST['pri_belysningstype']);
+		}
+		else
+		{
+			// Default 60 (Glødepære)
+			$_SESSION['es']->_priLightType = 60;
+		}
+		
+		// Sekundære lyskilder
+		
+		if ( isset($_REQUEST['sek_belysningstype']) && intval($_REQUEST['sek_belysningstype']) > 0 )
+		{
+			$_SESSION['es']->_secLightType = intval($_REQUEST['sek_belysningstype']);
+		}
+		else
+		{
+			// Default 0 (ingen valgt)
+			$_SESSION['es']->_secLightType = 0;
+		}
+		
+		if ( isset($_REQUEST['antall_lyskilder']) && intval($_REQUEST['antall_lyskilder']) >= 0 )
+		{
+			$_SESSION['es']->_numLight = intval($_REQUEST['antall_lyskilder']);
+		}
+		else
+		{
+			// Default 2 lyskilder
+			$_SESSION['es']->_numLight = 2;
+		}
+		
+		if ( isset($_REQUEST['lys_brenntid']) && intval($_REQUEST['lys_brenntid']) >= 0 )
+		{
+			$_SESSION['es']->_lightTime = intval($_REQUEST['lys_brenntid']);
+		}
+		else
+		{
+			// Default 8 timer
+			$_SESSION['es']->_lightTime = 8;
+		}
+		
+		// Fordeling lyskilder
+		
+		if ( isset($_REQUEST['lys_fordeling']) && intval($_REQUEST['lys_fordeling']) > 0 )
+		{
+			$_SESSION['es']->_lightDiff = intval($_REQUEST['lys_fordeling']);
+		}
+		else
+		{
+			// Default 0 (ingen valgt)
+			$_SESSION['es']->_lightDiff = 0;
+		}
+		
+		// Parse return and redirect
+		if ( strlen($errMsg) > 0 )
+		{
+			static::addInfoMessage($errMsg);
+			return static::showWizLight();
+		}
+		echo "<pre>\n";
+		print_r($_SESSION['es']);
+		
+		return static::showWizInhabitants();
+	}
 	
-		$tpl = new MySmarty();
+	static function showWizInhabitants()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
 	
-		$tpl->assign('enegrySimulator', $enegrySimulator);
-		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
-		$tpl->assign('function', static::$funcSetupEnergySimulator);
+		$tpl = static::wizardInit();
+		$tpl->assign('inhabitantWorkTypesArr', energySimulator::getInhabitantWorkTypesAsArray());
+		$tpl->assign('function', static::$funcParseWizardInhabitants);
 	
 		return static::getMainFrame($tpl->fetch("wizard_Inhabitants.tpl.html"), "Wizard");
 	}
 	
-	static function getEnergyWizard($enegrySimulator = NULL)
+	static function parseWizInhabitants()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
 		
-		if ( $enegrySimulator == NULL )
+		$errMsg = "";
+		static::wizardInit();
+		
+		// Verifiser token først..
+		Base::verifyTokenFromRequest("setupSimulator");
+		
+		if ( isset($_REQUEST['antall_i_hus']) && intval($_REQUEST['antall_i_hus']) > 0 )
 		{
-			$enegrySimulator = new EnegrySimulator();
+			$_SESSION['es']->_numPersons = intval($_REQUEST['antall_i_hus']);
+		}
+		else
+		{
+			// Default 1 person
+			$_SESSION['es']->_numPersons = 1;
+		}
+		
+		if ( isset($_REQUEST['gjen_alder']) && intval($_REQUEST['gjen_alder']) > 0 )
+		{
+			$_SESSION['es']->_personsAvgAge = intval($_REQUEST['gjen_alder']);
+		}
+		else
+		{
+			// Default 35 år
+			$_SESSION['es']->_personsAvgAge = 35;
+		}
+
+		// Antall beboere og type tidsfordiv
+		if ( isset($_REQUEST['inhabitantsAge'])
+		&& isset($_REQUEST['inhabitantsWork'])
+		&& count($_REQUEST['inhabitantsAge']) == count($_REQUEST['inhabitantsWork'])
+		) {
+			$_SESSION['es']->_inhabitantsWork = $_REQUEST['inhabitantsWork'];
+			$_SESSION['es']->_inhabitantsAge = $_REQUEST['inhabitantsAge'];
+		}
+		else
+		{
+			$errMsg .= "Mangler beboere og deres yrker..<br>\n";
+		}
+		
+		
+		// Parse return and redirect
+		if ( strlen($errMsg) > 0 )
+		{
+			static::addInfoMessage($errMsg);
+			return static::showWizInhabitants();
+		}
+		
+		echo "<pre>\n";
+		print_r($_SESSION['es']);
+		
+		return static::showWizInhabitants();
+	}
+	
+	static function getEnergyWizard($energySimulator = NULL)
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
+		
+		if ( $energySimulator == NULL )
+		{
+			$energySimulator = new energySimulator();
 		}
 			
 		$tpl = new MySmarty();
-		
-		$tpl->assign('enegrySimulator', $enegrySimulator);
-		$tpl->assign('inhabitantWorkTypesArr', EnegrySimulator::getInhabitantWorkTypesAsArray());
+				
+		$tpl->assign('energySimulator', $energySimulator);
+		$tpl->assign('inhabitantWorkTypesArr', energySimulator::getInhabitantWorkTypesAsArray());
 		$tpl->assign('function', static::$funcSetupEnergySimulator);
 		
-		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
+ 		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
 	}
 	
 	static function setupSimulator()
 	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/EnegrySimulator.class.inc.php");
+		require_once($GLOBALS["cfg_hiddendir"] . "/energySimulator.class.inc.php");
 		
 		$tpl = new MySmarty();
 		
-		$es = new EnegrySimulator();
+		$es = new energySimulator();
 		$errMsg = "";
+		
+		$_SESSION['es'] = new energySimulator();
 
 		// Verifiser token først..
 		Base::verifyTokenFromRequest("setupSimulator");
@@ -502,6 +795,7 @@ class Site
 		if ( isset($_REQUEST['byggType']) && intval($_REQUEST['byggType']) > 0 )
 		{
 			$es->_buildning = intval($_REQUEST['byggType']);
+			$_SESSION['es']->_buildning = intval($_REQUEST['byggType']);
 		}
 		else
 		{
@@ -563,6 +857,7 @@ class Site
 		if ( isset($_REQUEST['houseTotalArea']) && intval($_REQUEST['houseTotalArea']) > 0 )
 		{
 			$es->_houseTotalArea = intval($_REQUEST['houseTotalArea']);
+			$_SESSION['es']->_houseTotalArea = intval($_REQUEST['houseTotalArea']);
 		}
 		else
 		{
@@ -573,6 +868,7 @@ class Site
 		if ( isset($_REQUEST['housePrimaryArea']) && intval($_REQUEST['housePrimaryArea']) > 0 )
 		{
 			$es->_housePrimaryArea = intval($_REQUEST['housePrimaryArea']);
+			$_SESSION['es']->_housePrimaryArea = intval($_REQUEST['housePrimaryArea']);
 		}
 		else
 		{
@@ -677,9 +973,9 @@ class Site
 		if ( strlen($errMsg) > 0 )
 		{
 			static::addInfoMessage($errMsg);
-			return static::getEnergyWizard($es);
+ 			return static::getEnergyWizard($es);
 		}
 		
-		return static::getEnergyWizard($es);
+ 		return static::getEnergyWizard($es);
 	}
 }

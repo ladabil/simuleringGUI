@@ -48,7 +48,7 @@
 		<!-- Fordelign primær/sekundær oppvarming -->
 		<!-- Erstatt med slider -->
 		<label>Andel oppvarming som dekkes av sekund&aelig;r oppvarming</label><br />
-		<input type="range" name="secheatvalue" min="0" max="50" step="5" value="0" onChange="showValue (this.value)" />
+		<input type="range" name="secheatvalue" min="0" max="50" step="5" value="{$smarty.session.es->_heatDiff}" onChange="showValue (this.value)" />
 		<span id="range">0</span>
 			<script type="text/javascript">
 			function showValue(newValue)
@@ -78,14 +78,12 @@
 		<br/><br />
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("setupSimulator")}
-		<input type='submit' class="button" value='Beregn' />
 		<input type="button" class="button" value="Tilbake" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" />
-		<a href="{$scriptURL}?function=showWizLight"><input type="button" class="button" value='Neste -> Belysning' /></a>
+		<input type="submit" class="button" value='Neste -> Belysning' />
 	</form>
-	<p>{$klima}</p>
 	
-{if isset($enegrySimulator) && intval($enegrySimulator->getEnergyUsage()) > 0}
-	<h3>Resultat</h3>{$enegrySimulator->getEnergyUsage()} kWh i &aring;ret.	
+{if isset($energySimulator) && intval($energySimulator->getEnergyUsage()) > 0}
+	<h3>Resultat</h3>{$energySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}
 </div>
 
