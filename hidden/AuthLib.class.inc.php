@@ -183,7 +183,7 @@ class AuthLib {
 			static::setStatusCode(AL_SC_CHECKSESSION_NEEDLOGIN);
 			return FALSE;
 		}
-		else if ( $_SESSION['lastActionTime'] < (time() - 3600) ) 
+		else if ( $_SESSION['lastActionTime'] < (time() - $sessionTimeoutSeconds) ) 
 		{
 			static::setStatusCode(AL_SC_CHECKSESSION_INVALIDLASTTIME);
 			return FALSE;
@@ -199,6 +199,8 @@ class AuthLib {
 			return FALSE;
 		}
 */
+		
+		$_SESSION['lastActionTime'] = time();
 			
 		// Sesjon verifisert OK..
 		static::setStatusCode(AL_SC_CHECKSESSION_VALIDATED_OK);
