@@ -29,6 +29,8 @@ class Site
 	public static $funcCreateNewUserForm = "createNewUserForm";
 	public static $funcDeleteUser = "deleteUser";
 	
+	public static $doDebug = FALSE;
+	
 	static function parseRequest()
 	{
 		$function = NULL;
@@ -560,9 +562,12 @@ class Site
 			static::addInfoMessage($errMsg);
 			return static::showWizBuilding();
 		}
-		
-		echo "<pre>\n";
-		print_r($_SESSION['es']);
+
+		if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r($_SESSION['es']);
+		}
 		
 		return static::showWizHeat();
 	}
@@ -678,8 +683,11 @@ class Site
 			return static::showWizHeat();
 		}
 		
-		echo "<pre>\n";
-		print_r($_SESSION['es']);
+			if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r($_SESSION['es']);
+		}
 		
 		return static::showWizLight();
 		
@@ -767,8 +775,12 @@ class Site
 			static::addInfoMessage($errMsg);
 			return static::showWizLight();
 		}
-		echo "<pre>\n";
-		print_r($_SESSION['es']);
+
+		if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r($_SESSION['es']);
+		}
 		
 		return static::showWizInhabitants();
 	}
@@ -855,8 +867,12 @@ class Site
 			return static::showWizInhabitants();
 		}
 		
-		echo "<pre>\n";
-		print_r($_SESSION['es']);
+		if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r($_SESSION['es']);
+		}
+		
 		
 		return static::showWizClimateZone();
 	}
@@ -898,8 +914,11 @@ class Site
 			return static::showWizClimateZone();
 		}
 	
-		echo "<pre>\n";
-		print_r($_SESSION['es']);
+		if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r($_SESSION['es']);
+		}
 	
 		return static::showWizClimateZone();
 	
