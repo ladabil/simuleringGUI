@@ -22,6 +22,7 @@ class Site
 	public static $funcParseWizardInhabitants = "parseWizInhabitants";
 	public static $funcShowWizardClimateZone = "showWizClimateZone";
 	public static $funcParseWizardClimateZone = "parseWizClimateZone";
+	public static $funcShowWizardResult = "showWizResult";
 	
 	public static $funcShowAdminDefault = "showAdminDefault";
 	public static $funcShowUserMenu = "showUserMenu";
@@ -202,6 +203,9 @@ class Site
  					break;
  				case static::$funcParseWizardClimateZone:
  					echo static::parseWizClimateZone();
+ 					break;
+ 				case static::$funcShowWizardResult:
+ 					echo static::showWizResult();
  					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
@@ -897,7 +901,7 @@ class Site
 		// Verifiser token først..
 		Base::verifyTokenFromRequest("setupSimulator");
 	
-	if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
+		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
 		{
 			$_SESSION['es']->_climateZone = intval($_REQUEST['klima']);
 		}
@@ -921,9 +925,20 @@ class Site
 		}
 	
 		return static::showWizClimateZone();
-	
 	}
 	
+	/*
+	 * Vis resultatet av beregningene
+	 */
+	static function showWizResult()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$tpl = static::wizardInit();
+//		$tpl->assign('function', static::$funcParseWizardClimateZone);
+	
+		return static::getMainFrame($tpl->fetch("wizard_Result.tpl.html"), "Wizard");
+	}	
 	
 	static function getEnergyWizard($EnergySimulator = NULL)
 	{
