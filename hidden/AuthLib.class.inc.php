@@ -4,6 +4,7 @@
  * Runar Lyngmo - Gruppe 2 - 5/5-2013
  */
 
+define('AL_SC_CHECKSESSION_NEEDLOGIN',90);
 define('AL_SC_CHECKSESSION_NOCOOKIE',100);
 define('AL_SC_CHECKSESSION_NOTFOUNDINDBTABLE',110);
 define('AL_SC_CHECKSESSION_TOOMANYRESULTS',120);
@@ -105,6 +106,8 @@ class AuthLib {
 				return 'Login: mangler brukernavn';
 			case AL_SC_PROCESSLOGIN_MISSING_PASSWORD:
 				return 'Login: mangler passord';
+			case AL_SC_CHECKSESSION_NEEDLOGIN:
+				return '';
 			default:
 				return 'Statusbeskjed er ikke definert';
 		}
@@ -166,10 +169,22 @@ class AuthLib {
 
 //		print_r($_SESSION);
 		
+		$sessionTimeoutSeconds = 180; //default 180 sekunder (3min) timeout
+		
+		if ( isset($GLOBALS["cfg_sessiontimeoutseconds"]) && intval($GLOBALS["cfg_sessiontimeoutseconds"]) > 0 )
+		{
+			$sessionTimeoutSeconds = intval($GLOBALS["cfg_sessiontimeoutseconds"]);
+		}
+		
 		// Er ikke authLibUser satt i sesjonen har det skjedd en timeout..
 		if ( !isset($_SESSION['authLibUser']) || !is_object($_SESSION['authLibUser']) )
 		{
-//			static::setStatusCode(AL_SC_CHECKSESSION_INVALID_SESSIONDATA);
+			
+			static::setStatusCode(AL_SC_CHECKSESSION_NEEDLOGIN);
+			return FALSE;
+		}
+		else if ( $_SESSION['lastActionTime'] < (time() - 3600) ) 
+		{
 			static::setStatusCode(AL_SC_CHECKSESSION_INVALIDLASTTIME);
 			return FALSE;
 		}
@@ -220,6 +235,7 @@ class AuthLib {
 		
 		$_SESSION['authLibUser'] = $authLibUser;
 		$_SESSION['loginTime'] = time();
+		$_SESSION['lastActionTime'] = time();
 		
 		return TRUE;
 	}
