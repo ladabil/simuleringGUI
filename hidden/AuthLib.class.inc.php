@@ -179,12 +179,12 @@ class AuthLib {
 		// Er ikke authLibUser satt i sesjonen har det skjedd en timeout..
 		if ( !isset($_SESSION['authLibUser']) || !is_object($_SESSION['authLibUser']) )
 		{
-			
 			static::setStatusCode(AL_SC_CHECKSESSION_NEEDLOGIN);
 			return FALSE;
 		}
 		else if ( $_SESSION['lastActionTime'] < (time() - $sessionTimeoutSeconds) ) 
 		{
+			session_destroy();
 			static::setStatusCode(AL_SC_CHECKSESSION_INVALIDLASTTIME);
 			return FALSE;
 		}
