@@ -924,7 +924,7 @@ class Site
 			print_r($_SESSION['es']);
 		}
 	
-		return static::showWizClimateZone();
+		return static::showWizResult();
 	}
 	
 	/*
