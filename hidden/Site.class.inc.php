@@ -1,6 +1,7 @@
 <?php
 
 require_once($GLOBALS["cfg_hiddendir"] . "/MySmarty.class.inc.php");
+include($GLOBALS["cfg_hiddendir"] . "/config.inc.php");
 
 class Site 
 {
@@ -41,7 +42,7 @@ class Site
 			$function = $_REQUEST['function'];
 		}
 		
-		// Spesialhåndtering av loginfunksjon..
+		// Spesialhï¿½ndtering av loginfunksjon..
 		if ( strcmp($function, static::$funcLogin) == 0 )
 		{
 			static::processLogin();
@@ -364,7 +365,7 @@ class Site
 			
 			if ( strlen($_REQUEST["alName"]) < 6 )
 			{
-				$errMsg .= "Navnet må være mer en 6 tegn<br>\n";
+				$errMsg .= "Navnet mï¿½ vï¿½re mer en 6 tegn<br>\n";
 			}
 		}
 		else
@@ -380,7 +381,7 @@ class Site
 				
 			if ( strlen($_REQUEST["alUsername"]) < 4 )
 			{
-				$errMsg .= "Brukernavnet må være mer en 4 tegn<br>\n";
+				$errMsg .= "Brukernavnet mï¿½ vï¿½re mer en 4 tegn<br>\n";
 			}
 		}
 		else
@@ -410,11 +411,11 @@ class Site
 		{
 			if ( strlen($_REQUEST["alPassword"]) < 8 )
 			{
-				$errMsg .= "Passordet må være mer enn 8 tegn<br>\n";
+				$errMsg .= "Passordet mï¿½ vï¿½re mer enn 8 tegn<br>\n";
 			}
 			else if ( strcmp($_REQUEST["alPassword"], $_REQUEST["alPassword2"]) != 0) 
 			{
-				$errMsg .= "Passordene er ikke like, forsøk igjen<br>\n";
+				$errMsg .= "Passordene er ikke like, forsï¿½k igjen<br>\n";
 			}
 		}
 		else
@@ -501,7 +502,7 @@ class Site
 		$errMsg = "";
 		static::wizardInit();
 		
-		// Verifiser token først..
+		// Verifiser token fï¿½rst..
 		Base::verifyTokenFromRequest("setupSimulator");
 		
 		// Spesifiser byggnings type
@@ -522,7 +523,7 @@ class Site
 		}
 		else
 		{
-			// Default byggår
+			// Default byggï¿½r
 			$_SESSION['es']->_houseBuildYear = 1980;
 		}
 		
@@ -532,7 +533,7 @@ class Site
 		}
 		else
 		{
-			// Default 1 (Sør-norge?)
+			// Default 1 (Sï¿½r-norge?)
 			$_SESSION['es']->_climateZone = 1;
 		}
 		
@@ -546,19 +547,19 @@ class Site
 			$errMsg .= "Mangler Brutto Areal<br>\n";
 		}
 		
-		// Primær Areal
+		// Primï¿½r Areal
 		if ( isset($_REQUEST['housePrimaryArea']) && intval($_REQUEST['housePrimaryArea']) > 0 )
 		{
 			$_SESSION['es']->_housePrimaryArea = intval($_REQUEST['housePrimaryArea']);
 		}
 		else
 		{
-			$errMsg .= "Mangler Primær Areal<br>\n";
+			$errMsg .= "Mangler Primï¿½r Areal<br>\n";
 		}
 		
 		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
 		{
-			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
+			$errMsg .= "Primï¿½r Areal kan ikke vï¿½re stï¿½rre enn bruttoareal<br>\n";
 		}
 		
 		if ( strlen($errMsg) > 0 )
@@ -593,10 +594,10 @@ class Site
 		$errMsg = "";
 		static::wizardInit();
 		
-		// Verifiser token først..
+		// Verifiser token fï¿½rst..
 		Base::verifyTokenFromRequest("setupSimulator");
 		
-		//Primær oppvarming
+		//Primï¿½r oppvarming
 		if ( isset($_REQUEST['priVarme']) && intval($_REQUEST['priVarme']) > 0 )
 		{
 			$_SESSION['es']->_priHeat = intval($_REQUEST['priVarme']);
@@ -607,7 +608,7 @@ class Site
 			$_SESSION['es']->_priHeat = 1;
 		}
 		
-		// Sekundær oppvarming
+		// Sekundï¿½r oppvarming
 		if ( isset($_REQUEST['secVarme']) && intval($_REQUEST['secVarme']) > 0 )
 		{
 			$_SESSION['es']->_secHeat = intval($_REQUEST['secVarme']);
@@ -638,7 +639,7 @@ class Site
 			$_SESSION['es']->_floorHeatEl = 0;
 		}
 		
-		// Primær varmtvannstank elektrisk 
+		// Primï¿½r varmtvannstank elektrisk 
 		if ( isset($_REQUEST['priBoilerSize']) && intval($_REQUEST['priBoilerSize']) > 0 )
 		{
 			$_SESSION['es']->_priBoilerSize = intval($_REQUEST['priBoilerSize']);
@@ -659,7 +660,7 @@ class Site
 			$_SESSION['es']->_priBoilerPower = 0;
 		}
 		
-		// Sekundær varmtvannstank elektrisk
+		// Sekundï¿½r varmtvannstank elektrisk
 		if ( isset($_REQUEST['secBoilerSize']) && intval($_REQUEST['secBoilerSize']) > 0 )
 		{
 			$_SESSION['es']->_secBoilerSize = intval($_REQUEST['secBoilerSize']);
@@ -714,10 +715,10 @@ class Site
 		$errMsg = "";
 		static::wizardInit();
 		
-		// Verifiser token først..
+		// Verifiser token fï¿½rst..
 		Base::verifyTokenFromRequest("setupSimulator");
 		
-		// Primære lyskilder
+		// Primï¿½re lyskilder
 		
 		if ( isset($_REQUEST['pri_belysningstype']) && intval($_REQUEST['pri_belysningstype']) > 0 )
 		{
@@ -725,11 +726,11 @@ class Site
 		}
 		else
 		{
-			// Default 60 (Glødepære)
+			// Default 60 (Glï¿½depï¿½re)
 			$_SESSION['es']->_priLightType = 60;
 		}
 		
-		// Sekundære lyskilder
+		// Sekundï¿½re lyskilder
 		
 		if ( isset($_REQUEST['sek_belysningstype']) && intval($_REQUEST['sek_belysningstype']) > 0 )
 		{
@@ -807,7 +808,7 @@ class Site
 		$errMsg = "";
 		static::wizardInit();
 		
-		// Verifiser token først..
+		// Verifiser token fï¿½rst..
 		Base::verifyTokenFromRequest("setupSimulator");
 		
 		if ( isset($_REQUEST['antall_i_hus']) && intval($_REQUEST['antall_i_hus']) > 0 )
@@ -826,7 +827,7 @@ class Site
 		}
 		else
 		{
-			// Default 35 år
+			// Default 35 ï¿½r
 			$_SESSION['es']->_personsAvgAge = 35;
 		}
 
@@ -898,7 +899,7 @@ class Site
 		$errMsg = "";
 		static::wizardInit();
 	
-		// Verifiser token først..
+		// Verifiser token fï¿½rst..
 		Base::verifyTokenFromRequest("setupSimulator");
 	
 		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
@@ -907,7 +908,7 @@ class Site
 		}
 		else
 		{
-			// Default 1 (Sør-norge?)
+			// Default 1 (Sï¿½r-norge?)
 			$_SESSION['es']->_climateZone = 1;
 		}
 	
@@ -927,18 +928,7 @@ class Site
 		return static::showWizResult();
 	}
 	
-	/*
-	 * Vis resultatet av beregningene
-	 */
-	static function showWizResult()
-	{
-		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 	
-		$tpl = static::wizardInit();
-//		$tpl->assign('function', static::$funcParseWizardClimateZone);
-	
-		return static::getMainFrame($tpl->fetch("wizard_Result.tpl.html"), "Wizard");
-	}	
 	
 	static function getEnergyWizard($EnergySimulator = NULL)
 	{
@@ -958,6 +948,83 @@ class Site
  		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
 	}
 	
+	// storing to DB
+	static function storeDB()
+	{
+		//INSERT INTO mem_news (datetime,title,text,owner,bilde_url,text2) VALUES ('$datetime','$title','$text','$owner','$bilde_url','$text2')
+		$sql = "INSERT INTO SimStoring
+		(
+			houseTotalArea, 
+			housePrimaryArea, 
+			priHeat, 
+			secHeat, 
+			heatDiff, 
+			floorHeatWa, 
+			floorHeatEl, 
+			priBoilerSize, 
+			priBoilerPower, 
+			secBoilerSize, 
+			secBoilerPower, 
+			numLight, 
+			priLightType, 
+			secLightType, 
+			lightTime, 
+			lightDiff, 
+			climateZone, 
+			numHvit, 
+			numBrun
+		) 
+		VALUES
+		(
+			'".$_SESSION['es']->_houseTotalArea."', 
+			'".$_SESSION['es']->_housePrimaryArea."', 
+			'".$_SESSION['es']->_priHeat."', 
+			'".$_SESSION['es']->_secHeat."', 
+			'".$_SESSION['es']->_heatDiff."', 
+			'".$_SESSION['es']->_floorHeatWa."', 
+			'".$_SESSION['es']->_floorHeatEl."', 
+			'".$_SESSION['es']->_priBoilerSize."', 
+			'".$_SESSION['es']->_priBoilerPower."', 
+			'".$_SESSION['es']->_secBoilerSize."', 
+			'".$_SESSION['es']->_secBoilerPower."', 
+			'".$_SESSION['es']->_numLight."', 
+			'".$_SESSION['es']->_priLightType."', 
+			'".$_SESSION['es']->_secLightType."', 
+			'".$_SESSION['es']->_lightTime."', 
+			'".$_SESSION['es']->_lightDiff."', 
+			'".$_SESSION['es']->_climateZone."', 
+			'".$_SESSION['es']->_numHvit."', 
+			'".$_SESSION['es']->_numBrun."'
+			
+		)";
+		
+		if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		
+		return 0;
+	}
+	
+	
+	
+	/*
+	 * Vis resultatet av beregningene
+	 */
+	static function showWizResult()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$tpl = static::wizardInit();
+//		$tpl->assign('function', static::$funcParseWizardClimateZone);
+		static::storeDB();
+		
+		return static::getMainFrame($tpl->fetch("wizard_Result.tpl.html"), "Wizard");
+	}	
+	
+	
+	
+	
 	static function setupSimulator()
 	{
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
@@ -969,7 +1036,7 @@ class Site
 		
 		$_SESSION['es'] = new EnergySimulator();
 
-		// Verifiser token først..
+		// Verifiser token fï¿½rst..
 		Base::verifyTokenFromRequest("setupSimulator");
 		
 		// Spesifiser byggnings type
@@ -1000,7 +1067,7 @@ class Site
 		}
 		else
 		{
-			// Default 35 år
+			// Default 35 ï¿½r
 			$es->_personsAvgAge = 35;
 		}
 		
@@ -1010,7 +1077,7 @@ class Site
 		}
 		else
 		{
-			// Default 35 år
+			// Default 35 ï¿½r
 			$es->_houseBuildYear = 1980;
 		}
 		
@@ -1030,7 +1097,7 @@ class Site
 		}
 		else
 		{
-			// Default 1 (Sør-norge?)
+			// Default 1 (Sï¿½r-norge?)
 			$es->_climateZone = 1;
 		}
 		
@@ -1045,7 +1112,7 @@ class Site
 			$errMsg .= "Mangler Brutto Areal<br>\n";
 		}
 		
-		// Primær Areal
+		// Primï¿½r Areal
 		if ( isset($_REQUEST['housePrimaryArea']) && intval($_REQUEST['housePrimaryArea']) > 0 )
 		{
 			$es->_housePrimaryArea = intval($_REQUEST['housePrimaryArea']);
@@ -1053,12 +1120,12 @@ class Site
 		}
 		else
 		{
-			$errMsg .= "Mangler Primær Areal<br>\n";
+			$errMsg .= "Mangler Primï¿½r Areal<br>\n";
 		}
 		
 		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
 		{
-			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
+			$errMsg .= "Primï¿½r Areal kan ikke vï¿½re stï¿½rre enn bruttoareal<br>\n";
 		}
 
 		// Antall beboere og type tidsfordiv
@@ -1074,7 +1141,7 @@ class Site
 			$errMsg .= "Mangler beboere og deres yrker..<br>\n";
 		}
 		
-		// Primære lyskilder
+		// Primï¿½re lyskilder
 		
 		if ( isset($_REQUEST['pri_belysningstype']) && intval($_REQUEST['pri_belysningstype']) > 0 )
 		{
@@ -1082,11 +1149,11 @@ class Site
 		}
 		else
 		{
-			// Default 60 (Glødepære)
+			// Default 60 (Glï¿½depï¿½re)
 			$es->_priLightType = 60;
 		}
 		
-		// Sekundære lyskilder
+		// Sekundï¿½re lyskilder
 		
 		if ( isset($_REQUEST['sek_belysningstype']) && intval($_REQUEST['sek_belysningstype']) > 0 )
 		{

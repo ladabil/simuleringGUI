@@ -351,7 +351,7 @@ class Base
 	}
 	
 	/*
-	 * Setter resultatet fra en mysqli-spørring til metoder på meg selv med samme navn som kolonnene
+	 * Setter resultatet fra en mysqli-spï¿½rring til metoder pï¿½ meg selv med samme navn som kolonnene
 	 */
 	function setFromResult($res, $rowIdx=0)
 	{
@@ -409,7 +409,7 @@ class Base
 	/*
 	 * Returner et mysqli-objekt.
 	 * 
-	 * Hvis det ikke eksisterer fra før, opprett det og koble til
+	 * Hvis det ikke eksisterer fra fï¿½r, opprett det og koble til
 	 * Finnes det et eksisterende, returner det.
 	 */
 	
@@ -433,7 +433,7 @@ class Base
 	}
 	
 	/*
-	 * Felleskolonner / nøkler for alle tabeller i databasen
+	 * Felleskolonner / nï¿½kler for alle tabeller i databasen
 	 */
 	function setTimeCreated($createDateTime = NULL)
 	{
@@ -703,7 +703,7 @@ class Base
 	}
 	
 	// Sjekker en token mot en request variabel ($GLOBALS["cfg_tokenName"]).
-	// Dør ved feil i token..
+	// Dï¿½r ved feil i token..
 	
 	static function verifyTokenFromRequest($functionName = "DefaultFunction")
 	{
@@ -714,7 +714,7 @@ class Base
 		
 		if ( static::verifyToken($_REQUEST[$GLOBALS["cfg_tokenName"]], $functionName) !== TRUE )
 		{
-			die("HACK STOPED!");
+			die("HACK STOPPED!");
 		}
 		
 		return TRUE;

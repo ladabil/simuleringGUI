@@ -1,4 +1,5 @@
 <?php
+include("../hidden/config.inc.php");
 
 class EnergySimulator
 {
@@ -29,6 +30,8 @@ class EnergySimulator
 	var $_numHvit = 0;
 	var $_numBrun = 0;
 	
+	var $_storage_name = "";
+	
 	function __construct()
 	{
 		
@@ -38,17 +41,17 @@ class EnergySimulator
 	function getEnergyUsage()
 	{
 // 		antall pers * noe
-// 		+ (watt primær belysning * (antall / prosentvis fordeling) * brenntid (timer/24) 
-// 		+ (watt sekundær belysning * (antall / prosentvis fordeling) * brenntid (timer/24)
+// 		+ (watt primï¿½r belysning * (antall / prosentvis fordeling) * brenntid (timer/24) 
+// 		+ (watt sekundï¿½r belysning * (antall / prosentvis fordeling) * brenntid (timer/24)
 // 		+ (normatall oppvarming klimasone 97 mod * total areal) 
-// 		/ 1000 (kw) * 12 timer i døgnet * dager i året for omregning til kWh
+// 		/ 1000 (kw) * 12 timer i dï¿½gnet * dager i ï¿½ret for omregning til kWh
 		//$tmpResult = (($this->_numPersons*($this->_lightType*$this->_numLys)) + ($this->_climateZone*$this->_houseTotalArea) + (($this->_numHvit*50) + $this->_numBrun*25)) / 1000 *(12*365);
 		
 		return ((count($this->_inhabitantsAge)) * 1
 					+ (($this->_priBoilerPower * 12) + ($this->_secBoilerPower * 12) + ($this->_floorHeatEl * 8))
 					+ ((($this->_priHeat)/100) * (100 - ($this->_heatDiff))) + ((($this->_secHeat)/100) * ($this->_heatDiff))
 				 	+ ($this->_priLightType * ($this->_numLight / ((100 - $this->_lightDiff) / 100)) * ($this->_lightTime /24)) 
-// 					+ ($this->_secLightType * ($this->_numLight / ($this->_lightDiff) / 100) * ($this->_lightTime / 24)) <-- mangler sjekk for 0, gir feilmedling kan ikke dele 0 på
+// 					+ ($this->_secLightType * ($this->_numLight / ($this->_lightDiff) / 100) * ($this->_lightTime / 24)) <-- mangler sjekk for 0, gir feilmedling kan ikke dele 0 pï¿½
 					+ ($this->_climateZone * $this->_houseTotalArea) 
 					+ (($this->_numHvit*50) + $this->_numBrun*25)) 
 					/ 1000 *(12*365);
@@ -56,7 +59,7 @@ class EnergySimulator
 		// eks:
 		// antall i huset * styrke lys * antall lys * 12 timer i dÃ¸gnet * dager i Ã¥ret
 		// anna ikke kordan man regna ut dettan doh.........
-		// Omregner så til kWh --> antall i huset * styrke lys * antall lys / 1000 --> * 12 timer i døgnet * dager i året
+		// Omregner sï¿½ til kWh --> antall i huset * styrke lys * antall lys / 1000 --> * 12 timer i dï¿½gnet * dager i ï¿½ret
 		return (count($this->_inhabitantsAge)*($this->_priLightType*$this->_numLight))/ 1000 *(12*365);		
 	}
 	
@@ -69,6 +72,8 @@ class EnergySimulator
 
 		return $workType;
 	}
+	
+	
 }
 
 ?>
