@@ -6,4 +6,12 @@
 {if isset($EnergySimulator) && intval($EnergySimulator->getEnergyUsage()) > 0}
 	<h3>Resultat</h3>{$EnergySimulator->getEnergyUsage()} kWh i &aring;ret.	
 {/if}
+<br />
+<form method="post" action="{$scriptURL}">
+		<br />
+		<input type="hidden" name="function" value="{$function}" />
+		{Base::getTokenforFORM("setupSimulator")}
+		<input type="submit" class="button" value='Lagre Simulering' />
+	</form>
+
 </div>

@@ -24,7 +24,11 @@ class Site
 	public static $funcShowWizardClimateZone = "showWizClimateZone";
 	public static $funcParseWizardClimateZone = "parseWizClimateZone";
 	public static $funcShowWizardResult = "showWizResult";
-	
+	public static $funcParseStoreSimZone = "storeSim";
+	public static $funcShowStoreZone = "storeZone";
+	public static $funcParseStoreSimZoneDone = "parseSimSaveDone";
+	public static $funcShowStoreDone = "SimSaveDone";
+		
 	public static $funcShowAdminDefault = "showAdminDefault";
 	public static $funcShowUserMenu = "showUserMenu";
 	public static $funcCreateNewUser =  "createNewUser";
@@ -205,8 +209,17 @@ class Site
  				case static::$funcParseWizardClimateZone:
  					echo static::parseWizClimateZone();
  					break;
- 				case static::$funcShowWizardResult:
- 					echo static::showWizResult();
+ 				case static::$funcShowStoreZone:
+ 					echo static::showStoreSim();
+ 					break;
+				case static::$funcParseStoreSimZone:
+ 					echo static::parseStoreSimZone();
+ 					break;
+				case static::$funcShowStoreDone:
+ 					echo static::showStoreDone();
+ 					break;
+				case static::$funcParseStoreSimZoneDone:
+ 					echo static::parseStoreSimZoneDone();
  					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
@@ -949,9 +962,8 @@ class Site
 	}
 	
 	// storing to DB
-	static function storeDB()
+	static function storeDB($definedStoreName)
 	{
-		//INSERT INTO mem_news (datetime,title,text,owner,bilde_url,text2) VALUES ('$datetime','$title','$text','$owner','$bilde_url','$text2')
 		$sql = "INSERT INTO SimStoring
 		(
 			houseTotalArea, 
@@ -972,7 +984,8 @@ class Site
 			lightDiff, 
 			climateZone, 
 			numHvit, 
-			numBrun
+			numBrun,
+			name
 		) 
 		VALUES
 		(
@@ -994,7 +1007,8 @@ class Site
 			'".$_SESSION['es']->_lightDiff."', 
 			'".$_SESSION['es']->_climateZone."', 
 			'".$_SESSION['es']->_numHvit."', 
-			'".$_SESSION['es']->_numBrun."'
+			'".$_SESSION['es']->_numBrun."',
+			'".$definedStoreName."'
 			
 		)";
 		
@@ -1016,14 +1030,77 @@ class Site
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 	
 		$tpl = static::wizardInit();
-//		$tpl->assign('function', static::$funcParseWizardClimateZone);
-		static::storeDB();
+		$tpl->assign('function', static::$funcParseStoreSimZone);
+		//static::storeDB("test");
 		
 		return static::getMainFrame($tpl->fetch("wizard_Result.tpl.html"), "Wizard");
 	}	
 	
+	/*
+	 * 	Lagring av Simulering
+	 */
 	
+	static function parseStoreSimZone()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 	
+		$errMsg = "";
+		static::wizardInit();
+	
+		// Verifiser token f�rst..
+		Base::verifyTokenFromRequest("setupSimulator");
+		
+		return static::showStoreSim();
+	}
+	
+	static function showStoreSim()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$tpl = static::wizardInit();
+		$tpl->assign('function', static::$funcParseStoreSimZoneDone);
+	
+		return static::getMainFrame($tpl->fetch("wizard_Store.tpl.html"), "Wizard");
+	}
+	
+	static function showStoreDone()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$tpl = static::wizardInit();
+		$tpl->assign('function', static::$funcParseWizardClimateZone);
+		//static::storeDB("test");
+		
+		return static::getMainFrame($tpl->fetch("wizard_Result.tpl.html"), "Wizard");
+	}	
+		
+	static function parseStoreSimZoneDone()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$errMsg = "";
+		static::wizardInit();
+	
+		// Verifiser token f�rst..
+		Base::verifyTokenFromRequest("setupSimulator");
+	
+		if ( isset($_REQUEST['StorageName']) )
+		{
+			static::storeDB($_REQUEST['StorageName']);
+		}
+		else
+		{
+			$errMsg .= "Mangler lagringsnavn.<br>\n";
+		}
+	
+		if ( strlen($errMsg) > 0 )
+		{
+			static::addInfoMessage($errMsg);
+			return static::showStoreSim();
+		}
+		
+		return static::showWizResult();
+	}
 	
 	static function setupSimulator()
 	{
