@@ -1084,7 +1084,7 @@ class Site
 		// Verifiser token f�rst..
 		Base::verifyTokenFromRequest("setupSimulator");
 	
-		if ( isset($_REQUEST['StorageName']) )
+		if ( isset($_REQUEST['StorageName']) && strlen($_REQUEST['StorageName']) > 0 )
 		{
 			static::storeDB($_REQUEST['StorageName']);
 		}
