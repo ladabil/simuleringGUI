@@ -28,14 +28,41 @@ class Site
 	public static $funcShowStoreZone = "storeZone";
 	public static $funcParseStoreSimZoneDone = "parseSimSaveDone";
 	public static $funcShowStoreDone = "SimSaveDone";
+	public static $funcParseGetSim = "parseGetSim";
+	public static $funcShowGetSim = "showGetSim";
+	
 		
 	public static $funcShowAdminDefault = "showAdminDefault";
 	public static $funcShowUserMenu = "showUserMenu";
 	public static $funcCreateNewUser =  "createNewUser";
 	public static $funcCreateNewUserForm = "createNewUserForm";
 	public static $funcDeleteUser = "deleteUser";
+	public static $storedSim_array;
 	
 	public static $doDebug = FALSE;
+	
+	//simhentings variabler
+	public static $fetchedName = "0";
+	public static $fetchedHouseTotalArea = "0"; 
+	public static $fetchedHousePrimaryArea = "0";
+	public static $fetchedPriHeat = "0";
+	public static $fetchedSecHeat = "0";
+	public static $fetchedHeatDiff = "0";
+	public static $fetchedFloorHeatWa = "0";
+	public static $fetchedFloorHeatEl = "0";
+	public static $fetchedPriBoilerSize = "0";
+	public static $fetchedPriBoilerPower = "0";
+	public static $fetchedSecBoilerSize = "0";
+	public static $fetchedSecBoilerPower = "0";
+	public static $fetchedNumLight = "0";
+	public static $fetchedPriLightType = "0";
+	public static $fetchedSecLightType = "0";
+	public static $fetchedLightTime = "0";
+	public static $fetchedLightDiff = "0";
+	public static $fetchedClimateZone = "0";
+	public static $fetchedNumHvit = "0";
+	public static $fetchedNumBrun = "0";	
+	
 	
 	static function parseRequest()
 	{
@@ -221,6 +248,12 @@ class Site
 				case static::$funcParseStoreSimZoneDone:
  					echo static::parseStoreSimZoneDone();
  					break;
+				case static::$funcParseGetSim:
+					echo static::parseGetSim();
+					break;
+				case static::$funcShowGetSim:
+					echo static::showGetSim();
+					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
 					break;
@@ -1020,6 +1053,20 @@ class Site
 		return 0;
 	}
 	
+	// Hente sim Resultat
+	static function getSimResult($definedSimName)
+	{
+		$sql = "SELECT name FROM SimStoring WHERE id = '".$definedSimName."'";
+		
+		if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		$tmpRes = $res->fetch_Assoc();
+		$fetchedName = $tmpRes['name'];
+		
+		//return $fetchedName;
+	}
 	
 	
 	/*
@@ -1100,6 +1147,101 @@ class Site
 		}
 		
 		return static::showWizResult();
+	}
+	
+	static function showGetSim()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+		
+		$tpl = new MySmarty();
+		
+		$es = new EnergySimulator();
+		$errMsg = "";
+		
+		$_SESSION['es'] = new EnergySimulator();
+		
+		$getSQL = "SELECT id, name FROM SimStoring";
+		
+		if ( ($res = Base::getMysqli()->query($getSQL)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		
+		//Looper igjennom og sender tags til smarty.
+		while($row = mysqli_fetch_array($res))
+		{
+			static::$storedSim_array[] = $row;
+		}
+		//$tpl->assign('dump', var_dump($row));
+		$tpl->assign('storedSim' , static::$storedSim_array);
+ 		$tpl->assign('function', static::$funcParseGetSim);
+		
+		return static::getMainFrame($tpl->fetch("GetSim.tpl.html"), "Hent Simulering");
+	}
+	
+	// henting av simuleringer
+	static function parseGetSim()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+		
+		$tpl = new MySmarty();
+		
+		$es = new EnergySimulator();
+		$errMsg = "";
+		
+		$_SESSION['es'] = new EnergySimulator();
+		
+		$sql = "SELECT * FROM SimStoring WHERE id = '".intval($_REQUEST['simValgt'])."'";
+		
+		if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		$tmpRes = $res->fetch_Assoc();
+		$fetchedName = $tmpRes['name'];
+		$fetchedHouseTotalArea = $tmpRes['houseTotalArea']; 
+		$fetchedHousePrimaryArea = $tmpRes['housePrimaryArea'];
+		$fetchedPriHeat = $tmpRes['priHeat'];
+		$fetchedSecHeat = $tmpRes['secHeat'];
+		$fetchedHeatDiff = $tmpRes['heatDiff'];
+		$fetchedFloorHeatWa = $tmpRes['floorHeatWa'];
+		$fetchedFloorHeatEl = $tmpRes['floorHeatEl'];
+		$fetchedPriBoilerSize = $tmpRes['priBoilerSize'];
+		$fetchedPriBoilerPower = $tmpRes['priBoilerPower'];
+		$fetchedSecBoilerSize = $tmpRes['secBoilerSize'];
+		$fetchedSecBoilerPower = $tmpRes['secBoilerPower'];
+		$fetchedNumLight = $tmpRes['numLight'];
+		$fetchedPriLightType = $tmpRes['priLightType'];
+		$fetchedSecLightType = $tmpRes['secLightType'];
+		$fetchedLightTime = $tmpRes['lightTime'];
+		$fetchedLightDiff = $tmpRes['lightDiff'];
+		$fetchedClimateZone = $tmpRes['climateZone'];
+		$fetchedNumHvit = $tmpRes['numHvit'];
+		$fetchedNumBrun = $tmpRes['numBrun'];	
+				
+		$tpl->assign('simName', $fetchedName);
+		$tpl->assign('houseTotalArea', $fetchedHouseTotalArea);
+		$tpl->assign('housePrimaryArea', $fetchedHousePrimaryArea);
+		$tpl->assign('priHeat', $fetchedPriHeat);
+		$tpl->assign('secHeat', $fetchedSecHeat);
+		$tpl->assign('heatDiff', $fetchedHeatDiff);
+		$tpl->assign('floorHeatWa', $fetchedFloorHeatWa);
+		$tpl->assign('floorHeatEl', $fetchedFloorHeatEl);
+		$tpl->assign('priBoilerSize', $fetchedPriBoilerSize);
+		$tpl->assign('priBoilerPower', $fetchedPriBoilerPower);
+		$tpl->assign('secBoilerSize', $fetchedSecBoilerSize);
+		$tpl->assign('secBoilerPower', $fetchedSecBoilerPower);
+		$tpl->assign('numLight', $fetchedNumLight);
+		$tpl->assign('priLightType', $fetchedPriLightType);
+		$tpl->assign('secLightType', $fetchedSecLightType);
+		$tpl->assign('lightTime', $fetchedLightTime);
+		$tpl->assign('lightDiff', $fetchedLightDiff);
+		$tpl->assign('climateZone', $fetchedClimateZone);
+		$tpl->assign('numHvit', $fetchedNumHvit);
+		$tpl->assign('numBrun', $fetchedNumBrun);
+		
+		
+		return static::getMainFrame($tpl->fetch("ShowSim.tpl.html"), "Vis Tidligere Simulering");
 	}
 	
 	static function setupSimulator()

@@ -1,0 +1,132 @@
+<div>
+	<img class="logo" src="gfx/logo.png" />
+
+	<h3>Simulerings resultat for {$simName}</h3>
+	
+	<table width="100%" border="1">
+		<tr>
+			<td width="450px" style="background-color: #3f3e50; color: #eb8602;"><strong>Hus</strong></td>
+		</tr>
+		<tr>
+			<td><strong>Type</strong></td>
+			<td><strong>Verdi</strong></td>
+		</tr>
+		<tr>
+			<td>Boenhet: Brutto Areal</td>
+			<td>{$houseTotalArea}</td>
+		</tr>
+		<tr>
+			<td>Boenhet: P-Rom</td>
+			<td>{$housePrimaryArea}</td>
+		</tr>
+	</table>
+	<br />
+	<table width="100%" border="1">
+		<tr>
+			<td width="450px" style="background-color: #3f3e50; color: #eb8602;"><strong>Oppvarming</strong></td>
+		</tr>
+		<tr>
+			<td><strong>Type</strong></td>
+			<td><strong>Verdi</strong></td>
+		</tr>
+		<tr>
+			<td>Prim&aelig;r Oppvarming</td>
+			<td>{$priHeat}</td>
+		</tr>
+		<tr>
+			<td>Sekund&aelig;r Oppvarming</td>
+			<td>{$secHeat}</td>
+		</tr>
+		<tr>
+			<td>Varme Differanse mellom pri og sek</td>
+			<td>{$heatDiff}%</td>
+		</tr>
+		<tr>
+			<td>Gulvvarme Vannb&aring;ren</td>
+			<td>{$floorHeatWa}</td>
+		</tr>
+		<tr>
+			<td>Gulvvarme Elektrisk</td>
+			<td>{$floorHeatEl}</td>
+		</tr>
+		<tr>
+			<td>Prim&aelig;r Elektrokjel (liter)</td>
+			<td>{$priBoilerSize}</td>
+		</tr>
+		<tr>
+			<td>Prim&aelig;r Elektrokjel (watt)</td>
+			<td>{$priBoilerPower}</td>
+		</tr>
+		<tr>
+			<td>Sekund&aelig;r Elektrokjel (liter)</td>
+			<td>{$secBoilerSize}</td>
+		</tr>
+		<tr>
+			<td>Sekund&aelig;r Elektrokjel (watt)</td>
+			<td>{$secBoilerPower}</td>
+		</tr>
+	</table>
+	<br />
+	<table width="100%" border="1">
+		<tr>
+			<td width="450px" style="background-color: #3f3e50; color: #eb8602;"><strong>Belysning</strong></td>
+		</tr>
+		<tr>
+			<td><strong>Type</strong></td>
+			<td><strong>Verdi</strong></td>
+		</tr>
+		<tr>
+			<td>Antall Lyskilder</td>
+			<td>{$numLight}</td>
+		</tr>
+		<tr>
+			<td>Prim&aelig;r Belysning</td>
+			<td>{$priLightType}</td>
+		</tr>
+		<tr>
+			<td>Sekund&aelig;r Belysning</td>
+			<td>{$secLightType}</td>
+		</tr>
+		<tr>
+			<td>Gjennomsnittlig Brennetid (timer per dag)</td>
+			<td>{$lightTime}</td>
+		</tr>
+		<tr>
+			<td>Lys Differanse</td>
+			<td>{$lightDiff}%</td>
+		</tr>
+	</table>
+	<br />
+	<table border="1">
+		<tr>
+			<td width="450px" style="background-color: #3f3e50; color: #eb8602;"><strong>Beboere</strong></td>
+		</tr>
+		<tr>
+			<td><strong>Type</strong></td>
+			<td><strong>Verdi</strong></td>
+		</tr>
+		<tr>
+			<td>Antall Hvitevarer</td>
+			<td>{$numHvit}</td>
+		</tr>
+		<tr>
+			<td>Antall Brunevarer</td>
+			<td>{$numBrun}</td>
+		</tr>
+	</table>
+	<br />
+	<table width="100%" border="1">
+		<tr>
+			<td width="450px" style="background-color: #3f3e50; color: #eb8602;"><strong>Klimasone</strong></td>
+		</tr>
+		<tr>
+			<td><strong>Type</strong></td>
+			<td><strong>Verdi</strong></td>
+		</tr>
+		<tr>
+			<td width="450px">Klimasone</td>
+			<td>{$climateZone}</td>
+		</tr>
+	</table>
+		
+</div>

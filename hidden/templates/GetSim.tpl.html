@@ -1,0 +1,19 @@
+<div>
+	<img class="logo" src="gfx/logo.png" />
+	
+
+	<h3>Henting av Simulering</h3>
+		
+	<form method="post" action="{$scriptURL}">
+		<select name="simValgt">
+{foreach from=$storedSim item=i}
+			<option value="{$i.id}">{$i.name}</option>
+{/foreach}
+		</select>
+		<input type="hidden" name="function" value="{$function}" />
+		{Base::getTokenforFORM("setupSimulator")}
+		<input type="submit" class="button" value='Hent' />
+	</form>
+	
+
+</div>
