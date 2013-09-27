@@ -1217,7 +1217,15 @@ class Site
 		$fetchedLightDiff = $tmpRes['lightDiff'];
 		$fetchedClimateZone = $tmpRes['climateZone'];
 		$fetchedNumHvit = $tmpRes['numHvit'];
-		$fetchedNumBrun = $tmpRes['numBrun'];	
+		$fetchedNumBrun = $tmpRes['numBrun'];
+		
+		if($fetchedClimateZone == '1'){ $fetchedClimateZone = "S&oslash;r-Norge, kyst";}
+		if($fetchedClimateZone == '2'){ $fetchedClimateZone = "S&oslash;r-Norge, innland";}
+		if($fetchedClimateZone == '3'){ $fetchedClimateZone = "S&oslash;r-Norge, h&oslash;yfjell";}
+		if($fetchedClimateZone == '4'){ $fetchedClimateZone = "Midt-Norge, kyst";}
+		if($fetchedClimateZone == '5'){ $fetchedClimateZone = "Midt-Norge, innland";}
+		if($fetchedClimateZone == '6'){ $fetchedClimateZone = "Nord-Norge, kyst";}
+		if($fetchedClimateZone == '7'){ $fetchedClimateZone = "Finnmark og innland Troms";}	
 				
 		$tpl->assign('simName', $fetchedName);
 		$tpl->assign('houseTotalArea', $fetchedHouseTotalArea);
