@@ -10,7 +10,7 @@
 	<!-- Formen -->
 	<form method="post" action="{$scriptURL}">
 		
-		<!-- Valg av primær oppvarming -->
+		<!-- Valg av primï¿½r oppvarming -->
 		<label>Prim&aelig;r oppvarming</label><br />
 		<select name="priVarme" value="{$smarty.session.es->_priHeat}">
 			<option value="73">Oljekjel - vannb&aring;ren varme</option>
@@ -27,7 +27,7 @@
 			<option value="0">Vedovn</option>
 		</select><br /><br />
 		
-		<!-- Valg av sekundær oppvarming -->
+		<!-- Valg av sekundï¿½r oppvarming -->
 		<label>Sekund&aelig;r oppvarming</label><br />
 		<select name="secVarme" value="{$smarty.session.es->_secHeat}">
 			<option value="0"></option>
@@ -45,7 +45,7 @@
 			<option value="0">Vedovn</option>
 		</select><br /><br />
 		
-		<!-- Fordelign primær/sekundær oppvarming -->
+		<!-- Fordelign primï¿½r/sekundï¿½r oppvarming -->
 		<!-- Erstatt med slider -->
 		<label>Andel oppvarming som dekkes av sekund&aelig;r oppvarming</label><br />
 		<input type="range" name="secheatvalue" min="0" max="50" step="5" value="{$smarty.session.es->_heatDiff}" onChange="showValue (this.value)" />
@@ -79,7 +79,7 @@
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("setupSimulator")}
 		<input type="button" class="button" value="Tilbake" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" />
-		<input type="submit" class="button" value='Neste -> Belysning' />
+		<input style="float: right;" type="submit" class="button" value='Neste -> Belysning' />
 	</form>
 	
 </div>

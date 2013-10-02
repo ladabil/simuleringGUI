@@ -1198,6 +1198,7 @@ class Site
 			die(Base::getMysqli()->error);
 		}
 		$tmpRes = $res->fetch_Assoc();
+		$fetchedID = $tmpRes['id'];
 		$fetchedName = $tmpRes['name'];
 		$fetchedHouseTotalArea = $tmpRes['houseTotalArea']; 
 		$fetchedHousePrimaryArea = $tmpRes['housePrimaryArea'];
@@ -1227,6 +1228,7 @@ class Site
 		if($fetchedClimateZone == '6'){ $fetchedClimateZone = "Nord-Norge, kyst";}
 		if($fetchedClimateZone == '7'){ $fetchedClimateZone = "Finnmark og innland Troms";}	
 				
+		$tpl->assign('simID', $fetchedID);
 		$tpl->assign('simName', $fetchedName);
 		$tpl->assign('houseTotalArea', $fetchedHouseTotalArea);
 		$tpl->assign('housePrimaryArea', $fetchedHousePrimaryArea);
