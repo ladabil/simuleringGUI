@@ -34,6 +34,13 @@ function kobleTil($databasenavn)
 	$secHeat = $row['secHeat'];
 	$houseTotalArea = $row['houseTotalArea'];
 	$housePrimaryArea = $row['housePrimaryArea'];
+	$houseBuildYear = $row['houseBuildYear'];		
+	$ytterveggAreal = $row['ytterveggAreal'];
+	$yttertakAreal = $row['yttertakAreal'];
+	$vinduDorAreal = $row['vinduDorAreal'];
+	$luftVolum = $row['luftVolum'];
+	$onsketTemp = $row['onsketTemp'];
+	
 	$heatDiff = $row['heatDiff'];
 	$floorHeatWa = $row['floorHeatWa'];
 	$floorHeatEl = $row['floorHeatEl'];
@@ -54,7 +61,7 @@ function kobleTil($databasenavn)
   	// Lager XML 
 	 echo "<?xml version=\"1.0\"?>";
 	 $xml = '<simulering>';
-	 $xml .= "\n\n\t";	// For DOM - human readable \n <- line break, \t <- tab for each class
+	 $xml .= "\n\t";	// For DOM - human readable \n <- line break, \t <- tab for each class
 	 
 	// Boligtyp>
 	$xml .= "<Enebolig type=\"class\">\n\t\t\t";
@@ -63,12 +70,12 @@ function kobleTil($databasenavn)
 		$xml .= "<Varmetap type=\"class\"> \n\t\t\t";
 			$xml .= "<bruttoAreal>".$houseTotalArea."</bruttoAreal> \n\t\t\t";
 			$xml .= "<pRomAreal>".$housePrimaryArea."</pRomAreal> \n\t\t";
- 			$xml .= "<byggstandard>1985</byggstandard>\n\t\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
- 			$xml .= "<ytterveggAreal>200</ytterveggAreal>\n\t\t\t\t";
- 			$xml .= "<yttertakAreal>200</yttertakAreal>\n\t\t\t\t";
- 			$xml .= "<vinduDorAreal>20</vinduDorAreal>\n\t\t\t\t";
- 			$xml .= "<luftVolum>400</luftVolum>\n\t\t\t\t";
- 			$xml .= "<onsketTemp>23</onsketTemp>\n\t\t\t\t";
+ 			$xml .= "<byggstandard>".$houseBuildYear."</byggstandard>\n\t\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
+ 			$xml .= "<ytterveggAreal>".$ytterveggAreal."</ytterveggAreal>\n\t\t\t\t";
+ 			$xml .= "<yttertakAreal>".$yttertakAreal."</yttertakAreal>\n\t\t\t\t";
+ 			$xml .= "<vinduDorAreal>".$vinduDorAreal."</vinduDorAreal>\n\t\t\t\t";
+ 			$xml .= "<luftVolum>".$luftVolum."</luftVolum>\n\t\t\t\t";
+ 			$xml .= "<onsketTemp>".$onsketTemp."</onsketTemp>\n\t\t\t\t";
 		$xml .= "</Varmetap> \n\t\t";
 		$xml .= "<Soltilskudd type=\"class\">\n\t\t";
   			$xml .= "<vinduDorAreal>20</vinduDorAreal>\n\t\t\t\t";
@@ -97,9 +104,7 @@ function kobleTil($databasenavn)
 		$xml .= "<ForbrukBrunevare type=\"class\"> \n\t\t\t";
 // 			$xml .= "<brune>".$brun."</brune> \n\t\t\t";
 		$xml .= "</ForbrukBrunevare>  \n\t";
-		
 	$xml .= "</Enebolig>\n\t";
-	
 	
 	// Beboere
 	$xml .= "<Familie type=\"class\">\n\t\t";
@@ -118,7 +123,13 @@ function kobleTil($databasenavn)
 	 	$xml .= "<sone>".$climateZone."</sone>\n\t";
 	$xml .= "</Klima>\n\t";
 	
-	$xml .= "\n";	// end line break
+	// Tidsrom
+	$xml .= "<Tidsrom type=\"class\">\n\t\t";
+		$xml .= "<startDateTime>2012-05-19 10:00:00 CET</startDateTime>\n\t\t";
+		$xml .= "<endDateTime>2012-06-23 10:00:00 CET</endDateTime>\n\t\t";
+		$xml .= "<opplosning>3600</opplosning>\n\t";
+	$xml .= "</Tidsrom>\n";
+	
 	
 	$xml .= "</simulering>\n\r";
 	$xmlobj = new SimpleXMLElement($xml);

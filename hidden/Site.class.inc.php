@@ -50,6 +50,12 @@ class Site
 	public static $fetchedName = "0";
 	public static $fetchedHouseTotalArea = "0"; 
 	public static $fetchedHousePrimaryArea = "0";
+	public static $fetchedbyggstandard = "0";
+	public static $fetchedytterveggAreal = "0";
+	public static $fetchedyttertakAreal = "0";
+	public static $fetchedvinduDorAreal = "0";
+	public static $fetchedluftVolum = "0";
+	public static $fetchedonsketTemp = "0";
 	public static $fetchedPriHeat = "0";
 	public static $fetchedSecHeat = "0";
 	public static $fetchedHeatDiff = "0";
@@ -582,6 +588,62 @@ class Site
 			$_SESSION['es']->_houseBuildYear = 1980;
 		}
 		
+		// Spesifiser ytterVeggAreal
+		if ( isset($_REQUEST['ytterveggAreal']) && intval($_REQUEST['ytterveggAreal']) > 0 )
+		{
+			$_SESSION['es']->_ytterveggAreal = intval($_REQUEST['ytterveggAreal']);
+		}
+		else
+		{
+			// Default ytterVeggAreal
+			$_SESSION['es']->_ytterveggAreal = 0;
+		}
+		
+		// Spesifiser ytterTakAreal
+		if ( isset($_REQUEST['yttertakAreal']) && intval($_REQUEST['yttertakAreal']) > 0 )
+		{
+			$_SESSION['es']->_yttertakAreal = intval($_REQUEST['yttertakAreal']);
+		}
+		else
+		{
+			// Default yttertakAreal
+			$_SESSION['es']->_yttertakAreal = 0;
+		}
+		
+		// Spesifiser vinduDorAreal
+		if ( isset($_REQUEST['vinduDorAreal']) && intval($_REQUEST['vinduDorAreal']) > 0 )
+		{
+			$_SESSION['es']->_vinduDorAreal = intval($_REQUEST['vinduDorAreal']);
+		}
+		else
+		{
+			// Default vinduDorAreal
+			$_SESSION['es']->_vinduDorAreal = 0;
+		}
+		
+		// Spesifiser luftVolum
+		if ( isset($_REQUEST['luftVolum']) && intval($_REQUEST['luftVolum']) > 0 )
+		{
+			$_SESSION['es']->_luftVolum = intval($_REQUEST['luftVolum']);
+		}
+		else
+		{
+			// Default luftVolum
+			$_SESSION['es']->_luftVolum = 0;
+		}
+		
+		// Spesifiser onsketTemp
+		if ( isset($_REQUEST['onsketTemp']) && intval($_REQUEST['onsketTemp']) > 0 )
+		{
+			$_SESSION['es']->_onsketTemp = intval($_REQUEST['onsketTemp']);
+		}
+		else
+		{
+			// Default onsketTemp
+			$_SESSION['es']->_onsketTemp = 20;
+		}
+		
+		
 		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
 		{
 			$_SESSION['es']->_climateZone = intval($_REQUEST['klima']);
@@ -1012,6 +1074,11 @@ class Site
 			houseBuildYear,
 			houseTotalArea, 
 			housePrimaryArea, 
+			ytterveggAreal,
+			yttertakAreal,
+			vinduDorAreal,
+			luftVolum,
+			onsketTemp,
 			priHeat, 
 			secHeat, 
 			heatDiff, 
@@ -1036,7 +1103,12 @@ class Site
 			'".$_SESSION['es']->_building."',
 			'".$_SESSION['es']->_houseBuildYear."',		
 			'".$_SESSION['es']->_houseTotalArea."', 
-			'".$_SESSION['es']->_housePrimaryArea."', 
+			'".$_SESSION['es']->_housePrimaryArea."',
+			'".$_SESSION['es']->_ytterveggAreal."',
+			'".$_SESSION['es']->_yttertakAreal."',
+			'".$_SESSION['es']->_vinduDorAreal."',
+			'".$_SESSION['es']->_luftVolum."',
+			'".$_SESSION['es']->_onsketTemp."', 
 			'".$_SESSION['es']->_priHeat."', 
 			'".$_SESSION['es']->_secHeat."', 
 			'".$_SESSION['es']->_heatDiff."', 
@@ -1242,6 +1314,11 @@ class Site
 		$fetchedName = $tmpRes['name'];
 		$fetchedHouseTotalArea = $tmpRes['houseTotalArea']; 
 		$fetchedHousePrimaryArea = $tmpRes['housePrimaryArea'];
+		$fetchedytterveggAreal = $tmpRes['ytterveggAreal'];
+		$fetchedyttertakAreal = $tmpRes['yttertakAreal'];
+		$fetchedvinduDorAreal = $tmpRes['vinduDorAreal'];
+		$fetchedluftVolum = $tmpRes['luftVolum'];
+		$fetchedonsketTemp = $tmpRes['onsketTemp'];
 		$fetchedPriHeat = $tmpRes['priHeat'];
 		$fetchedSecHeat = $tmpRes['secHeat'];
 		$fetchedHeatDiff = $tmpRes['heatDiff'];
@@ -1284,6 +1361,11 @@ class Site
 		$tpl->assign('houseBuildYear', $fetchedHouseBuildYear);
 		$tpl->assign('houseTotalArea', $fetchedHouseTotalArea);
 		$tpl->assign('housePrimaryArea', $fetchedHousePrimaryArea);
+		$tpl->assign('ytterveggAreal', $fetchedytterveggAreal);
+		$tpl->assign('yttertakAreal', $fetchedyttertakAreal);
+		$tpl->assign('vinduDorAreal', $fetchedvinduDorAreal);
+		$tpl->assign('luftVolum', $fetchedluftVolum);
+		$tpl->assign('onsketTemp', $fetchedonsketTemp);
 		$tpl->assign('priHeat', $fetchedPriHeat);
 		$tpl->assign('secHeat', $fetchedSecHeat);
 		$tpl->assign('heatDiff', $fetchedHeatDiff);

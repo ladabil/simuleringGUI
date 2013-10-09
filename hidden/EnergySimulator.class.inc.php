@@ -8,6 +8,11 @@ class EnergySimulator
 	
 	var $_houseTotalArea = 0;
 	var $_housePrimaryArea = 0;
+	var $_ytterveggAreal = 0;
+	var $_yttertakAreal = 0;
+	var $_vinduDorAreal = 0;
+	var $_luftVolum = 0;
+	var $_onsketTemp = 0;
 	
 	var $_priHeat = 0;
 	var $_secHeat = 0;

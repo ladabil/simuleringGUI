@@ -34,6 +34,12 @@ function kobleTil($databasenavn)
 	$secHeat = $row['secHeat'];
 	$houseTotalArea = $row['houseTotalArea'];
 	$housePrimaryArea = $row['housePrimaryArea'];
+	$houseBuildYear = $row['houseBuildYear'];
+	$ytterveggAreal = $row['ytterveggAreal'];
+	$yttertakAreal = $row['yttertakAreal'];
+	$vinduDorAreal = $row['vinduDorAreal'];
+	$luftVolum = $row['luftVolum'];
+	$onsketTemp = $row['onsketTemp'];
 	$heatDiff = $row['heatDiff'];
 	$floorHeatWa = $row['floorHeatWa'];
 	$floorHeatEl = $row['floorHeatEl'];
@@ -75,6 +81,11 @@ function kobleTil($databasenavn)
   	array("Type" => "Byggeår", "Verdi" => "$houseBuildYear"),
     array("Type" => "Brutto Areal", "Verdi" => "$houseTotalArea"),
     array("Type" => "P-Rom", "Verdi" => "$housePrimaryArea"),
+  	array("Type" => "Veggareal ytre", "Verdi" => "$ytterveggAreal"),
+  	array("Type" => "Takareal", "Verdi" => "$yttertakAreal"),
+  	array("Type" => "Vindu og Dør areal", "Verdi" => "$vinduDorAreal"),
+  	array("Type" => "Indre luftvolum", "Verdi" => "$luftVolum"),
+  	array("Type" => "ønsket innetemp", "Verdi" => "$onsketTemp"),
     array("Type" => "", "Verdi" => ""),
 	array("Type" => "Primær Oppvarming", "Verdi" => "$priHeat"),
 	array("Type" => "Sekundær Oppvarming", "Verdi" => "$secHeat"),

@@ -39,6 +39,12 @@ $priHeat = $row['priHeat'];
 $secHeat = $row['secHeat'];
 $houseTotalArea = $row['houseTotalArea'];
 $housePrimaryArea = $row['housePrimaryArea'];
+$houseBuildYear = $row['houseBuildYear'];
+$ytterveggAreal = $row['ytterveggAreal'];
+$yttertakAreal = $row['yttertakAreal'];
+$vinduDorAreal = $row['vinduDorAreal'];
+$luftVolum = $row['luftVolum'];
+$onsketTemp = $row['onsketTemp'];
 $heatDiff = $row['heatDiff'];
 $floorHeatWa = $row['floorHeatWa'];
 $floorHeatEl = $row['floorHeatEl'];
@@ -96,7 +102,12 @@ $pdf->Cell(0,5, utf8_decode('Bygg Type: '.$building) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('ByggeÃ¥r: '.$houseBuildYear) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Brutto Areal: '.$houseTotalArea) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('P-Rom: '.$housePrimaryArea) ,0,2,'l');
-
+$pdf->Cell(0,5, utf8_decode('Byggeår: '.$houseBuildYear) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Veggareal ytre: '.$ytterveggAreal) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Takareal: '.$yttertakAreal) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Vindu og Dør areal: '.$vinduDorAreal) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Indre luftvolum: '.$luftVolum) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Ønsket innetemp: '.$onsketTemp) ,0,2,'l');
 
 // undertittel for Oppvarming
 $pdf->ln(5);

@@ -26,6 +26,21 @@
 	
 		<label>Boenhet: P-Rom</label><br />
 		<input type="text" name="housePrimaryArea" value="{$smarty.session.es->_housePrimaryArea}" /><br />
+		
+		<label>Byggning: veggareal ytre</label><br />
+		<input type="text" name="ytterveggAreal" value="{$smarty.session.es->_ytterveggAreal}" /><br />
+	
+		<label>Byggning: takareal</label><br />
+		<input type="text" name="yttertakAreal" value="{$smarty.session.es->_yttertakAreal}" /><br />
+		
+		<label>Byggning: areal vindu og dørflater</label><br />
+		<input type="text" name="vinduDorAreal" value="{$smarty.session.es->_vinduDorAreal}" /><br />
+	
+		<label>Byggning: indre volum(luft)</label><br />
+		<input type="text" name="luftVolum" value="{$smarty.session.es->_luftVolum}" /><br />
+		
+		<label>Ønsket innetemperatur</label><br />
+		<input type="text" name="onsketTemp" value="{$smarty.session.es->_onsketTemp}" /><br />
 	
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("startNewWizard")}
