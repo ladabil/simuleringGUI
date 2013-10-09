@@ -62,6 +62,17 @@ if($climateZone == '5'){ $climateZone = "Midt-Norge, innland";}
 if($climateZone == '6'){ $climateZone = "Nord-Norge, kyst";}
 if($climateZone == '7'){ $climateZone = "Finnmark og innland Troms";}
 
+$building = $row['building'];
+$houseBuildYear = $row['houseBuildYear'];
+
+if($building == '1') {$building = "Enebolig";}
+if($building == '2') {$building = "Leilighet";}
+if($building == '3') {$building = "Rekkehus";}
+		
+if($houseBuildYear == '1') {$houseBuildYear = "Før 1987";}
+if($houseBuildYear == '2') {$houseBuildYear = "Mellom 1987 og 1997";}
+if($houseBuildYear == '3') {$houseBuildYear = "Etter 1997";}
+
 
 // lager side	
 $pdf->AddPage();
@@ -81,6 +92,8 @@ $pdf->Cell(0,6, 'Hus', 0,2,'l');
 // verdier
 $pdf->SetFont('Times','',12);
 $pdf->ln(2);
+$pdf->Cell(0,5, utf8_decode('Bygg Type: '.$building) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Byggeår: '.$houseBuildYear) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Brutto Areal: '.$houseTotalArea) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('P-Rom: '.$housePrimaryArea) ,0,2,'l');
 

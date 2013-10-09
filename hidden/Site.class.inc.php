@@ -999,6 +999,8 @@ class Site
 	{
 		$sql = "INSERT INTO SimStoring
 		(
+			building,
+			houseBuildYear,
 			houseTotalArea, 
 			housePrimaryArea, 
 			priHeat, 
@@ -1022,6 +1024,8 @@ class Site
 		) 
 		VALUES
 		(
+			'".$_SESSION['es']->_building."',
+			'".$_SESSION['es']->_houseBuildYear."',		
 			'".$_SESSION['es']->_houseTotalArea."', 
 			'".$_SESSION['es']->_housePrimaryArea."', 
 			'".$_SESSION['es']->_priHeat."', 
@@ -1219,6 +1223,16 @@ class Site
 		$fetchedClimateZone = $tmpRes['climateZone'];
 		$fetchedNumHvit = $tmpRes['numHvit'];
 		$fetchedNumBrun = $tmpRes['numBrun'];
+		$fetchedBuilding = $tmpRes['building'];
+		$fetchedHouseBuildYear = $tmpRes['houseBuildYear'];
+		
+		if($fetchedBuilding == '1') {$fetchedBuilding = "Enebolig";}
+		if($fetchedBuilding == '2') {$fetchedBuilding = "Leilighet";}
+		if($fetchedBuilding == '3') {$fetchedBuilding = "Rekkehus";}
+		
+		if($fetchedHouseBuildYear == '1') {$fetchedHouseBuildYear = "F&oslash;r 1987";}
+		if($fetchedHouseBuildYear == '2') {$fetchedHouseBuildYear = "Mellom 1987 og 1997";}
+		if($fetchedHouseBuildYear == '3') {$fetchedHouseBuildYear = "Etter 1997";}
 		
 		if($fetchedClimateZone == '1'){ $fetchedClimateZone = "S&oslash;r-Norge, kyst";}
 		if($fetchedClimateZone == '2'){ $fetchedClimateZone = "S&oslash;r-Norge, innland";}
@@ -1230,6 +1244,8 @@ class Site
 				
 		$tpl->assign('simID', $fetchedID);
 		$tpl->assign('simName', $fetchedName);
+		$tpl->assign('building', $fetchedBuilding);
+		$tpl->assign('houseBuildYear', $fetchedHouseBuildYear);
 		$tpl->assign('houseTotalArea', $fetchedHouseTotalArea);
 		$tpl->assign('housePrimaryArea', $fetchedHousePrimaryArea);
 		$tpl->assign('priHeat', $fetchedPriHeat);

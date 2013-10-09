@@ -57,9 +57,22 @@ function kobleTil($databasenavn)
 	if($climateZone == '6'){ $climateZone = "Nord-Norge, kyst";}
 	if($climateZone == '7'){ $climateZone = "Finnmark og innland Troms";}
 	
+	$building = $row['building'];
+	$houseBuildYear = $row['houseBuildYear'];
+	
+	if($building == '1') {$building = "Enebolig";}
+	if($building == '2') {$building = "Leilighet";}
+	if($building == '3') {$building = "Rekkehus";}
+			
+	if($houseBuildYear == '1') {$houseBuildYear = "Før 1987";}
+	if($houseBuildYear == '2') {$houseBuildYear = "Mellom 1987 og 1997";}
+	if($houseBuildYear == '3') {$houseBuildYear = "Etter 1997";}
+	
 
   	$data = array(
   	//array("Hus" => " "),
+  	array("Type" => "Bygg Type", "Verdi" => "$building"),
+  	array("Type" => "Byggeår", "Verdi" => "$houseBuildYear"),
     array("Type" => "Brutto Areal", "Verdi" => "$houseTotalArea"),
     array("Type" => "P-Rom", "Verdi" => "$housePrimaryArea"),
     array("Type" => "", "Verdi" => ""),
