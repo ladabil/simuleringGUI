@@ -30,6 +30,11 @@ class Site
 	public static $funcShowStoreDone = "SimSaveDone";
 	public static $funcParseGetSim = "parseGetSim";
 	public static $funcShowGetSim = "showGetSim";
+	public static $funcParseStoreBuilding = "parseStoreBuilding";
+	public static $funcParseStoreBuildingDone = "parseStoreBuildingDone";
+	public static $showStoreBuilding = "showStoreBuilding";
+	public static $funcShowStoreBuilding ="funcShowStoreBuilding";
+	
 	
 		
 	public static $funcShowAdminDefault = "showAdminDefault";
@@ -253,6 +258,9 @@ class Site
 					break;
 				case static::$funcShowGetSim:
 					echo static::showGetSim();
+					break;
+				case static::$funcShowStoreBuilding:
+					echo static::showStoreBuilding();
 					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
@@ -537,6 +545,7 @@ class Site
 			
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseWizardBuilding);
+		$tpl->assign('storeHouse', static::$funcParseStoreBuilding);
 	
 		return static::getMainFrame($tpl->fetch("wizard_Building.tpl.html"), "Wizard");
 	}
@@ -1086,6 +1095,33 @@ class Site
 		
 		return static::getMainFrame($tpl->fetch("wizard_Result.tpl.html"), "Wizard");
 	}	
+	
+	/*
+	 *	Lagring av bolig 
+	 */
+	
+	static function parseStoreBuilding()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+		$errMsg = "";
+		static::wizardInit();
+		// Verifiser token f�rst..
+		Base::verifyTokenFromRequest("setupSimulator");
+		
+		return static::showStoreBuilding();
+	}
+	
+	static function showStoreBuilding()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$tpl = static::wizardInit();
+		$tpl->assign('function', static::$funcParseStoreBuildingDone);
+	
+		return static::getMainFrame($tpl->fetch("wizard_StoreBuilding.tpl.html"), "Wizard");
+	}
+	
+	
 	
 	/*
 	 * 	Lagring av Simulering
