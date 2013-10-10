@@ -133,15 +133,15 @@ function kobleTil($databasenavn)
 	
 	$xml .= "</simulering>\n\r";
 	$xmlobj = new SimpleXMLElement($xml);
- 	$xmlobj -> asXML (date("Ymd") . "_" . time() .".xml");
+// 	$xmlobj -> asXML ("testData.xml");
 	
 	// DOMDocument for output in human readable file
-// 	$dom = new DOMDocument('1.0');
-// 	$dom->preserveWhiteSpace = true;
-// 	$dom->formatOutput = true;
-// 	$dom->loadXML($xmlobj->asXML());
-// 	echo $dom->saveXML();
-// 	$filename = date("Ymd") . "_" . time() . ".xml";
-// 	$dom->save($filename);
+	$dom = new DOMDocument('1.0');
+	$dom->preserveWhiteSpace = true;
+	$dom->formatOutput = true;
+	$dom->loadXML($xmlobj->asXML());
+	echo $dom->saveXML();
+	$filename = date("Ymd") . "_" . time() . ".xml";
+	$dom->save($filename);
 	
 	
