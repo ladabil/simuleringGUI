@@ -142,6 +142,6 @@ function kobleTil($databasenavn)
 	$dom->loadXML($xmlobj->asXML());
 	echo $dom->saveXML();
 	$filename = date("Ymd") . "_" . time() . ".xml";
-	$dom->save($filename);
+	$dom->save("../../new" + $filename);
 	
 	
