@@ -141,7 +141,7 @@ function kobleTil($databasenavn)
 	$dom->formatOutput = true;
 	$dom->loadXML($xmlobj->asXML());
 	echo $dom->saveXML();
-	$filename = "/home/gruppe2/new" . date("Ymd") . "_" . time() . ".xml";
+	$filename = "/home/gruppe2/new/" . date("Ymd") . "_" . time() . ".xml";
 	$dom->save($filename);
 	
 	
