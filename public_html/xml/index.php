@@ -78,7 +78,6 @@ function kobleTil($databasenavn)
  			$xml .= "<onsketTemp>".$onsketTemp."</onsketTemp>\n\t\t\t\t";
 		$xml .= "</Varmetap> \n\t\t";
 		$xml .= "<Soltilskudd type=\"class\">\n\t\t";
-  			$xml .= "<vinduDorAreal>20</vinduDorAreal>\n\t\t\t\t";
 		$xml .= "</Soltilskudd> \n\t\t";	
 		$xml .= "<ForbrukVann type=\"class\"> \n\t\t\t";
 			$xml .= "<priHeat>".$priHeat."</priHeat> \n\t\t\t";
