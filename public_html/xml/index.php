@@ -65,31 +65,29 @@ function kobleTil($databasenavn)
 	 
 	// Boligtyp>
 	$xml .= "<Enebolig type=\"class\">\n\t\t\t";
-		$xml .= "<bruttoAreal>".$houseTotalArea."</bruttoAreal> \n\t\t\t";
-		$xml .= "<pRomAreal>".$housePrimaryArea."</pRomAreal> \n\t\t";
-		$xml .= "<Varmetap type=\"class\"> \n\t\t\t";
 			$xml .= "<bruttoAreal>".$houseTotalArea."</bruttoAreal> \n\t\t\t";
-			$xml .= "<pRomAreal>".$housePrimaryArea."</pRomAreal> \n\t\t";
- 			$xml .= "<byggstandard>".$houseBuildYear."</byggstandard>\n\t\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
- 			$xml .= "<ytterveggAreal>".$ytterveggAreal."</ytterveggAreal>\n\t\t\t\t";
- 			$xml .= "<yttertakAreal>".$yttertakAreal."</yttertakAreal>\n\t\t\t\t";
- 			$xml .= "<vinduDorAreal>".$vinduDorAreal."</vinduDorAreal>\n\t\t\t\t";
- 			$xml .= "<luftVolum>".$luftVolum."</luftVolum>\n\t\t\t\t";
- 			$xml .= "<onsketTemp>".$onsketTemp."</onsketTemp>\n\t\t\t\t";
-		$xml .= "</Varmetap> \n\t\t";
-		$xml .= "<Soltilskudd type=\"class\">\n\t\t";
-		$xml .= "</Soltilskudd> \n\t\t";	
-		$xml .= "<ForbrukVann type=\"class\"> \n\t\t\t";
-			$xml .= "<priHeat>".$priHeat."</priHeat> \n\t\t\t";
-			$xml .= "<secHeat>".$secHeat."</secHeat> \n\t\t\t";
-			$xml .= "<heatDiff>".$heatDiff."</heatDiff> \n\t\t\t";
-			$xml .= "<floorHeatWa>".$floorHeatWa."</floorHeatWa> \n\t\t\t";
-			$xml .= "<floorHeatEl>".$floorHeatEl."</floorHeatEl> \n\t\t\t";
-			$xml .= "<priBoilerSize>".$priBoilerSize."</priBoilerSize> \n\t\t\t";
-			$xml .= "<priBoilerPower>".$priBoilerPower."</priBoilerPower> \n\t\t\t";
-			$xml .= "<secBoilerSize>".$secBoilerSize."</secBoilerSize> \n\t\t\t";
-			$xml .= "<secBoilerPower>".$secBoilerPower."</secBoilerPower> \n\t\t";
-		$xml .= "</ForbrukVann>  \n\t\t";
+			$xml .= "<pRomAreal>".$housePrimaryArea."</pRomAreal> \n\t\t\t";
+ 			$xml .= "<byggstandard>".$houseBuildYear."</byggstandard>\n\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
+ 			$xml .= "<ytterveggAreal>".$ytterveggAreal."</ytterveggAreal>\n\t\t\t";
+ 			$xml .= "<yttertakAreal>".$yttertakAreal."</yttertakAreal>\n\t\t\t";
+ 			$xml .= "<vinduDorAreal>".$vinduDorAreal."</vinduDorAreal>\n\t\t\t";
+ 			$xml .= "<luftVolum>".$luftVolum."</luftVolum>\n\t\t\t";
+ 			$xml .= "<onsketTemp>".$onsketTemp."</onsketTemp>\n\t\t\t";
+ 			$xml .= "<priBoilerSize>".$priBoilerSize."</priBoilerSize> \n\t\t\t";
+ 			$xml .= "<priBoilerPower>".$priBoilerPower."</priBoilerPower> \n\t\t\t";
+ 			$xml .= "<secBoilerSize>".$secBoilerSize."</secBoilerSize> \n\t\t\t";
+ 			$xml .= "<secBoilerPower>".$secBoilerPower."</secBoilerPower> \n\t\t";
+//  	$xml .= "<Varmetap type=\"class\"> \n\t\t";
+// 		$xml .= "</Varmetap> \n\t\t";
+// 		$xml .= "<Soltilskudd type=\"class\">\n\t\t";
+// 		$xml .= "</Soltilskudd> \n\t\t";	
+// 		$xml .= "<Oppvarming type=\"class\"> \n\t\t\t";
+// 			$xml .= "<priHeat>".$priHeat."</priHeat> \n\t\t\t";
+// 			$xml .= "<secHeat>".$secHeat."</secHeat> \n\t\t\t";
+// 			$xml .= "<heatDiff>".$heatDiff."</heatDiff> \n\t\t\t";
+// 			$xml .= "<floorHeatWa>".$floorHeatWa."</floorHeatWa> \n\t\t\t";
+// 			$xml .= "<floorHeatEl>".$floorHeatEl."</floorHeatEl> \n\t\t\t";
+// 		$xml .= "</Oppvarming>  \n\t\t";
 		$xml .= "<Belysning type=\"class\"> \n\t\t\t";
 // 			$xml .= "<antLys>".$numLight."</antLys> \n\t\t\t";
 // 			$xml .= "<priLysType>".$priLightType."</priLysType> \n\t\t\t";
@@ -107,12 +105,13 @@ function kobleTil($databasenavn)
 	
 	// Beboere
 	$xml .= "<Familie type=\"class\">\n\t\t";
- 		$xml .= "<personAlder>27</personAlder>\n\t\t\t";
-		$xml .= "<Person class=\"class\"> \n\t\t";
- 			$xml .= "<Alder>50</Alder> \n\t\t\t\t";			// Hardkodet ihht testData.xml <-- TODO: foreach løkke 
- 			$xml .= "<Kjonn>Kvinne</Kjonn> \n\t\t\t\t";
- 			$xml .= "<Alder>60</Alder> \n\t\t\t\t";	
- 			$xml .= "<Kjonn>Mann</Kjonn> \n\t\t\t\t";
+		$xml .= "<Person class=\"class\"> \n\t\t\t";
+ 			$xml .= "<Alder>50</Alder> \n\t\t\t";			// Hardkodet ihht testData.xml <-- TODO: foreach løkke 
+ 			$xml .= "<Kjonn>Kvinne</Kjonn> \n\t\t";
+ 		$xml .= "</Person> \n\t\t";
+ 		$xml .= "<Person class=\"class\"> \n\t\t";
+ 			$xml .= "<Alder>60</Alder> \n\t\t\t";	
+ 			$xml .= "<Kjonn>Mann</Kjonn> \n\t\t";
 		$xml .= "</Person> \n\t";
 	$xml .= "</Familie>\n\t";
 	
