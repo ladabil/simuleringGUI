@@ -33,7 +33,7 @@ $sql2 = "SELECT * FROM SimStoring WHERE id='$i'";
 $result2 = mysql_query($sql2) or die(mysql_error());
 $row = mysql_fetch_array ($result2);
 
-// kjører database kolonne-resultat til variabler
+// kj�rer database kolonne-resultat til variabler
 $name = $row['name'];
 $priHeat = $row['priHeat'];
 $secHeat = $row['secHeat'];
@@ -60,9 +60,9 @@ $lightDiff = $row['lightDiff'];
 $numHvit = $row['numHvit'];
 $numBrun = $row['numBrun'];
 $climateZone = $row['climateZone'];
-if($climateZone == '1'){ $climateZone = "Sør-Norge, kyst";}
-if($climateZone == '2'){ $climateZone = "Sør-Norge, innland";}
-if($climateZone == '3'){ $climateZone = "Sør-Norge, høyfjell";}
+if($climateZone == '1'){ $climateZone = "S&oslash;r-Norge, kyst";}
+if($climateZone == '2'){ $climateZone = "S&oslash;r-Norge, innland";}
+if($climateZone == '3'){ $climateZone = "S&oslash;r-Norge, h&slash;yfjell";}
 if($climateZone == '4'){ $climateZone = "Midt-Norge, kyst";}
 if($climateZone == '5'){ $climateZone = "Midt-Norge, innland";}
 if($climateZone == '6'){ $climateZone = "Nord-Norge, kyst";}
@@ -75,7 +75,7 @@ if($building == '1') {$building = "Enebolig";}
 if($building == '2') {$building = "Leilighet";}
 if($building == '3') {$building = "Rekkehus";}
 		
-if($houseBuildYear == '1') {$houseBuildYear = "Før 1987";}
+if($houseBuildYear == '1') {$houseBuildYear = "F&oslash;r 1987";}
 if($houseBuildYear == '2') {$houseBuildYear = "Mellom 1987 og 1997";}
 if($houseBuildYear == '3') {$houseBuildYear = "Etter 1997";}
 
@@ -99,15 +99,15 @@ $pdf->Cell(0,6, 'Hus', 0,2,'l');
 $pdf->SetFont('Times','',12);
 $pdf->ln(2);
 $pdf->Cell(0,5, utf8_decode('Bygg Type: '.$building) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Byggeår: '.$houseBuildYear) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Bygge&aringr: '.$houseBuildYear) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Brutto Areal: '.$houseTotalArea) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('P-Rom: '.$housePrimaryArea) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Bygge�r: '.$houseBuildYear) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Bygge&aringr: '.$houseBuildYear) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Veggareal ytre: '.$ytterveggAreal) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Takareal: '.$yttertakAreal) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Vindu og D�r areal: '.$vinduDorAreal) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Vindu og D&oslash;r areal: '.$vinduDorAreal) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Indre luftvolum: '.$luftVolum) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('�nsket innetemp: '.$onsketTemp) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('&Oslash;nsket innetemp: '.$onsketTemp) ,0,2,'l');
 
 // undertittel for Oppvarming
 $pdf->ln(5);
@@ -117,15 +117,15 @@ $pdf->Cell(0,6, 'Oppvarming', 0,2,'l');
 // verdier
 $pdf->SetFont('Times','',12);
 $pdf->ln(2);
-$pdf->Cell(0,5, utf8_decode('Primær Oppvarming: '.$priHeat) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Sekundær Oppvarming: '.$secHeat) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Prim&aelig;r Oppvarming: '.$priHeat) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Sekund&aelig;r Oppvarming: '.$secHeat) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Varme Differanse: '.$heatDiff.'%') ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Gulvvarme Vannbåren: '.$floorHeatWa) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Gulvvarme Vannb&aringren: '.$floorHeatWa) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Gulvvarme Elektrisk: '.$floorHeatEl) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Primær Elektrokjel (liter): '.$priBoilerSize) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Primær Elektrokjel (watt): '.$priBoilerPower) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Sekundær Elektrokjel (liter): '.$secBoilerSize) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Sekundær Elektrokjel (watt): '.$secBoilerPower) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Prim&aelig;r Elektrokjel (liter): '.$priBoilerSize) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Prim&aelig;r Elektrokjel (watt): '.$priBoilerPower) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Sekund&aelig;r Elektrokjel (liter): '.$secBoilerSize) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Sekund&aelig;r Elektrokjel (watt): '.$secBoilerPower) ,0,2,'l');
 
 
 // undertittel for Lys
@@ -137,8 +137,8 @@ $pdf->Cell(0,6, 'Lys', 0,2,'l');
 $pdf->SetFont('Times','',12);
 $pdf->ln(2);
 $pdf->Cell(0,5, utf8_decode('Antall Lyskilder: '.$numLight) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Primær Belysning: '.$priLightType) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Sekundær Belysning: '.$secLightType) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Prim&aelig;r Belysning: '.$priLightType) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Sekund&aelig;r Belysning: '.$secLightType) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Gjennomsnittlig Brennetid (timer per dag): '.$lightTime) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Lys Differanse: '.$lightDiff.'%') ,0,2,'l');
 
