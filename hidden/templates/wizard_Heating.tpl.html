@@ -71,10 +71,12 @@
 		<input type="text" name="priBoilerSize" value="{$smarty.session.es->_priBoilerSize}" /> liter<br />
 		<input type="text" name="priBoilerPower" value="{$smarty.session.es->_priBoilerPower}" /> watt<br />
 		
+		<!--  Midlertidig kommentert ut sekundær elektrokjel, diskuter nødvendighet
 		<label>Sekund&aelig;r elektrokjel</label><br />
 		<input type="text" name="secBoilerSize" value="{$smarty.session.es->_secBoilerSize}" /> liter<br />
 		<input text="text" name="secBoilerPower" value="{$smarty.session.es->_secBoilerPower}" /> watt
-	
+		-->
+		
 		<br/><br />
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("setupSimulator")}

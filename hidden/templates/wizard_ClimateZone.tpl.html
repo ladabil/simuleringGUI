@@ -9,14 +9,22 @@
 	
 	    <label>Klima</label><br />
 		<select name="klima" value="{$smarty.session.es->_climateZone}">
-			<option value="5,37">S&oslash;r-Norge, kyst</option>
-			<option value="7,08">S&oslash;r-Norge, innland</option>
-			<option value="8,79">S&oslash;r-Norge, h&oslash;yfjell</option>
-			<option value="6,05">Midt-Norge, kyst</option>
-			<option value="9,02">Midt-Norge, innland</option>
-			<option value="8,11">Nord-Norge, kyst</option>
-			<option value="10,82">Finnmark og innland Troms</option>
+			<option value="1">S&oslash;r-Norge, kyst</option>
+			<option value="2">S&oslash;r-Norge, innland</option>
+			<option value="3">S&oslash;r-Norge, h&oslash;yfjell</option>
+			<option value="4">Midt-Norge, kyst</option>
+			<option value="5">Midt-Norge, innland</option>
+			<option value="6">Nord-Norge, kyst</option>
+			<option value="7">Finnmark og innland Troms</option>
 		</select><br /><br />
+		
+		<label>Tidsrom for simulering</label><br />
+		
+		Start tid: <input type="datetime-local" name="startTime" value="{$smarty.session.es->_startTime}" /> <br />
+		Slutt tid: <input type="datetime-local" name="endTime" value="{$smarty.session.es->_endTime}"/> 
+		<br /><br />
+		Oppl&oslash;sning i simulering: <input type="number" name="opplosning" value="{$smarty.session.es->_opplosning}" /> Auto 3600s
+		<br /><br />
 	
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("startNewWizard")}

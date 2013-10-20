@@ -65,6 +65,11 @@ if($climateZone == '4'){ $climateZone = "Midt-Norge, kyst";}
 if($climateZone == '5'){ $climateZone = "Midt-Norge, innland";}
 if($climateZone == '6'){ $climateZone = "Nord-Norge, kyst";}
 if($climateZone == '7'){ $climateZone = "Finnmark og innland Troms";}
+$startDate = $row['climateZone'];
+$startTime = $row['climateZone'];
+$endDate = $row['climateZone'];
+$endTime = $row['climateZone'];
+$opplosning = $row['climateZone'];
 
 $building = $row['building'];
 $houseBuildYear = $row['houseBuildYear'];
@@ -154,12 +159,14 @@ $pdf->Cell(0,5, utf8_decode('Antall Brunevarer: '.$numBrun) ,0,2,'l');
 // undertittel for Klimasone
 $pdf->ln(5);
 $pdf->SetFont('Arial','B',12);
-$pdf->Cell(0,6, 'Klimasone', 0,2,'l');
+$pdf->Cell(0,6, 'Klima og tidsrom', 0,2,'l');
 
 // verdier
 $pdf->SetFont('Times','',12);
 $pdf->ln(2);
 $pdf->Cell(0,5, utf8_decode('Klimasone: '.$climateZone) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Start tid: '.$startTime) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Slutt tid: '.$endTime) ,0,2,'l');
 
 
 // genererer PDF

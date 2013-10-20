@@ -50,8 +50,6 @@ function kobleTil($databasenavn)
 	$floorHeatEl = $row['floorHeatEl'];
 	$priBoilerSize = $row['priBoilerSize'];
 	$priBoilerPower = $row['priBoilerPower'];
-	$secBoilerSize = $row['secBoilerSize'];
-	$secBoilerPower = $row['secBoilerPower'];
 	$numLight = $row['numLight'];
 	$priLightType = $row['priLightType'];
 	$secLightType = $row['secLightType'];
@@ -60,6 +58,9 @@ function kobleTil($databasenavn)
 	$numHvit = $row['numHvit'];
 	$numBrun = $row['numBrun'];
 	$climateZone = $row['climateZone'];
+	$startTime = $row['startTime'];
+	$endTime = $row['endTime'];
+	$opplosning = $row['opplosning'];
 	
 
   	// Lager XML 
@@ -102,8 +103,6 @@ function kobleTil($databasenavn)
 			$xml .= "<floorHeatEl>".$floorHeatEl."</floorHeatEl> \n\t\t\t";
 			$xml .= "<priBoilerSize>".$priBoilerSize."</priBoilerSize> \n\t\t\t";
 			$xml .= "<priBoilerPower>".$priBoilerPower."</priBoilerPower> \n\t\t\t";
-			$xml .= "<secBoilerSize>".$secBoilerSize."</secBoilerSize> \n\t\t\t";
-			$xml .= "<secBoilerPower>".$secBoilerPower."</secBoilerPower> \n\t\t";
 		$xml .= "</ForbrukVann>  \n\t\t";
 		$xml .= "<Belysning type=\"class\"> \n\t\t\t";
 // 			$xml .= "<antLys>".$numLight."</antLys> \n\t\t\t";
@@ -130,9 +129,9 @@ function kobleTil($databasenavn)
 	
 	// Tidsrom
 	$xml .= "<Tidsrom type=\"class\">\n\t\t";
-		$xml .= "<startDateTime>2012-05-19 10:00:00 CET</startDateTime>\n\t\t";
-		$xml .= "<endDateTime>2012-06-23 10:00:00 CET</endDateTime>\n\t\t";
-		$xml .= "<opplosning>3600</opplosning>\n\t";
+		$xml .= "<startDateTime>".$startTime." CET</startDateTime>\n\t\t";
+		$xml .= "<endDateTime>".$endTime." CET</endDateTime>\n\t\t";
+		$xml .= "<opplosning>".$opplosning."</opplosning>\n\t";
 	$xml .= "</Tidsrom>\n";
 	
 	

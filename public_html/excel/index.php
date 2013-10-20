@@ -45,8 +45,6 @@ function kobleTil($databasenavn)
 	$floorHeatEl = $row['floorHeatEl'];
 	$priBoilerSize = $row['priBoilerSize'];
 	$priBoilerPower = $row['priBoilerPower'];
-	$secBoilerSize = $row['secBoilerSize'];
-	$secBoilerPower = $row['secBoilerPower'];
 	$numLight = $row['numLight'];
 	$priLightType = $row['priLightType'];
 	$secLightType = $row['secLightType'];
@@ -62,6 +60,9 @@ function kobleTil($databasenavn)
 	if($climateZone == '5'){ $climateZone = "Midt-Norge, innland";}
 	if($climateZone == '6'){ $climateZone = "Nord-Norge, kyst";}
 	if($climateZone == '7'){ $climateZone = "Finnmark og innland Troms";}
+	$startTime = $row['startTime'];
+	$endTime = $row['endTime'];
+	$opplosning = $row['opplosning'];
 	
 	$building = $row['building'];
 	$houseBuildYear = $row['houseBuildYear'];
@@ -94,8 +95,6 @@ function kobleTil($databasenavn)
 	array("Type" => "Gulvvarme Elektrisk", "Verdi" => "$floorHeatEl"),
 	array("Type" => "Primær Elektrokjel (liter)", "Verdi" => "$priBoilerSize"),
 	array("Type" => "Primær Elektrokjel (watt)", "Verdi" => "$priBoilerPower"),
-	array("Type" => "Sekundær Elektrokjel (liter)", "Verdi" => "$secBoilerSize"),
-	array("Type" => "Sekundær Elektrokjel (watt)", "Verdi" => "$secBoilerPower"),
 	array("Type" => "", "Verdi" => ""),
 	array("Type" => "Antall Lyskilder", "Verdi" => "$numLight"),
 	array("Type" => "Primær Belysning", "Verdi" => "$priLightType"),
@@ -106,7 +105,10 @@ function kobleTil($databasenavn)
 	array("Type" => "Antall Hvitevarer", "Verdi" => "$numHvit"),
 	array("Type" => "Antall Brunevarer", "Verdi" => "$numBrun"),
 	array("Type" => "", "Verdi" => ""),
-	array("Type" => "Klimasone", "Verdi" => "$climateZone")
+	array("Type" => "Klimasone", "Verdi" => "$climateZone"),
+  	array("Type" => "Start tid", "Verdi" => "$startTime"),
+  	array("Type" => "Slutt tid", "Verdi" => "$endTime"),
+  	array("Type" => "Oppløsning", "Verdi" => "$opplosning")
   );
 ?>
 

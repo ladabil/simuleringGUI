@@ -32,6 +32,9 @@ class EnergySimulator
 	var $_lightDiff = 0;
 	
 	var $_climateZone = 0;
+	var $_startTime = 0;
+	var $_endTime = 0;
+	var $_opplosning = 0;	
 	var $_numHvit = 0;
 	var $_numBrun = 0;
 	

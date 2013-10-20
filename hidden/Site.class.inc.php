@@ -71,6 +71,9 @@ class Site
 	public static $fetchedLightTime = "0";
 	public static $fetchedLightDiff = "0";
 	public static $fetchedClimateZone = "0";
+	public static $fetchedStartTime = "0";
+	public static $fetchedEndTime = "0";
+	public static $fetchedopplosning = "0";
 	public static $fetchedNumHvit = "0";
 	public static $fetchedNumBrun = "0";	
 	
@@ -425,7 +428,7 @@ class Site
 			
 			if ( strlen($_REQUEST["alName"]) < 6 )
 			{
-				$errMsg .= "Navnet mï¿½ vï¿½re mer en 6 tegn<br>\n";
+				$errMsg .= "Navnet må være mer en 6 tegn<br>\n";
 			}
 		}
 		else
@@ -441,7 +444,7 @@ class Site
 				
 			if ( strlen($_REQUEST["alUsername"]) < 4 )
 			{
-				$errMsg .= "Brukernavnet mï¿½ vï¿½re mer en 4 tegn<br>\n";
+				$errMsg .= "Brukernavnet må være mer en 4 tegn<br>\n";
 			}
 		}
 		else
@@ -471,11 +474,11 @@ class Site
 		{
 			if ( strlen($_REQUEST["alPassword"]) < 8 )
 			{
-				$errMsg .= "Passordet mï¿½ vï¿½re mer enn 8 tegn<br>\n";
+				$errMsg .= "Passordet må være mer enn 8 tegn<br>\n";
 			}
 			else if ( strcmp($_REQUEST["alPassword"], $_REQUEST["alPassword2"]) != 0) 
 			{
-				$errMsg .= "Passordene er ikke like, forsï¿½k igjen<br>\n";
+				$errMsg .= "Passordene er ikke like, forsøk igjen<br>\n";
 			}
 		}
 		else
@@ -671,12 +674,12 @@ class Site
 		}
 		else
 		{
-			$errMsg .= "Mangler Primï¿½r Areal<br>\n";
+			$errMsg .= "Mangler Primær Areal<br>\n";
 		}
 		
 		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
 		{
-			$errMsg .= "Primï¿½r Areal kan ikke vï¿½re stï¿½rre enn bruttoareal<br>\n";
+			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
 		}
 		
 		if ( strlen($errMsg) > 0 )
@@ -1028,6 +1031,33 @@ class Site
 			// Default 1 (Sï¿½r-norge?)
 			$_SESSION['es']->_climateZone = 1;
 		}
+		if ( isset($_REQUEST['startTime']) && intval($_REQUEST['startTime']) >= 0 )
+		{
+			$_SESSION['es']->_startTime = ($_REQUEST['startTime']);
+		}
+		else
+		{
+			// Default starttid
+			$_SESSION['es']->_startTime = '2012-05-19 10:00:00';
+		}
+		if ( isset($_REQUEST['endTime']) && intval($_REQUEST['endTime']) >= 0 )
+		{
+			$_SESSION['es']->_endTime = ($_REQUEST['endTime']);
+		}
+		else
+		{
+			// Default slutttid
+			$_SESSION['es']->_endTime = '2012-06-23 10:00:00';
+		}
+		if ( isset($_REQUEST['opplosning']) && intval($_REQUEST['opplosning']) >= 0 )
+		{
+			$_SESSION['es']->_opplosning = intval($_REQUEST['opplosning']);
+		}
+		else
+		{
+			// Default opplosning
+			$_SESSION['es']->_opplosning = 10;
+		}
 	
 		// Parse return and redirect
 		if ( strlen($errMsg) > 0 )
@@ -1093,7 +1123,10 @@ class Site
 			secLightType, 
 			lightTime, 
 			lightDiff, 
-			climateZone, 
+			climateZone,
+			startTime,
+			endTime,
+			opplosning, 
 			numHvit, 
 			numBrun,
 			name
@@ -1124,6 +1157,9 @@ class Site
 			'".$_SESSION['es']->_lightTime."', 
 			'".$_SESSION['es']->_lightDiff."', 
 			'".$_SESSION['es']->_climateZone."', 
+			'".$_SESSION['es']->_startTime."',
+			'".$_SESSION['es']->_endTime."',
+			'".$_SESSION['es']->_opplosning."',
 			'".$_SESSION['es']->_numHvit."', 
 			'".$_SESSION['es']->_numBrun."',
 			'".$definedStoreName."'
@@ -1334,6 +1370,9 @@ class Site
 		$fetchedLightTime = $tmpRes['lightTime'];
 		$fetchedLightDiff = $tmpRes['lightDiff'];
 		$fetchedClimateZone = $tmpRes['climateZone'];
+		$fetchedStartTime = $tmpRes['startTime'];
+		$fetchedEndTime = $tmpRes['endTime'];
+		$fetchedopplosning = $tmpRes['opplosning'];
 		$fetchedNumHvit = $tmpRes['numHvit'];
 		$fetchedNumBrun = $tmpRes['numBrun'];
 		$fetchedBuilding = $tmpRes['building'];
@@ -1381,6 +1420,9 @@ class Site
 		$tpl->assign('lightTime', $fetchedLightTime);
 		$tpl->assign('lightDiff', $fetchedLightDiff);
 		$tpl->assign('climateZone', $fetchedClimateZone);
+		$tpl->assign('startTime', $fetchedStartTime);
+		$tpl->assign('endTime', $fetchedEndTime);
+		$tpl->assign('opplosning', $fetchedopplosning);
 		$tpl->assign('numHvit', $fetchedNumHvit);
 		$tpl->assign('numBrun', $fetchedNumBrun);
 		
@@ -1464,6 +1506,36 @@ class Site
 			$es->_climateZone = 1;
 		}
 		
+		if ( isset($_REQUEST['startTime']) && intval($_REQUEST['startTime']) >= 0 )
+		{
+			$_SESSION['es']->_startTime = ($_REQUEST['startTime']);
+		}
+		else
+		{
+			// Default starttid
+			$_SESSION['es']->_startTime = '2012-05-19 10:00:00';
+		}
+		
+		if ( isset($_REQUEST['endTime']) && intval($_REQUEST['endTime']) >= 0 )
+		{
+			$_SESSION['es']->_endTime = ($_REQUEST['endTime']);
+		}
+		else
+		{
+			// Default slutttid
+			$_SESSION['es']->_endTime = '2012-06-23 10:00:00';
+		}
+		
+		if ( isset($_REQUEST['opplosning']) && intval($_REQUEST['opplosning']) >= 0 )
+		{
+			$_SESSION['es']->_opplosning = intval($_REQUEST['opplosning']);
+		}
+		else
+		{
+			// Default opplosning
+			$_SESSION['es']->_opplosning = 3600;
+		}
+		
 		// Brutto Areal
 		if ( isset($_REQUEST['houseTotalArea']) && intval($_REQUEST['houseTotalArea']) > 0 )
 		{
@@ -1483,12 +1555,12 @@ class Site
 		}
 		else
 		{
-			$errMsg .= "Mangler Primï¿½r Areal<br>\n";
+			$errMsg .= "Mangler Primær Areal<br>\n";
 		}
 		
 		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
 		{
-			$errMsg .= "Primï¿½r Areal kan ikke vï¿½re stï¿½rre enn bruttoareal<br>\n";
+			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
 		}
 
 		// Antall beboere og type tidsfordiv
