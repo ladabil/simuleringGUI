@@ -65,10 +65,8 @@ if($climateZone == '4'){ $climateZone = "Midt-Norge, kyst";}
 if($climateZone == '5'){ $climateZone = "Midt-Norge, innland";}
 if($climateZone == '6'){ $climateZone = "Nord-Norge, kyst";}
 if($climateZone == '7'){ $climateZone = "Finnmark og innland Troms";}
-$startDate = $row['climateZone'];
-$startTime = $row['climateZone'];
-$endDate = $row['climateZone'];
-$endTime = $row['climateZone'];
+$startTime = $row['startTime'];
+$endTime = $row['endTime'];
 $opplosning = $row['climateZone'];
 
 $building = $row['building'];
@@ -165,8 +163,8 @@ $pdf->Cell(0,6, 'Klima og tidsrom', 0,2,'l');
 $pdf->SetFont('Times','',12);
 $pdf->ln(2);
 $pdf->Cell(0,5, utf8_decode('Klimasone: '.$climateZone) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Start tid: '.$startTime) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Slutt tid: '.$endTime) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Start tid: '.$startTime. ' CET') ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Slutt tid: '.$endTime. ' CET') ,0,2,'l');
 
 
 // genererer PDF
