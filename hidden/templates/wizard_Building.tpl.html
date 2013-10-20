@@ -44,9 +44,14 @@
 	
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("startNewWizard")}
-		<input type="button" class="button" value="Lagre bolig" onClick="document.location.href='index.php?function=funcShowStoreBuilding';" />
-		<input type="button" class="button" value="Hent bolig" onClick="window.alert('Funksjonen er ikke implementert enda'); return false;" />
-		<input style="float: right;" type="submit" class="button" value='Neste -> Oppvarming' />
+
+		
+		
+		<input type="submit" class="button" name="submit" value='Lagre Bolig' />
+		<input type="submit" class="button" name="submit" value='Hent Bolig' />
+		
+		
+		<input style="float: right;" type="submit" class="button" name="submit" value='Neste -> Oppvarming' />
 
 	</form>
 </div>

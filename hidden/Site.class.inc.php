@@ -33,8 +33,8 @@ class Site
 	public static $funcParseStoreBuilding = "parseStoreBuilding";
 	public static $funcParseStoreBuildingDone = "parseStoreBuildingDone";
 	public static $showStoreBuilding = "showStoreBuilding";
-	public static $funcShowStoreBuilding ="funcShowStoreBuilding";
-	
+	public static $funcShowStoreBuilding = "funcShowStoreBuilding";
+	public static $funcParseGetStoreBuilding = "funcParseGetStoreBulding";
 	
 		
 	public static $funcShowAdminDefault = "showAdminDefault";
@@ -43,6 +43,7 @@ class Site
 	public static $funcCreateNewUserForm = "createNewUserForm";
 	public static $funcDeleteUser = "deleteUser";
 	public static $storedSim_array;
+	public static $storedBuilding_array;
 	
 	public static $doDebug = FALSE;
 	
@@ -75,7 +76,13 @@ class Site
 	public static $fetchedEndTime = "0";
 	public static $fetchedopplosning = "0";
 	public static $fetchedNumHvit = "0";
-	public static $fetchedNumBrun = "0";	
+	public static $fetchedNumBrun = "0";
+	
+	// variabler for videresending av bygginformasjon til lagring
+	public static $StoreBuildByggType = "0";
+	public static $StoreBuildByggAar = "0";		
+	public static $StoreBuildTotalArea = "0"; 
+	public static $StoreBuildBygg = "0";
 	
 	
 	static function parseRequest()
@@ -270,6 +277,12 @@ class Site
 					break;
 				case static::$funcShowStoreBuilding:
 					echo static::showStoreBuilding();
+					break;
+				case static::$funcParseStoreBuildingDone:
+ 					echo static::parseStoreBuildingDone();
+					break;
+				case static::$funcParseGetStoreBuilding:
+					echo static::parseGetStoreBuilding();
 					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
@@ -569,6 +582,14 @@ class Site
 		// Verifiser token f�rst..
 		Base::verifyTokenFromRequest("setupSimulator");
 		
+		$submit = $_POST['submit'];
+		if($submit == "Hent Bolig")
+		{
+			$_SESSION['es']->_houseTotalArea = 99;
+			$_SESSION['es']->_housePrimaryArea = 99;
+			return static::GetStoreBuilding();
+		}
+		
 		// Spesifiser byggnings type
 		if ( isset($_REQUEST['byggType']) && intval($_REQUEST['byggType']) > 0 )
 		{
@@ -693,6 +714,73 @@ class Site
 			echo "<pre>\n";
 			print_r($_SESSION['es']);
 		}
+		
+		
+		if($submit == "Lagre Bolig")
+		{
+			static::$StoreBuildByggType = $_REQUEST['byggType'];
+			static::$StoreBuildByggAar = $_REQUEST['byggaar'];
+			static::$StoreBuildTotalArea = $_REQUEST['houseTotalArea'];
+			static::$StoreBuildBygg = $_REQUEST['housePrimaryArea'];	
+			return static::showStoreBuilding();
+		}
+		
+		
+		else return static::showWizHeat();
+	}
+	
+	static function GetStoreBuilding()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+		
+		
+		$tpl = static::wizardInit();
+		$getSQL = "SELECT id, StoredName FROM preDef";
+		
+		if ( ($res = Base::getMysqli()->query($getSQL)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		
+		//Looper igjennom og sender tags til smarty.
+		while($row = mysqli_fetch_array($res))
+		{
+			static::$storedBuilding_array[] = $row;
+		}
+		//$tpl->assign('dump', var_dump($row));
+		$tpl->assign('storedBuilding' , static::$storedBuilding_array);
+		$tpl->assign('function', static::$funcParseGetStoreBuilding);
+		
+		return static::getMainFrame($tpl->fetch("wizard_GetStoreBuilding.tpl.html"), "Wizard");
+	}
+
+	static function parseGetStoreBuilding()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+		static::wizardInit();
+		
+		// Verifiser token f�rst..
+		Base::verifyTokenFromRequest("setupSimulator");
+		
+		
+		$tpl = new MySmarty();
+		
+		$es = new EnergySimulator();
+		$errMsg = "";
+		
+		$_SESSION['es'] = new EnergySimulator();
+		
+		$sql = "SELECT * FROM preDef WHERE id = '".intval($_REQUEST['simValgt'])."'";
+		
+		if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		$tmpRes = $res->fetch_Assoc();
+		$_SESSION['es']->_building = $tmpRes['building'];
+		$_SESSION['es']->_houseBuildYear = $tmpRes['houseBuildYear'];
+		$_SESSION['es']->_houseTotalArea = $tmpRes['houseTotalArea'];
+		$_SESSION['es']->_housePrimaryArea = $tmpRes['housePrimaryArea'];
 		
 		return static::showWizHeat();
 	}
@@ -1213,8 +1301,73 @@ class Site
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 		$errMsg = "";
 		static::wizardInit();
+		
 		// Verifiser token f�rst..
 		Base::verifyTokenFromRequest("setupSimulator");
+		
+		if ( isset($_REQUEST['byggType']) && intval($_REQUEST['byggType']) > 0 )
+		{
+			$_SESSION['es']->_building = intval($_REQUEST['byggType']);
+		}
+		else
+		{
+			// Default 1 (Enebolig)
+			$_SESSION['es']->_building = 1;
+		}
+		
+		// Spesifiser byggeaar
+		if ( isset($_REQUEST['byggaar']) && intval($_REQUEST['byggaar']) > 0 )
+		{
+			$_SESSION['es']->_houseBuildYear = intval($_REQUEST['byggaar']);
+		}
+		else
+		{
+			// Default bygg�r
+			$_SESSION['es']->_houseBuildYear = 1980;
+		}
+		
+		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
+		{
+			$_SESSION['es']->_climateZone = intval($_REQUEST['klima']);
+		}
+		else
+		{
+			// Default 1 (S�r-norge?)
+			$_SESSION['es']->_climateZone = 1;
+		}
+		
+		// Brutto Areal
+		if ( isset($_REQUEST['houseTotalArea']) && intval($_REQUEST['houseTotalArea']) > 0 )
+		{
+			$_SESSION['es']->_houseTotalArea = intval($_REQUEST['houseTotalArea']);
+		}
+		else
+		{
+			$errMsg .= "Mangler Brutto Areal<br>\n";
+		}
+		
+		// Prim�r Areal
+		if ( isset($_REQUEST['housePrimaryArea']) && intval($_REQUEST['housePrimaryArea']) > 0 )
+		{
+			$_SESSION['es']->_housePrimaryArea = intval($_REQUEST['housePrimaryArea']);
+		}
+		else
+		{
+			$errMsg .= "Mangler Prim�r Areal<br>\n";
+		}
+		
+		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
+		{
+			$errMsg .= "Prim�r Areal kan ikke v�re st�rre enn bruttoareal<br>\n";
+		}
+		
+		
+		static::$StoreBuildByggType = $_REQUEST['byggType'];
+		static::$StoreBuildByggAar = $_REQUEST['byggaar'];
+		static::$StoreBuildTotalArea = $_REQUEST['houseTotalArea'];
+		static::$StoreBuildBygg = $_REQUEST['housePrimaryArea'];	
+		
+		
 		
 		return static::showStoreBuilding();
 	}
@@ -1225,11 +1378,59 @@ class Site
 	
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseStoreBuildingDone);
-	
+		
+		
 		return static::getMainFrame($tpl->fetch("wizard_StoreBuilding.tpl.html"), "Wizard");
 	}
 	
+	static function parseStoreBuildingDone()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 	
+		$errMsg = "";
+		static::wizardInit();
+	
+		// Verifiser token f�rst..
+		Base::verifyTokenFromRequest("setupSimulator");
+	
+		if ( isset($_REQUEST['StorageName']) && strlen($_REQUEST['StorageName']) > 0 )
+		{
+			$sql = "INSERT INTO preDef
+			(
+				building,
+				houseBuildYear,
+				houseTotalArea, 
+				housePrimaryArea, 
+				StoredName
+			) 
+			VALUES
+			(
+				'".$_SESSION['es']->_building."',
+				'".$_SESSION['es']->_houseBuildYear."',		
+				'".$_SESSION['es']->_houseTotalArea."', 
+				'".$_SESSION['es']->_housePrimaryArea."', 		
+				'".$_REQUEST['StorageName']."'
+			)";
+			
+			if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+			{
+				die(Base::getMysqli()->error);
+			}
+			
+		}
+		else
+		{
+			$errMsg .= "Mangler lagringsnavn.<br>\n";
+		}
+	
+		if ( strlen($errMsg) > 0 )
+		{
+			static::addInfoMessage($errMsg);
+			return static::showStoreBuilding();
+		}
+		
+		return static::showWizBuilding();
+	}
 	
 	/*
 	 * 	Lagring av Simulering
