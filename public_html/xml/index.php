@@ -156,9 +156,9 @@ function kobleTil($databasenavn)
 	echo "Sender simuleringen for {$name} til kalkulering <br><br>
 	Simuleringsperiode fra {$startTime} til {$endTime} <br><br>
 	Simuleringstiden er {$interval->format('%R%a dager')} <br><br>
-	Estimert tidsfobruk er {$tidsforbruk} sekunder <br><br>
-	<i>med forbehold om kø i beregning og kommunikasjonsfeil</i>"; 
+	Estimert tidsfobruk er {$tidsforbruk} sekunder <br>
+	<i>med forbehold om kø i beregning og kommunikasjonsfeil</i><br><br>"; 
 	
 	?>
-	<a href="http://jenna.bendiksens.net/~gruppe2/index.php">Tilbake</a>
+	<a href="javascript:window.close();">Tilbake</a>
 	
