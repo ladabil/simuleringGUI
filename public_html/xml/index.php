@@ -144,8 +144,21 @@ function kobleTil($databasenavn)
 	$dom->preserveWhiteSpace = true;
 	$dom->formatOutput = true;
 	$dom->loadXML($xmlobj->asXML());
-	echo $dom->saveXML();
+	//echo $dom->saveXML(); // For test -> viser xml datene
 	$filename = "/home/gruppe2/new/" . date("Ymd") . "_" . time() . ".xml";
 	$dom->save($filename);
+
+	$datetime1 = new DateTime($startTime);
+	$datetime2 = new DateTime($endTime);
+	$interval = $datetime1->diff($datetime2);
+	$tidsforbruk = ( ( ($datetime2->getTimestamp()/1973963) - ($datetime1->getTimestamp()/1973963) )  ) * 2.65 ; //973963
 	
+	echo "Sender simuleringen for {$name} til kalkulering <br><br>
+	Simuleringsperiode fra {$startTime} til {$endTime} <br><br>
+	Simuleringstiden er {$interval->format('%R%a dager')} <br><br>
+	Estimert tidsfobruk er {$tidsforbruk} sekunder <br><br>
+	<i>med forbehold om kø i beregning og kommunikasjonsfeil</i>"; 
+	
+	?>
+	<a href="http://jenna.bendiksens.net/~gruppe2/index.php">Tilbake</a>
 	
