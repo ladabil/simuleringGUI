@@ -83,6 +83,11 @@ class Site
 	public static $StoreBuildByggAar = "0";		
 	public static $StoreBuildTotalArea = "0"; 
 	public static $StoreBuildBygg = "0";
+	public static $StoreYtterVeggAreal = "0";
+	public static $StoreYtterTakAreal = "0";
+	public static $StoreVinduDorAreal = "0";
+	public static $StoreLuftVolum = "0";
+	public static $StoreOnsketTemp = "0";
 	
 	
 	static function parseRequest()
@@ -441,7 +446,7 @@ class Site
 			
 			if ( strlen($_REQUEST["alName"]) < 6 )
 			{
-				$errMsg .= "Navnet må være mer en 6 tegn<br>\n";
+				$errMsg .= "Navnet mï¿½ vï¿½re mer en 6 tegn<br>\n";
 			}
 		}
 		else
@@ -457,7 +462,7 @@ class Site
 				
 			if ( strlen($_REQUEST["alUsername"]) < 4 )
 			{
-				$errMsg .= "Brukernavnet må være mer en 4 tegn<br>\n";
+				$errMsg .= "Brukernavnet mï¿½ vï¿½re mer en 4 tegn<br>\n";
 			}
 		}
 		else
@@ -487,11 +492,11 @@ class Site
 		{
 			if ( strlen($_REQUEST["alPassword"]) < 8 )
 			{
-				$errMsg .= "Passordet må være mer enn 8 tegn<br>\n";
+				$errMsg .= "Passordet mï¿½ vï¿½re mer enn 8 tegn<br>\n";
 			}
 			else if ( strcmp($_REQUEST["alPassword"], $_REQUEST["alPassword2"]) != 0) 
 			{
-				$errMsg .= "Passordene er ikke like, forsøk igjen<br>\n";
+				$errMsg .= "Passordene er ikke like, forsï¿½k igjen<br>\n";
 			}
 		}
 		else
@@ -695,12 +700,12 @@ class Site
 		}
 		else
 		{
-			$errMsg .= "Mangler Primær Areal<br>\n";
+			$errMsg .= "Mangler Primï¿½r Areal<br>\n";
 		}
 		
 		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
 		{
-			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
+			$errMsg .= "Primï¿½r Areal kan ikke vï¿½re stï¿½rre enn bruttoareal<br>\n";
 		}
 		
 		if ( strlen($errMsg) > 0 )
@@ -721,7 +726,13 @@ class Site
 			static::$StoreBuildByggType = $_REQUEST['byggType'];
 			static::$StoreBuildByggAar = $_REQUEST['byggaar'];
 			static::$StoreBuildTotalArea = $_REQUEST['houseTotalArea'];
-			static::$StoreBuildBygg = $_REQUEST['housePrimaryArea'];	
+			static::$StoreBuildBygg = $_REQUEST['housePrimaryArea'];
+			static::$StoreYtterVeggAreal = $_REQUEST['ytterveggAreal'];
+			static::$StoreYtterTakAreal = $_REQUEST['yttertakAreal'];
+			static::$StoreVinduDorAreal = $_REQUEST['vinduDorAreal'];
+			static::$StoreLuftVolum = $_REQUEST['luftVolum'];
+			static::$StoreOnsketTemp = $_REQUEST['onsketTemp'];	
+			
 			return static::showStoreBuilding();
 		}
 		
@@ -781,6 +792,11 @@ class Site
 		$_SESSION['es']->_houseBuildYear = $tmpRes['houseBuildYear'];
 		$_SESSION['es']->_houseTotalArea = $tmpRes['houseTotalArea'];
 		$_SESSION['es']->_housePrimaryArea = $tmpRes['housePrimaryArea'];
+		$_SESSION['es']->_ytterveggAreal = $tmpRes['ytterVeggAreal'];
+		$_SESSION['es']->_yttertakAreal = $tmpRes['ytterTakAreal'];
+		$_SESSION['es']->_vinduDorAreal = $tmpRes['vinduDorAreal'];
+		$_SESSION['es']->_luftVolum = $tmpRes['luftVolum'];
+		$_SESSION['es']->_onsketTemp = $tmpRes['onsketTemp'];
 		
 		return static::showWizHeat();
 	}
@@ -1400,7 +1416,12 @@ class Site
 				building,
 				houseBuildYear,
 				houseTotalArea, 
-				housePrimaryArea, 
+				housePrimaryArea,
+				ytterVeggAreal,
+				ytterTakAreal,
+				vinduDorAreal,
+				luftVolum,
+				onsketTemp, 
 				StoredName
 			) 
 			VALUES
@@ -1408,7 +1429,12 @@ class Site
 				'".$_SESSION['es']->_building."',
 				'".$_SESSION['es']->_houseBuildYear."',		
 				'".$_SESSION['es']->_houseTotalArea."', 
-				'".$_SESSION['es']->_housePrimaryArea."', 		
+				'".$_SESSION['es']->_housePrimaryArea."', 
+				'".$_SESSION['es']->_ytterveggAreal."',
+				'".$_SESSION['es']->_yttertakAreal."',		
+				'".$_SESSION['es']->_vinduDorAreal."', 
+				'".$_SESSION['es']->_luftVolum."',
+				'".$_SESSION['es']->_onsketTemp."',		
 				'".$_REQUEST['StorageName']."'
 			)";
 			
@@ -1756,12 +1782,12 @@ class Site
 		}
 		else
 		{
-			$errMsg .= "Mangler Primær Areal<br>\n";
+			$errMsg .= "Mangler Primï¿½r Areal<br>\n";
 		}
 		
 		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
 		{
-			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
+			$errMsg .= "Primï¿½r Areal kan ikke vï¿½re stï¿½rre enn bruttoareal<br>\n";
 		}
 
 		// Antall beboere og type tidsfordiv
