@@ -1,5 +1,12 @@
 <?php
 
+
+/*
+ *  Proof of concept
+ *  Mikael
+ * 
+ */
+
 $families = array
   (
   	"Yrke"=>array
