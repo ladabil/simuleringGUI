@@ -89,6 +89,12 @@ class Site
 	public static $StoreLuftVolum = "0";
 	public static $StoreOnsketTemp = "0";
 	
+	public static $families = array
+ 	(
+  		"Yrke"=>array(),
+		"Alder"=>array()
+  	);
+	
 	
 	static function parseRequest()
 	{
@@ -1025,6 +1031,18 @@ class Site
 		return static::getMainFrame($tpl->fetch("wizard_Inhabitants.tpl.html"), "Wizard");
 	}
 	
+	static function showStoreBeboere()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$tpl = static::wizardInit();
+		//$tpl->assign('inhabitantWorkTypesArr', EnergySimulator::getInhabitantWorkTypesAsArray());
+		//$tpl->assign('function', static::$funcParseWizardInhabitants);
+		$tpl->assign('array', static::$families);
+	
+		return static::getMainFrame($tpl->fetch("array_test.tpl.html"), "Wizard");
+	}
+	
 	static function parseWizInhabitants()
 	{
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
@@ -1034,6 +1052,24 @@ class Site
 		
 		// Verifiser token f�rst..
 		Base::verifyTokenFromRequest("setupSimulator");
+		
+		$submit = $_POST['submit'];
+		if($submit == "Lagre Beboere")
+		{
+			// did not get this shit to work....
+			/*
+			$tmpWorkArray = EnergySimulator::getinhabitantsWorkArray();	
+			foreach ($tmpWorkArray as $i => $value) 
+			{
+				array_push($families["Yrke"], $_REQUEST['inhabitantsWork']);
+			}
+			foreach ($tmpWorkArray as $i => $value) 
+			{
+				array_push($families["Alder"], $_REQUEST['inhabitantsAge']);
+			}
+			*/
+			return static::showStoreBeboere();
+		}
 		
 		if ( isset($_REQUEST['antall_i_hus']) && intval($_REQUEST['antall_i_hus']) > 0 )
 		{

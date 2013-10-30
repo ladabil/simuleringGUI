@@ -81,6 +81,17 @@ class EnergySimulator
 		return $workType;
 	}
 	
+	/*
+	static function getinhabitantsWorkArray()
+	{
+		return $this->_inhabitantsWork;
+	}
+	
+	static function getinhabitantsAgeArray()
+	{
+		return $this->_inhabitantsAge;
+	}
+	*/
 	
 }
 
