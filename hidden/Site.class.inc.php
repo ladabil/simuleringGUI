@@ -35,7 +35,7 @@ class Site
 	public static $showStoreBuilding = "showStoreBuilding";
 	public static $funcShowStoreBuilding = "funcShowStoreBuilding";
 	public static $funcParseGetStoreBuilding = "funcParseGetStoreBulding";
-	
+	public static $funcParseStoreBeboere = "funcParseStoreBeboere";
 		
 	public static $funcShowAdminDefault = "showAdminDefault";
 	public static $funcShowUserMenu = "showUserMenu";
@@ -45,7 +45,7 @@ class Site
 	public static $storedSim_array;
 	public static $storedBuilding_array;
 	
-	public static $doDebug = FALSE;
+	public static $doDebug = true;
 	
 	//simhentings variabler
 	public static $fetchedName = "0";
@@ -294,6 +294,9 @@ class Site
 					break;
 				case static::$funcParseGetStoreBuilding:
 					echo static::parseGetStoreBuilding();
+					break;
+				case static::$funcParseStoreBeboere:
+					echo static::StoreBeboere();
 					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
@@ -1037,10 +1040,65 @@ class Site
 	
 		$tpl = static::wizardInit();
 		//$tpl->assign('inhabitantWorkTypesArr', EnergySimulator::getInhabitantWorkTypesAsArray());
-		//$tpl->assign('function', static::$funcParseWizardInhabitants);
-		$tpl->assign('array', static::$families);
+		$tpl->assign('function', static::$funcParseStoreBeboere);
+		//$tpl->assign('array', static::$families);
+		if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r($_SESSION['es']);
+			
+		}
 	
 		return static::getMainFrame($tpl->fetch("array_test.tpl.html"), "Wizard");
+	}
+	
+	static function StoreBeboere()
+	{
+		if ( isset($_REQUEST['StorageName']) && strlen($_REQUEST['StorageName']) > 0 )
+		{
+			foreach ($_SESSION['es']->_inhabitantsWork as $i => $value)
+			{
+			
+				$sql = "INSERT INTO FamilyStore
+				(
+					work,
+					age,	
+					StoredName
+				) 
+				VALUES
+				(
+					".$_SESSION['es']->_inhabitantsWork[$i].",
+					".$_SESSION['es']->_inhabitantsAge[$i].", 	
+					'".$_REQUEST['StorageName']."'
+				)";
+				
+				if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+				{
+					die(Base::getMysqli()->error);
+				}
+			}
+		
+			$sql = "INSERT INTO FamilyStoreName
+			(	
+				StoredName
+			) 
+				VALUES
+			( 	
+				'".$_REQUEST['StorageName']."'
+			)";
+					
+			if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+			{
+				die(Base::getMysqli()->error);
+			}
+			
+		}
+		else
+		{
+			$errMsg .= "Mangler lagringsnavn.<br>\n";
+		}
+
+		return static::showWizClimateZone();
 	}
 	
 	static function parseWizInhabitants()
@@ -1054,22 +1112,7 @@ class Site
 		Base::verifyTokenFromRequest("setupSimulator");
 		
 		$submit = $_POST['submit'];
-		if($submit == "Lagre Beboere")
-		{
-			// did not get this shit to work....
-			/*
-			$tmpWorkArray = EnergySimulator::getinhabitantsWorkArray();	
-			foreach ($tmpWorkArray as $i => $value) 
-			{
-				array_push($families["Yrke"], $_REQUEST['inhabitantsWork']);
-			}
-			foreach ($tmpWorkArray as $i => $value) 
-			{
-				array_push($families["Alder"], $_REQUEST['inhabitantsAge']);
-			}
-			*/
-			return static::showStoreBeboere();
-		}
+		
 		
 		if ( isset($_REQUEST['antall_i_hus']) && intval($_REQUEST['antall_i_hus']) > 0 )
 		{
@@ -1138,6 +1181,24 @@ class Site
 			print_r($_SESSION['es']);
 		}
 		
+		if($submit == "Lagre Beboere")
+		{
+			// did not get this shit to work....
+			/*
+			$tmpWorkArray = EnergySimulator::getinhabitantsWorkArray();	
+			foreach ($tmpWorkArray as $i => $value) 
+			{
+				array_push($families["Yrke"], $_REQUEST['inhabitantsWork']);
+			}
+			foreach ($tmpWorkArray as $i => $value) 
+			{
+				array_push($families["Alder"], $_REQUEST['inhabitantsAge']);
+			
+			}*/
+			
+			
+			return static::showStoreBeboere();
+		}
 		
 		return static::showWizClimateZone();
 	}

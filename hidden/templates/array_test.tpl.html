@@ -1,11 +1,16 @@
 <div>
 	<img class="logo" src="gfx/logo.png" />
 	
-	<!-- Her mangler det noe
-	
-	{foreach $array as $i}
-	$i
-	{/foreach}
-	
-	-->
+
+	<h3>Lagring av Familie</h3>
+		
+	<form method="post" action="{$scriptURL}">
+		<label>Navn p&aring; lagring:</label><br />
+		<input type="text" name="StorageName" value="" /><br />
+		<br />
+		<input type="hidden" name="function" value="{$function}" />
+		{Base::getTokenforFORM("setupSimulator")}
+		<input type="submit" class="button" value='Lagre' />
+	</form>
+
 </div>
