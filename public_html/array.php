@@ -11,22 +11,18 @@ $families = array
   (
   	"Yrke"=>array
   	(
-		"Snekker",
-		"latsab",
-		"prostituert"
+  	
   	),
   	
 	"Alder"=>array
-  	(
-		"10",
-		"22",
-		"40"
+  	(	
+  	
   	)
   );
 
 
       
-
+/*
 array_push($families["Yrke"], "barnehage");
 array_push($families["Alder"], "50");
 
@@ -54,5 +50,28 @@ foreach ($families['Yrke'] as $i => $value )
 {
 	echo "Jobber som " . $families['Yrke'][$i] . " og er " . $families['Alder'][$i] . " &aring;r gammel? <br />";
 }
+*/
+$mysqli = new mysqli("jenna.bendiksens.net", "gruppe2it", "123", "gruppe2it");
+
+
+$sql = "SELECT * FROM FamilyStore WHERE StoredName = 'Hansen'";
+		
+		if ( ($res = $mysqli->query($sql)) === FALSE )
+		{
+			die("error");
+		}
+		// Her må det kodes en måte å hente ut fra DB og rett inn i session arrayet
+		
+		//$tmpRes = $res->fetch_Assoc();
+		while($row = mysqli_fetch_array($res,MYSQLI_ASSOC))
+		{
+			array_push($families["Yrke"], $row['work']);
+			array_push($families["Alder"], $row['age']);
+			//array_push($_SESSION['es']->_inhabitantsWork, $row['work']);
+			//array_push($_SESSION['es']->_inhabitantsAge, $row['age']);	
+		}
+print_r($families);
+
+
 
 ?>

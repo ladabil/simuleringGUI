@@ -47,7 +47,7 @@ class Site
 	public static $storedBuilding_array;
 	public static $storedBeboere_array;
 	
-	public static $doDebug = false;
+	public static $doDebug = true;
 	
 	//simhentings variabler
 	public static $fetchedName = "0";
@@ -1050,11 +1050,6 @@ class Site
 		
 		$tpl = new MySmarty();
 		
-		$es = new EnergySimulator();
-		$errMsg = "";
-		
-		$_SESSION['es'] = new EnergySimulator();
-		
 		$sql = "SELECT * FROM FamilyStore WHERE StoredName = '".$_REQUEST['beboereValgt']."'";
 		
 		if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
@@ -1062,18 +1057,18 @@ class Site
 			die(Base::getMysqli()->error);
 		}
 		// Her må det kodes en måte å hente ut fra DB og rett inn i session arrayet
-		/*
-		$tmpRes = $res->fetch_Assoc();
-		$_SESSION['es']->_building = $tmpRes['building'];
-		$_SESSION['es']->_houseBuildYear = $tmpRes['houseBuildYear'];
-		$_SESSION['es']->_houseTotalArea = $tmpRes['houseTotalArea'];
-		$_SESSION['es']->_housePrimaryArea = $tmpRes['housePrimaryArea'];
-		$_SESSION['es']->_ytterveggAreal = $tmpRes['ytterVeggAreal'];
-		$_SESSION['es']->_yttertakAreal = $tmpRes['ytterTakAreal'];
-		$_SESSION['es']->_vinduDorAreal = $tmpRes['vinduDorAreal'];
-		$_SESSION['es']->_luftVolum = $tmpRes['luftVolum'];
-		$_SESSION['es']->_onsketTemp = $tmpRes['onsketTemp'];
-		*/
+		
+		//$tmpRes = $res->fetch_Assoc();
+		while($row = mysqli_fetch_array($res,MYSQLI_ASSOC))
+		{
+			array_push(static::$families["Yrke"], $row['work']);
+			array_push(static::$families["Alder"], $row['age']);
+			//array_push($_SESSION['es']->_inhabitantsWork, $row['work']);
+			//array_push($_SESSION['es']->_inhabitantsAge, $row['age']);	
+		}
+		$_SESSION['es']->_inhabitantsWork = static::$families["Yrke"];
+		$_SESSION['es']->_inhabitantsAge = static::$families["Alder"];
+		
 		return static::showWizClimateZone();
 	}
 	
