@@ -36,6 +36,7 @@ class Site
 	public static $funcShowStoreBuilding = "funcShowStoreBuilding";
 	public static $funcParseGetStoreBuilding = "funcParseGetStoreBulding";
 	public static $funcParseStoreBeboere = "funcParseStoreBeboere";
+	public static $funcParseGetBeboere = "funcParseGetBeboere";
 		
 	public static $funcShowAdminDefault = "showAdminDefault";
 	public static $funcShowUserMenu = "showUserMenu";
@@ -44,8 +45,9 @@ class Site
 	public static $funcDeleteUser = "deleteUser";
 	public static $storedSim_array;
 	public static $storedBuilding_array;
+	public static $storedBeboere_array;
 	
-	public static $doDebug = true;
+	public static $doDebug = false;
 	
 	//simhentings variabler
 	public static $fetchedName = "0";
@@ -297,6 +299,9 @@ class Site
 					break;
 				case static::$funcParseStoreBeboere:
 					echo static::StoreBeboere();
+					break;
+				case static::$funcParseGetBeboere:
+					echo static::parseGetBeboere();
 					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
@@ -1034,6 +1039,78 @@ class Site
 		return static::getMainFrame($tpl->fetch("wizard_Inhabitants.tpl.html"), "Wizard");
 	}
 	
+	static function parseGetBeboere()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+		static::wizardInit();
+		
+		// Verifiser token f�rst..
+		Base::verifyTokenFromRequest("setupSimulator");
+		
+		
+		$tpl = new MySmarty();
+		
+		$es = new EnergySimulator();
+		$errMsg = "";
+		
+		$_SESSION['es'] = new EnergySimulator();
+		
+		$sql = "SELECT * FROM FamilyStore WHERE StoredName = '".$_REQUEST['beboereValgt']."'";
+		
+		if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		// Her må det kodes en måte å hente ut fra DB og rett inn i session arrayet
+		/*
+		$tmpRes = $res->fetch_Assoc();
+		$_SESSION['es']->_building = $tmpRes['building'];
+		$_SESSION['es']->_houseBuildYear = $tmpRes['houseBuildYear'];
+		$_SESSION['es']->_houseTotalArea = $tmpRes['houseTotalArea'];
+		$_SESSION['es']->_housePrimaryArea = $tmpRes['housePrimaryArea'];
+		$_SESSION['es']->_ytterveggAreal = $tmpRes['ytterVeggAreal'];
+		$_SESSION['es']->_yttertakAreal = $tmpRes['ytterTakAreal'];
+		$_SESSION['es']->_vinduDorAreal = $tmpRes['vinduDorAreal'];
+		$_SESSION['es']->_luftVolum = $tmpRes['luftVolum'];
+		$_SESSION['es']->_onsketTemp = $tmpRes['onsketTemp'];
+		*/
+		return static::showWizClimateZone();
+	}
+	
+	static function showGetBeboere()
+	{
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$tpl = static::wizardInit();
+		
+		$getSQL = "SELECT id, StoredName FROM FamilyStoreName";
+		
+		if ( ($res = Base::getMysqli()->query($getSQL)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		
+		//Looper igjennom og sender tags til smarty.
+		while($row = mysqli_fetch_array($res))
+		{
+			static::$storedBeboere_array[] = $row;
+		}
+		//$tpl->assign('dump', var_dump($row));
+		$tpl->assign('storedBeboere' , static::$storedBeboere_array);
+		
+		//$tpl->assign('inhabitantWorkTypesArr', EnergySimulator::getInhabitantWorkTypesAsArray());
+		$tpl->assign('function', static::$funcParseGetBeboere);
+		//$tpl->assign('array', static::$families);
+		if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r($_SESSION['es']);
+			
+		}
+	
+		return static::getMainFrame($tpl->fetch("GetBeboere.tpl.html"), "Wizard");
+	}
+	
 	static function showStoreBeboere()
 	{
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
@@ -1097,7 +1174,7 @@ class Site
 		{
 			$errMsg .= "Mangler lagringsnavn.<br>\n";
 		}
-
+	
 		return static::showWizClimateZone();
 	}
 	
@@ -1112,7 +1189,10 @@ class Site
 		Base::verifyTokenFromRequest("setupSimulator");
 		
 		$submit = $_POST['submit'];
-		
+		if($submit == "Hent Beboere")
+		{
+			return static::showGetBeboere();
+		}
 		
 		if ( isset($_REQUEST['antall_i_hus']) && intval($_REQUEST['antall_i_hus']) > 0 )
 		{
@@ -1183,22 +1263,9 @@ class Site
 		
 		if($submit == "Lagre Beboere")
 		{
-			// did not get this shit to work....
-			/*
-			$tmpWorkArray = EnergySimulator::getinhabitantsWorkArray();	
-			foreach ($tmpWorkArray as $i => $value) 
-			{
-				array_push($families["Yrke"], $_REQUEST['inhabitantsWork']);
-			}
-			foreach ($tmpWorkArray as $i => $value) 
-			{
-				array_push($families["Alder"], $_REQUEST['inhabitantsAge']);
-			
-			}*/
-			
-			
 			return static::showStoreBeboere();
 		}
+		
 		
 		return static::showWizClimateZone();
 	}
