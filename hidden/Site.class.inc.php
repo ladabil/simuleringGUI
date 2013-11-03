@@ -1722,6 +1722,11 @@ class Site
 		$fileContents = file_get_contents("http://eklima.met.no/met/MetService?invoke=getStationsProperties&stations=&username=");
 	
 		print_r($fileContents);
+		
+		if ( strlen($fileContents) <= 0 )
+		{
+			die("Kunne ikke laste værstasjonsdata");
+		}
 	
 		die();
 	
