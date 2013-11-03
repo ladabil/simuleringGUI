@@ -47,6 +47,8 @@ class Site
 	public static $storedBuilding_array;
 	public static $storedBeboere_array;
 	
+	public static $funcUpdateWeatherStationList = "funcUpdateWeatherStationList";
+	
 	public static $doDebug = true;
 	
 	//simhentings variabler
@@ -346,6 +348,9 @@ class Site
 // 				case static::$funcLog:
 // 					echo static::logMeOut();
 // 					break;
+				case static::$funcUpdateWeatherStationList:
+					echo static::updateWeatherStationList();
+					break;
 				default:
 					return static::getMainFrame($tpl->fetch("adminMain.tpl.html"), "Admin-side");
 					break;
@@ -1711,6 +1716,72 @@ class Site
 		
 		return static::getMainFrame($tpl->fetch("GetSim.tpl.html"), "Hent Simulering");
 	}
+	
+	static function updateWeatherStationList()
+	{
+		$fileContents = file_get_contents("http://eklima.met.no/met/MetService?invoke=getStationsProperties&stations=&username=");
+	
+		print_r($fileContents);
+	
+		die();
+	
+		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
+	
+		$errMsg = "";
+		static::wizardInit();
+	
+		// Verifiser token f�rst..
+		Base::verifyTokenFromRequest("setupSimulator");
+	
+		if ( isset($_REQUEST['StorageName']) && strlen($_REQUEST['StorageName']) > 0 )
+		{
+			$sql = "INSERT INTO preDef
+			(
+				building,
+				houseBuildYear,
+				houseTotalArea, 
+				housePrimaryArea,
+				ytterVeggAreal,
+				ytterTakAreal,
+				vinduDorAreal,
+				luftVolum,
+				onsketTemp, 
+				StoredName
+			) 
+			VALUES
+			(
+				'".$_SESSION['es']->_building."',
+				'".$_SESSION['es']->_houseBuildYear."',		
+				'".$_SESSION['es']->_houseTotalArea."', 
+				'".$_SESSION['es']->_housePrimaryArea."', 
+				'".$_SESSION['es']->_ytterveggAreal."',
+				'".$_SESSION['es']->_yttertakAreal."',		
+				'".$_SESSION['es']->_vinduDorAreal."', 
+				'".$_SESSION['es']->_luftVolum."',
+				'".$_SESSION['es']->_onsketTemp."',		
+				'".$_REQUEST['StorageName']."'
+			)";
+			
+			if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+			{
+				die(Base::getMysqli()->error);
+			}
+			
+		}
+		else
+		{
+			$errMsg .= "Mangler lagringsnavn.<br>\n";
+		}
+	
+		if ( strlen($errMsg) > 0 )
+		{
+			static::addInfoMessage($errMsg);
+			return static::showStoreBuilding();
+		}
+		
+		return static::showWizBuilding();
+	}
+	
 	
 	// henting av simuleringer
 	static function parseGetSim()
