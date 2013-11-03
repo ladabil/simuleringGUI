@@ -1719,72 +1719,109 @@ class Site
 	
 	static function updateWeatherStationList()
 	{
-		$fileContents = file_get_contents("http://eklima.met.no/met/MetService?invoke=getStationsProperties&stations=&username=");
+/*		$fileContents = file_get_contents("http://eklima.met.no/met/MetService?invoke=getStationsProperties&stations=&username=");
 	
-		print_r($fileContents);
-		
 		if ( strlen($fileContents) <= 0 )
 		{
 			die("Kunne ikke laste værstasjonsdata");
 		}
+		*/
 	
-		die();
-	
-		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
-	
-		$errMsg = "";
-		static::wizardInit();
-	
-		// Verifiser token fï¿½rst..
-		Base::verifyTokenFromRequest("setupSimulator");
-	
-		if ( isset($_REQUEST['StorageName']) && strlen($_REQUEST['StorageName']) > 0 )
+		echo "<pre>\n";
+		
+		$wsKlimaSoapClient = new SoapClient("http://eklima.met.no/met/MetService?WSDL");
+		
+//		print_r($wsKlimaSoapClient->__getFunctions());
+		
+		$weatherStations =  $wsKlimaSoapClient->getStationsProperties("", "");
+
+		if ( count($weatherStations) <= 0 )
 		{
-			$sql = "INSERT INTO preDef
-			(
-				building,
-				houseBuildYear,
-				houseTotalArea, 
-				housePrimaryArea,
-				ytterVeggAreal,
-				ytterTakAreal,
-				vinduDorAreal,
-				luftVolum,
-				onsketTemp, 
-				StoredName
-			) 
-			VALUES
-			(
-				'".$_SESSION['es']->_building."',
-				'".$_SESSION['es']->_houseBuildYear."',		
-				'".$_SESSION['es']->_houseTotalArea."', 
-				'".$_SESSION['es']->_housePrimaryArea."', 
-				'".$_SESSION['es']->_ytterveggAreal."',
-				'".$_SESSION['es']->_yttertakAreal."',		
-				'".$_SESSION['es']->_vinduDorAreal."', 
-				'".$_SESSION['es']->_luftVolum."',
-				'".$_SESSION['es']->_onsketTemp."',		
-				'".$_REQUEST['StorageName']."'
-			)";
+			die("Fant ingen værstasjoner");
+		}
+		
+		/*
+		 *     [2824] => stdClass Object
+        (
+            [name] => JAN MAYEN
+            [stnr] => 99950
+            [wmoNo] => 1001
+            [amsl] => 10
+            [department] => JAN MAYEN
+            [municipalityNo] => 2211
+            [fromYear] => 1908
+            [fromMonth] => 8
+            [fromDay] => 1
+            [toYear] => 0
+            [toMonth] => 0
+            [toDay] => 0
+            [utm_e] => -343205
+            [utm_n] => 8038142
+            [utm_zone] => 33
+            [latDec] => 70.9394
+            [lonDec] => -8.669
+            [latLonFmt] => decimal_degrees
+        )
+		 */
+		
+		$numUpdated = 0;
+		
+		foreach ( $weatherStations as $weatherStationObj )
+		{
+			/*
+			 * 
+			 */
 			
-			if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+			$query = "INSERT INTO `weatherStations` 
+					SET
+							`stnr`=" . intval($weatherStationObj->stnr) . ", 
+							`name`='" . utf8_decode($weatherStationObj->name) . "', 
+							`wmoNo`=" . intval($weatherStationObj->stnr) . ", 
+							`department`='" . utf8_decode($weatherStationObj->department) . "', 
+							`fromYear`=" . intval($weatherStationObj->fromYear) . ", 
+							`fromMonth`=" . intval($weatherStationObj->fromMonth) . ", 
+							`fromDay`=" . intval($weatherStationObj->fromDay) . ", 
+							`toYear`=" . intval($weatherStationObj->toYear) . ", 
+							`toMonth`=" . intval($weatherStationObj->toMonth) . ", 
+							`toDay`=" . intval($weatherStationObj->toDay) . "
+					ON DUPLICATE KEY UPDATE 
+							`name`='" . utf8_decode($weatherStationObj->name) . "', 
+							`wmoNo`=" . intval($weatherStationObj->stnr) . ", 
+							`department`='" . utf8_decode($weatherStationObj->department) . "', 
+							`fromYear`=" . intval($weatherStationObj->fromYear) . ", 
+							`fromMonth`=" . intval($weatherStationObj->fromMonth) . ", 
+							`fromDay`=" . intval($weatherStationObj->fromDay) . ", 
+							`toYear`=" . intval($weatherStationObj->toYear) . ", 
+							`toMonth`=" . intval($weatherStationObj->toMonth) . ", 
+							`toDay`=" . intval($weatherStationObj->toDay) . "
+					";
+			
+			if ( ($res = Base::getMysqli()->query($query)) === FALSE )
 			{
+				echo "<pre>\n";
+				echo $query;
 				die(Base::getMysqli()->error);
 			}
 			
-		}
-		else
-		{
-			$errMsg .= "Mangler lagringsnavn.<br>\n";
-		}
-	
-		if ( strlen($errMsg) > 0 )
-		{
-			static::addInfoMessage($errMsg);
-			return static::showStoreBuilding();
+			$numUpdated += Base::getMysqli()->affected_rows;
 		}
 		
-		return static::showWizBuilding();
+//		print_r($weatherStations);
+
+		$infoMsg = "Oppdatering/innlegging av værstasjoner gikk bra ";
+		$infoMsg .= " (Antall værstasjoner: " . count($weatherStations) . ")";
+//		$infoMsg = "(Nye: ";
+//		$infoMsg .= (count($weatherStations) - $numUpdated) . " - Oppdaterte: " . $numUpdated . ")";
+		
+//		die($infoMsg);
+		
+		Base::redirectNow(static::$funcShowAdminDefault
+									,Array(
+											"infoMessage"=>$infoMsg 
+											)
+						);
+		
+		die($infoMsg);
 	}
 	
 	
