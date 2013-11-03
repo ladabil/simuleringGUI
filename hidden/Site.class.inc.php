@@ -1507,8 +1507,7 @@ class Site
 		}
 		else
 		{
-			// Default 1 (S�r-norge?)
-			$_SESSION['es']->_climateZone = 1;
+			$errMsg .= "Vennligst velg klimasone<br>\n";
 		}
 		
 		// Brutto Areal
