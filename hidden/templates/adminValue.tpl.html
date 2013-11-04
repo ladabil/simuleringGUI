@@ -1,0 +1,39 @@
+<div>
+	<img class="logo" src="gfx/logo.png" />
+	
+	<!-- Formen -->
+	<form method="post" action="{$scriptURL}">
+	
+
+		<h3>Nøkkeltall</h3>
+			<br /><br />
+			<form method="post" action="{$scriptURL}">
+				<input type="hidden" name="function" value="{$function}">
+				<div id="changeValue">
+				<table width="100%" border="1">
+				
+				<tr>
+					<td><strong>Klasse</strong></td>
+					<td width="250px"><strong>Navn</strong></td>
+					<td><strong>Verdi</strong></td>
+				</tr>
+				{foreach from=$simValue item=i}
+				<tr>
+					<td>{$i.Class}</td>
+					<td>{$i.Name}</td>
+					<td><input type="hidden" name="id[]" value="{$i.id}"><input type="text" name="value[]" value="{$i.Value}"></td>
+				</tr>
+				{/foreach}
+
+
+				</table>
+			</div><br />
+				<div float="left">
+					<a href="{$scriptURL}?function=showAdminDefault"><input type="button" class="button" value='Avbryt' /></a>
+					<input type="submit" class="button" name="mybutton" value="Lagre endringer">
+				</div>
+			<br />
+
+	</form>
+
+</div>

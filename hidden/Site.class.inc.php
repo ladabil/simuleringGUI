@@ -43,6 +43,9 @@ class Site
 	public static $funcCreateNewUser =  "createNewUser";
 	public static $funcCreateNewUserForm = "createNewUserForm";
 	public static $funcDeleteUser = "deleteUser";
+	public static $funcShowValue = "showValue";
+	public static $funcUpdateKeyValue = "updateKeyValue";
+	public static $value_array;
 	public static $storedSim_array;
 	public static $storedBuilding_array;
 	public static $storedBeboere_array;
@@ -147,6 +150,9 @@ class Site
 				break;
 			case static::$funcSetupEnergySimulator:
 				echo static::setupSimulator();
+				break;
+			case static::$funcShowValue:
+				echo static::showValue();
 				break;
 			default:
 			case static::$funcShowDefault:
@@ -426,7 +432,6 @@ class Site
 			$query .= " WHERE " . $where . " ";
 		}
 		
-// 		echo $query;
 		
 		if ( ($res = Base::getMysqli()->query($query)) === FALSE )
 		{
@@ -573,6 +578,67 @@ class Site
 		die('Slett bruker OK');
 		
 	} 
+	
+	static function showValue()
+	{
+		$tpl = new MySmarty();
+		$errMsg = "";
+	
+		$getSQL = "SELECT * FROM simValue";
+	
+		if ( ($res = Base::getMysqli()->query($getSQL)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+	
+		static::$value_array = Array();
+	
+		//Looper igjennom og sender tags til smarty
+		while($row = mysqli_fetch_Assoc($res))
+		{	
+			static::$value_array[] = $row;
+		}
+		
+// 		$tpl->assign('function', static::$funcUpdateKeyValue);
+		$tpl->assign('simValue' , static::$value_array);
+		$tpl->assign('function', static::$funcShowValue);
+		
+		if ( isset($_REQUEST['mybutton']) && strcasecmp($_REQUEST['mybutton'],"Lagre endringer") == 0)
+		{
+			for ( $i=0; $i<count($_REQUEST['id']); $i++ )
+			{
+      			static::updateKeyValue($_REQUEST['id'][$i], $_REQUEST['value'][$i]);
+			}
+			Base::redirectNow(static::$funcShowValue);
+		}
+// 		echo "<pre>\n";
+// 		print_r($_REQUEST);
+
+		$tpl->assign('simValue' , static::$value_array);
+		$tpl->assign('function', static::$funcShowValue);
+	
+		return static::getMainFrame($tpl->fetch("adminValue.tpl.html"), "Admin-side - Nøkkelverdier");
+	}
+	
+	static function updateKeyValue($id, $value)
+	{
+		$query = "UPDATE simValue
+    		SET
+       		`Value`='" . $value . "'
+    		WHERE
+       		`id`=" . $id . "
+    
+      		 ";
+	
+		if ( ($res = Base::getMysqli()->query($query)) === FALSE )
+		{
+// 			echo "<pre>\n";
+// 			echo $query;
+			die(Base::getMysqli()->error);
+		}
+	
+		return TRUE;
+	}
 	
 	static function startNewWizard()
 	{
