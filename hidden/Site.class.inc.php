@@ -1139,6 +1139,15 @@ class Site
 			//array_push($_SESSION['es']->_inhabitantsWork, $row['work']);
 			//array_push($_SESSION['es']->_inhabitantsAge, $row['age']);	
 		}
+		
+		if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r(static::$families["Yrke"]);
+			print_r(static::$families["Alder"]);
+			echo "</pre>\n";
+		}
+		
 		$_SESSION['es']->_inhabitantsWork = static::$families["Yrke"];
 		$_SESSION['es']->_inhabitantsAge = static::$families["Alder"];
 		
