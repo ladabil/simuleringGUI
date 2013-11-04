@@ -17,7 +17,17 @@
 			<option value="5">Midt-Norge, innland</option>
 			<option value="6">Nord-Norge, kyst</option>
 			<option value="7">Finnmark og innland Troms</option>
+		</select><br />
+			&nbsp;&nbsp; eller <br />
+		<select name="weatherstation" value="{$smarty.session.es->_climateWeatherStation}">
+			<option value="-1">-- Velg M&aring;lestasjon --</option>
+			{foreach from=$weatherStation item=i}
+			<option value="{$i.stnr}">{$i.department} - {$i.name}</option>
+			{/foreach}
 		</select><br /><br />
+		
+		Endring av temperatur for ekstremvær +/- <input type="number" name="climateTemperatureOffset" value="{$smarty.session.es->_climateTemperatureOffset}" />
+		<br /><br />
 		
 		<label>Tidsrom for simulering</label><br />
 		

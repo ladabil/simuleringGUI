@@ -47,6 +47,7 @@ class Site
 	public static $funcUpdateKeyValue = "updateKeyValue";
 	public static $value_array;
 	public static $storedSim_array;
+	public static $weatherstation_array;
 	public static $storedBuilding_array;
 	public static $storedBeboere_array;
 	
@@ -1344,6 +1345,24 @@ class Site
 	
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseWizardClimateZone);
+		
+		$getSQL = "SELECT stnr, name, department FROM weatherStations";
+		
+		if ( ($res = Base::getMysqli()->query($getSQL)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		
+		static::$weatherstation_array = Array();
+		
+		//Looper igjennom og sender tags til smarty
+		while($row = mysqli_fetch_Assoc($res))
+		{
+			static::$weatherstation_array[] = $row;
+		}
+		
+		// 		$tpl->assign('function', static::$funcUpdateKeyValue);
+		$tpl->assign('weatherStation' , static::$weatherstation_array);
 	
 		return static::getMainFrame($tpl->fetch("wizard_ClimateZone.tpl.html"), "Wizard");
 	}
@@ -1358,6 +1377,26 @@ class Site
 		// Verifiser token f�rst..
 		Base::verifyTokenFromRequest("setupSimulator");
 	
+		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
+		{
+			$_SESSION['es']->_climateZone = intval($_REQUEST['klima']);
+		}
+		else
+		{
+			// Default 0
+			$_SESSION['es']->_climateZone = 0;
+		}
+		
+		if ( isset($_REQUEST['climateWeatherStation']) && intval($_REQUEST['climateWeatherStation']) > 0 )
+		{
+			$_SESSION['es']->_climateWeatherStation = intval($_REQUEST['climateWeatherStation']);
+		}
+		else
+		{
+			// Default 0
+			$_SESSION['es']->_climateWeatherStation = 0;
+		}
+		
 		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
 		{
 			$_SESSION['es']->_climateZone = intval($_REQUEST['klima']);
@@ -1393,6 +1432,16 @@ class Site
 		{
 			// Default opplosning
 			$_SESSION['es']->_opplosning = 10;
+		}
+		
+		if ( isset($_REQUEST['climateTemperatureOffset']) && intval($_REQUEST['climateTemperatureOffset']) >= 0 )
+		{
+			$_SESSION['es']->_climateTemperatureOffset = intval($_REQUEST['climateTemperatureOffset']);
+		}
+		else
+		{
+			// Default opplosning
+			$_SESSION['es']->_climateTemperatureOffset = 0;
 		}
 	
 		// Parse return and redirect

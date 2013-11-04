@@ -32,6 +32,8 @@ class EnergySimulator
 	var $_lightDiff = 0;
 	
 	var $_climateZone = 0;
+	var $_climateWeatherStation = 0;
+	var $_climateTemperatureOffset = 0;
 	var $_startTime = 0;
 	var $_endTime = 0;
 	var $_opplosning = 0;	
