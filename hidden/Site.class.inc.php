@@ -1124,6 +1124,11 @@ class Site
 		$tpl = new MySmarty();
 		
 		$sql = "SELECT * FROM FamilyStore WHERE StoredName = '".$_REQUEST['beboereValgt']."'";
+
+		if ( static::$doDebug )
+		{
+			echo "Query: " . $sql . "<br>\n";
+		}
 		
 		if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
 		{
@@ -1134,6 +1139,12 @@ class Site
 		//$tmpRes = $res->fetch_Assoc();
 		while($row = mysqli_fetch_array($res,MYSQLI_ASSOC))
 		{
+			if ( static::$doDebug )
+			{
+				echo "<pre>\n";
+				print_r($row);
+				echo "</pre>\n";
+			}
 			array_push(static::$families["Yrke"], $row['work']);
 			array_push(static::$families["Alder"], $row['age']);
 			//array_push($_SESSION['es']->_inhabitantsWork, $row['work']);
