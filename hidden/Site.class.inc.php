@@ -75,7 +75,9 @@ class Site
 	public static $fetchedSecLightType = "0";
 	public static $fetchedLightTime = "0";
 	public static $fetchedLightDiff = "0";
-	public static $fetchedClimateZone = "0";
+	public static $fetchedClimateZone = 0;
+	public static $fetchedClimateTemperatureOffset = 0;
+	public static $fetchedClimateWeatherStation = 0;
 	public static $fetchedStartTime = "0";
 	public static $fetchedEndTime = "0";
 	public static $fetchedopplosning = "0";
@@ -1392,6 +1394,8 @@ class Site
 			lightTime, 
 			lightDiff, 
 			climateZone,
+			climateTemperatureOffset,
+			climateWeatherStation,
 			startTime,
 			endTime,
 			opplosning, 
@@ -1425,6 +1429,8 @@ class Site
 			'".$_SESSION['es']->_lightTime."', 
 			'".$_SESSION['es']->_lightDiff."', 
 			'".$_SESSION['es']->_climateZone."', 
+			'".$_SESSION['es']->_climateTemperatureOffset."', 
+			'".$_SESSION['es']->_climateWeatherStation."', 
 			'".$_SESSION['es']->_startTime."',
 			'".$_SESSION['es']->_endTime."',
 			'".$_SESSION['es']->_opplosning."',
@@ -1868,6 +1874,8 @@ class Site
 		$fetchedLightTime = $tmpRes['lightTime'];
 		$fetchedLightDiff = $tmpRes['lightDiff'];
 		$fetchedClimateZone = $tmpRes['climateZone'];
+		$fetchedClimateTemperatureOffset = $tmpRes['climateTemperatureOffset'];
+		$fetchedClimateWeatherStation = $tmpRes['climateWeatherStation'];
 		$fetchedStartTime = $tmpRes['startTime'];
 		$fetchedEndTime = $tmpRes['endTime'];
 		$fetchedopplosning = $tmpRes['opplosning'];
@@ -1918,12 +1926,13 @@ class Site
 		$tpl->assign('lightTime', $fetchedLightTime);
 		$tpl->assign('lightDiff', $fetchedLightDiff);
 		$tpl->assign('climateZone', $fetchedClimateZone);
+		$tpl->assign('climateTemperatureOffset', $fetchedClimateTemperatureOffset);
+		$tpl->assign('climateWeatherStation', $fetchedClimateWeatherStation);
 		$tpl->assign('startTime', $fetchedStartTime);
 		$tpl->assign('endTime', $fetchedEndTime);
 		$tpl->assign('opplosning', $fetchedopplosning);
 		$tpl->assign('numHvit', $fetchedNumHvit);
 		$tpl->assign('numBrun', $fetchedNumBrun);
-		
 		
 		return static::getMainFrame($tpl->fetch("ShowSim.tpl.html"), "Vis Tidligere Simulering");
 	}
