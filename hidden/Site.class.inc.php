@@ -1365,11 +1365,7 @@ class Site
 	
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseWizardClimateZone);
-<<<<<<< HEAD
 		
-=======
-		
->>>>>>> 1da8f47c28d8e267bfa1c2726e0a7f2617e20cfd
 		$getSQL = "SELECT stnr, name, department FROM weatherStations";
 		
 		if ( ($res = Base::getMysqli()->query($getSQL)) === FALSE )
@@ -1386,25 +1382,15 @@ class Site
 		}
 		
 		// 		$tpl->assign('function', static::$funcUpdateKeyValue);
-<<<<<<< HEAD
+
 		$tpl->assign('climateWeatherStation' , static::$weatherstation_array);
 		
-=======
-		$tpl->assign('weatherStation' , static::$weatherstation_array);
-
->>>>>>> 1da8f47c28d8e267bfa1c2726e0a7f2617e20cfd
 		if ( static::$doDebug )
 		{
 			echo "<pre>\n";
 			print_r($_SESSION['es']);
-<<<<<<< HEAD
-		}
-	
-=======
 		}
 
-		
->>>>>>> 1da8f47c28d8e267bfa1c2726e0a7f2617e20cfd
 		return static::getMainFrame($tpl->fetch("wizard_ClimateZone.tpl.html"), "Wizard");
 	}
 	
