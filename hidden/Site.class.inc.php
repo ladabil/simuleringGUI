@@ -1366,7 +1366,6 @@ class Site
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseWizardClimateZone);
 		
-<<<<<<< HEAD
 		$getSQL = "SELECT stnr, name, department FROM weatherStations";
 		
 		if ( ($res = Base::getMysqli()->query($getSQL)) === FALSE )
@@ -1383,14 +1382,13 @@ class Site
 		}
 		
 		// 		$tpl->assign('function', static::$funcUpdateKeyValue);
-		$tpl->assign('weatherStation' , static::$weatherstation_array);
-=======
+		$tpl->assign('climateWeatherStation' , static::$weatherstation_array);
+		
 		if ( static::$doDebug )
 		{
 			echo "<pre>\n";
 			print_r($_SESSION['es']);
 		}
->>>>>>> 2de15eefa305a8562cd1997e5cc92c253f7f45cb
 	
 		return static::getMainFrame($tpl->fetch("wizard_ClimateZone.tpl.html"), "Wizard");
 	}
@@ -1462,13 +1460,13 @@ class Site
 			$_SESSION['es']->_opplosning = 10;
 		}
 		
-		if ( isset($_REQUEST['climateTemperatureOffset']) && intval($_REQUEST['climateTemperatureOffset']) >= 0 )
+		if ( isset($_REQUEST['climateTemperatureOffset']) && floatval($_REQUEST['climateTemperatureOffset']) <> 0 )
 		{
 			$_SESSION['es']->_climateTemperatureOffset = intval($_REQUEST['climateTemperatureOffset']);
 		}
 		else
 		{
-			// Default opplosning
+			// Default temperatur offsett
 			$_SESSION['es']->_climateTemperatureOffset = 0;
 		}
 	

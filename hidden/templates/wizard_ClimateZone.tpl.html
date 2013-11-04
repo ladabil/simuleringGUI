@@ -19,9 +19,9 @@
 			<option value="7">Finnmark og innland Troms</option>
 		</select><br />
 			&nbsp;&nbsp; eller <br />
-		<select name="weatherstation" value="{$smarty.session.es->_climateWeatherStation}">
+		<select name="climateWeatherStation" value="{$smarty.session.es->_climateWeatherStation}">
 			<option value="-1">-- Velg M&aring;lestasjon --</option>
-			{foreach from=$weatherStation item=i}
+			{foreach from=$climateWeatherStation item=i}
 			<option value="{$i.stnr}">{$i.department} - {$i.name}</option>
 			{/foreach}
 		</select><br /><br />
