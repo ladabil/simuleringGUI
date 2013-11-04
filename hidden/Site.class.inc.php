@@ -52,7 +52,7 @@ class Site
 	
 	public static $funcUpdateWeatherStationList = "funcUpdateWeatherStationList";
 	
-	public static $doDebug = true;
+	public static $doDebug = false;
 	
 	//simhentings variabler
 	public static $fetchedName = "0";
