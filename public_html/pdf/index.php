@@ -165,8 +165,8 @@ $pdf->Cell(0,6, 'Klima og tidsrom', 0,2,'l');
 $pdf->SetFont('Times','',12);
 $pdf->ln(2);
 $pdf->Cell(0,5, utf8_decode('Klimasone: '.$climateZone) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('VærstasjonsId: '.$climateWeatherStation) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('TemperaturOffset: '.$climateTemperatureOffset) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('VÃ¦rstasjonsId: '.$climateWeatherStation) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('TemperaturOffset: '.$climateTemperatureOffset . ' grader') ,0,2,'l');
 
 $pdf->Cell(0,5, utf8_decode('Start tid: '.$startTime. ' CET') ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Slutt tid: '.$endTime. ' CET') ,0,2,'l');

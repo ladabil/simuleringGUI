@@ -109,7 +109,7 @@ function kobleTil($databasenavn)
 	array("Type" => "Antall Brunevarer", "Verdi" => "$numBrun"),
 	array("Type" => "", "Verdi" => ""),
 	array("Type" => "Klimasone", "Verdi" => $climateZone),
-	array("Type" => "VærstasjonsId", "Verdi" => $climateWeatherStation),
+	array("Type" => "VÃ¦rstasjonsId", "Verdi" => $climateWeatherStation),
 	array("Type" => "TemperaturOffset", "Verdi" => $climateTemperatureOffset),
   	array("Type" => "Start tid", "Verdi" => "$startTime"),
   	array("Type" => "Slutt tid", "Verdi" => "$endTime"),
