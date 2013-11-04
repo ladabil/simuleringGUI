@@ -80,6 +80,8 @@ function hentNokkelVerdiForXML($sqlFd, $className)
 	$numHvit = $row['numHvit'];
 	$numBrun = $row['numBrun'];
 	$climateZone = $row['climateZone'];
+	$climateTemperatureOffset = $row['climateTemperatureOffset'];
+	$climateWeatherStation = $row['climateWeatherStation'];
 	$startTime = $row['startTime'];
 	$endTime = $row['endTime'];
 	$opplosning = $row['opplosning'];
@@ -150,13 +152,28 @@ function hentNokkelVerdiForXML($sqlFd, $className)
 		$xml .= "</ForbrukBrunevare>  \n\t";
 	$xml .= "</Enebolig>\n\t";
 	
-	
-	
 	// Klima
 	$xml .= "<Klima type=\"class\">\n\t\t";
 		$xml .= hentNokkelVerdiForXML($tilkobling, "Klima");
-		$xml .= "<maalestasjon>86600</maalestasjon>\n\t\t";
-	 	$xml .= "<sone>".$climateZone."</sone>\n\t";
+		if ( floatval($climateTemperatureOffset) <> 0.0 )
+		{
+			$xml .= "<temperatureoffset>" . $climateTemperatureOffset . "</temperatureoffset>\n\t\t";
+		}
+		
+		if ( intval($climateWeatherStation) > 0 )
+		{
+			$xml .= "<maalestasjon>" . intval($climateWeatherStation) . "</maalestasjon>\n\t\t";
+		}
+		else
+		{
+			if ( intval($climateZone) <= 0 || intval($climateZone) > 7 )
+			{
+				// Default klimasone er 1 -> Sør-norge
+				$climateZone = 1;
+			}
+			
+		 	$xml .= "<sone>".intval($climateZone)."</sone>\n\t";
+		}
 	$xml .= "</Klima>\n\t";
 	
 	// Tidsrom

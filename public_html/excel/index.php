@@ -1,6 +1,6 @@
 <?PHP
 
-$i = $_GET['id'];
+$i = $_REQUEST['id'];
 
 function kobleTil($databasenavn) 
 	{
@@ -60,6 +60,9 @@ function kobleTil($databasenavn)
 	if($climateZone == '5'){ $climateZone = "Midt-Norge, innland";}
 	if($climateZone == '6'){ $climateZone = "Nord-Norge, kyst";}
 	if($climateZone == '7'){ $climateZone = "Finnmark og innland Troms";}
+	$climateTemperatureOffset = $row['climateTemperatureOffset'];
+	$climateWeatherStation = $row['climateWeatherStation'];
+	
 	$startTime = $row['startTime'];
 	$endTime = $row['endTime'];
 	$opplosning = $row['opplosning'];
@@ -105,7 +108,9 @@ function kobleTil($databasenavn)
 	array("Type" => "Antall Hvitevarer", "Verdi" => "$numHvit"),
 	array("Type" => "Antall Brunevarer", "Verdi" => "$numBrun"),
 	array("Type" => "", "Verdi" => ""),
-	array("Type" => "Klimasone", "Verdi" => "$climateZone"),
+	array("Type" => "Klimasone", "Verdi" => $climateZone),
+	array("Type" => "VærstasjonsId", "Verdi" => $climateWeatherStation),
+	array("Type" => "TemperaturOffset", "Verdi" => $climateTemperatureOffset),
   	array("Type" => "Start tid", "Verdi" => "$startTime"),
   	array("Type" => "Slutt tid", "Verdi" => "$endTime"),
   	array("Type" => "OpplÃ¸sning", "Verdi" => "$opplosning")
