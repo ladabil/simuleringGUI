@@ -27,7 +27,7 @@ function hentNokkelVerdiForXML($sqlFd, $className)
 	$retStr = "";
 	
 	$sql = "SELECT * FROM simValue WHERE Class LIKE '" . strtolower($className) . "'";
-	$result = mysql_query($sql2) or die(mysql_error());
+	$result = mysql_query($sql2) 
 	
 	if ( !$result || mysql_num_rows($result) <= 0 )
 	{
