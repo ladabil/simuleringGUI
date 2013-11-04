@@ -2,36 +2,8 @@
 <?php
 
 require('fpdf.php');
-
-$i = $_REQUEST['id'];
-
-function kobleTil($databasenavn) 
-	{
-		$vert = "jenna.bendiksens.net";
-		$brukernavn = "gruppe2it";
-		$passord = "123";
-		$tilkobling = mysql_connect($vert, $brukernavn, $passord);
-		
-		if (!$tilkobling)
-		{
-			die("Kunne ikke koble til: " . mysql_error());
-		}
-		
-		$velgDB = mysql_select_db($databasenavn, $tilkobling);
-		if(!$velgDB) 
-		{
-			die("kunne ikke bruke databasen: " . mysql_error());
-		}
-		return $tilkobling;
-	}
-
-$tilkobling =kobleTil("gruppe2it");
-
-$pdf = new FPDF('p','mm','A4');
-
-$sql2 = "SELECT * FROM SimStoring WHERE id='$i'";
-$result2 = mysql_query($sql2) or die(mysql_error());
-$row = mysql_fetch_array ($result2);
+require_once(dirname(__FILE__) . "/../xml/std.inc.php");
+require_once(dirname(__FILE__) . "/../xml/datasetup.inc.php");
 
 // kj�rer database kolonne-resultat til variabler
 $name = $row['name'];
@@ -57,16 +29,7 @@ $lightTime = $row['lightTime'];
 $lightDiff = $row['lightDiff'];
 $numHvit = $row['numHvit'];
 $numBrun = $row['numBrun'];
-$climateZone = $row['climateZone'];
-if($climateZone == '1'){ $climateZone = "Sør-Norge, kyst";}
-if($climateZone == '2'){ $climateZone = "Sør-Norge, innland";}
-if($climateZone == '3'){ $climateZone = "Sør-Norge, høyfjell";}
-if($climateZone == '4'){ $climateZone = "Midt-Norge, kyst";}
-if($climateZone == '5'){ $climateZone = "Midt-Norge, innland";}
-if($climateZone == '6'){ $climateZone = "Nord-Norge, kyst";}
-if($climateZone == '7'){ $climateZone = "Finnmark og innland Troms";}
-$climateTemperatureOffset = $row['climateTemperatureOffset'];
-$climateWeatherStation = $row['climateWeatherStation'];
+
 $startTime = $row['startTime'];
 $endTime = $row['endTime'];
 $opplosning = $row['climateZone'];
@@ -165,7 +128,7 @@ $pdf->Cell(0,6, 'Klima og tidsrom', 0,2,'l');
 $pdf->SetFont('Times','',12);
 $pdf->ln(2);
 $pdf->Cell(0,5, utf8_decode('Klimasone: '.$climateZone) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('VærstasjonsId: '.$climateWeatherStation) ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Værstasjon: ' . $climateWeatherStationTxt . " (stnr: " . $climateWeatherStation . ")" ) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('TemperaturOffset: '.$climateTemperatureOffset . ' grader') ,0,2,'l');
 
 $pdf->Cell(0,5, utf8_decode('Start tid: '.$startTime. ' CET') ,0,2,'l');

@@ -1,90 +1,41 @@
 <?PHP
 
-$i = $_REQUEST['id'];
+require_once(dirname(__FILE__) . "/std.inc.php");
+require_once(dirname(__FILE__) . "/datasetup.inc.php");
 
-function kobleTil($databasenavn) 
-	{
-		$vert = "jenna.bendiksens.net";
-		$brukernavn = "gruppe2it";
-		$passord = "123";
-		$tilkobling = mysql_connect($vert, $brukernavn, $passord);
-		
-		if (!$tilkobling)
-		{
-			die("Kunne ikke koble til: " . mysql_error());
-		}
-		
-		$velgDB = mysql_select_db($databasenavn, $tilkobling);
-		if(!$velgDB) 
-		{
-			die("kunne ikke bruke databasen: " . mysql_error());
-		}
-		return $tilkobling;
-	}
+// kjører database kolonne-resultat til variabler
+$name = $row['name'];
+$priHeat = $row['priHeat'];
+$secHeat = $row['secHeat'];
+$houseTotalArea = $row['houseTotalArea'];
+$housePrimaryArea = $row['housePrimaryArea'];
+$houseBuildYear = $row['houseBuildYear'];
+if($houseBuildYear == '1'){ $houseBuildYear = '1985';}
+if($houseBuildYear == '2'){ $houseBuildYear = '1995';}
+if($houseBuildYear == '3'){ $houseBuildYear = '2005';}
 	
-function hentNokkelVerdiForXML($sqlFd, $className)
-{
-	$retStr = "";
-	
-	$sql = "SELECT * FROM simValue WHERE Class LIKE '" . strtolower($className) . "'";
-	$result = mysql_query($sql);
-	
-	if ( !$result || mysql_num_rows($result) <= 0 )
-	{
-		return "";
-	}
-	
-	while ( $row = mysql_fetch_assoc($result) )
-	{
-		$retStr .= "<" . $row['Name'] . ">";
-		$retStr .= $row['Value'];
-		$retStr .= "</" . $row['Name'] . ">\n";
-	}
-	
-	return $retStr;
-}
+$ytterveggAreal = $row['ytterveggAreal'];
+$yttertakAreal = $row['yttertakAreal'];
+$vinduDorAreal = $row['vinduDorAreal'];
+$luftVolum = $row['luftVolum'];
+$onsketTemp = $row['onsketTemp'];
 
-	$tilkobling =kobleTil("gruppe2it");
-		
-	$sql2 = "SELECT * FROM SimStoring WHERE id='$i'";
-	$result2 = mysql_query($sql2) or die(mysql_error());
-	$row = mysql_fetch_array ($result2);
-	
-	// kjører database kolonne-resultat til variabler
-	$name = $row['name'];
-	$priHeat = $row['priHeat'];
-	$secHeat = $row['secHeat'];
-	$houseTotalArea = $row['houseTotalArea'];
-	$housePrimaryArea = $row['housePrimaryArea'];
-	$houseBuildYear = $row['houseBuildYear'];
-	if($houseBuildYear == '1'){ $houseBuildYear = '1985';}
-	if($houseBuildYear == '2'){ $houseBuildYear = '1995';}
-	if($houseBuildYear == '3'){ $houseBuildYear = '2005';}
-	
-	$ytterveggAreal = $row['ytterveggAreal'];
-	$yttertakAreal = $row['yttertakAreal'];
-	$vinduDorAreal = $row['vinduDorAreal'];
-	$luftVolum = $row['luftVolum'];
-	$onsketTemp = $row['onsketTemp'];
-	
-	$heatDiff = $row['heatDiff'];
-	$floorHeatWa = $row['floorHeatWa'];
-	$floorHeatEl = $row['floorHeatEl'];
-	$priBoilerSize = $row['priBoilerSize'];
-	$priBoilerPower = $row['priBoilerPower'];
-	$numLight = $row['numLight'];
-	$priLightType = $row['priLightType'];
-	$secLightType = $row['secLightType'];
-	$lightTime = $row['lightTime'];
-	$lightDiff = $row['lightDiff'];
-	$numHvit = $row['numHvit'];
-	$numBrun = $row['numBrun'];
-	$climateZone = $row['climateZone'];
-	$climateTemperatureOffset = $row['climateTemperatureOffset'];
-	$climateWeatherStation = $row['climateWeatherStation'];
-	$startTime = $row['startTime'];
-	$endTime = $row['endTime'];
-	$opplosning = $row['opplosning'];
+$heatDiff = $row['heatDiff'];
+$floorHeatWa = $row['floorHeatWa'];
+$floorHeatEl = $row['floorHeatEl'];
+$priBoilerSize = $row['priBoilerSize'];
+$priBoilerPower = $row['priBoilerPower'];
+$numLight = $row['numLight'];
+$priLightType = $row['priLightType'];
+$secLightType = $row['secLightType'];
+$lightTime = $row['lightTime'];
+$lightDiff = $row['lightDiff'];
+$numHvit = $row['numHvit'];
+$numBrun = $row['numBrun'];
+
+$startTime = $row['startTime'];
+$endTime = $row['endTime'];
+$opplosning = $row['opplosning'];
 	
 
   	// Lager XML 
@@ -210,5 +161,5 @@ function hentNokkelVerdiForXML($sqlFd, $className)
 	<i>med forbehold om kø i beregning og kommunikasjonsfeil</i><br><br>"; 
 	
 	?>
-	<a href="javascript:window.close();">Tilbake</a>
+<a href="javascript:window.close();">Tilbake</a>
 	

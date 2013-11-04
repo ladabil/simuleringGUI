@@ -1,85 +1,49 @@
 <?PHP
 
-$i = $_REQUEST['id'];
+require_once(dirname(__FILE__) . "/../xml/std.inc.php");
+require_once(dirname(__FILE__) . "/../xml/datasetup.inc.php");
 
-function kobleTil($databasenavn) 
-	{
-		$vert = "jenna.bendiksens.net";
-		$brukernavn = "gruppe2it";
-		$passord = "123";
-		$tilkobling = mysql_connect($vert, $brukernavn, $passord);
-		
-		if (!$tilkobling)
-		{
-			die("Kunne ikke koble til: " . mysql_error());
-		}
-		
-		$velgDB = mysql_select_db($databasenavn, $tilkobling);
-		if(!$velgDB) 
-		{
-			die("kunne ikke bruke databasen: " . mysql_error());
-		}
-		return $tilkobling;
-	}
+// kjører database kolonne-resultat til variabler
+$name = $row['name'];
+$priHeat = $row['priHeat'];
+$secHeat = $row['secHeat'];
+$houseTotalArea = $row['houseTotalArea'];
+$housePrimaryArea = $row['housePrimaryArea'];
+$houseBuildYear = $row['houseBuildYear'];
+$ytterveggAreal = $row['ytterveggAreal'];
+$yttertakAreal = $row['yttertakAreal'];
+$vinduDorAreal = $row['vinduDorAreal'];
+$luftVolum = $row['luftVolum'];
+$onsketTemp = $row['onsketTemp'];
+$heatDiff = $row['heatDiff'];
+$floorHeatWa = $row['floorHeatWa'];
+$floorHeatEl = $row['floorHeatEl'];
+$priBoilerSize = $row['priBoilerSize'];
+$priBoilerPower = $row['priBoilerPower'];
+$numLight = $row['numLight'];
+$priLightType = $row['priLightType'];
+$secLightType = $row['secLightType'];
+$lightTime = $row['lightTime'];
+$lightDiff = $row['lightDiff'];
+$numHvit = $row['numHvit'];
+$numBrun = $row['numBrun'];
 
-	$tilkobling =kobleTil("gruppe2it");
-		
-	$sql2 = "SELECT * FROM SimStoring WHERE id='$i'";
-	$result2 = mysql_query($sql2) or die(mysql_error());
-	$row = mysql_fetch_array ($result2);
-	
-	// kjører database kolonne-resultat til variabler
-	$name = $row['name'];
-	$priHeat = $row['priHeat'];
-	$secHeat = $row['secHeat'];
-	$houseTotalArea = $row['houseTotalArea'];
-	$housePrimaryArea = $row['housePrimaryArea'];
-	$houseBuildYear = $row['houseBuildYear'];
-	$ytterveggAreal = $row['ytterveggAreal'];
-	$yttertakAreal = $row['yttertakAreal'];
-	$vinduDorAreal = $row['vinduDorAreal'];
-	$luftVolum = $row['luftVolum'];
-	$onsketTemp = $row['onsketTemp'];
-	$heatDiff = $row['heatDiff'];
-	$floorHeatWa = $row['floorHeatWa'];
-	$floorHeatEl = $row['floorHeatEl'];
-	$priBoilerSize = $row['priBoilerSize'];
-	$priBoilerPower = $row['priBoilerPower'];
-	$numLight = $row['numLight'];
-	$priLightType = $row['priLightType'];
-	$secLightType = $row['secLightType'];
-	$lightTime = $row['lightTime'];
-	$lightDiff = $row['lightDiff'];
-	$numHvit = $row['numHvit'];
-	$numBrun = $row['numBrun'];
-	$climateZone = $row['climateZone'];
-	if($climateZone == '1'){ $climateZone = "Sør-Norge, kyst";}
-	if($climateZone == '2'){ $climateZone = "Sør-Norge, innland";}
-	if($climateZone == '3'){ $climateZone = "Sør-Norge, høyfjell";}
-	if($climateZone == '4'){ $climateZone = "Midt-Norge, kyst";}
-	if($climateZone == '5'){ $climateZone = "Midt-Norge, innland";}
-	if($climateZone == '6'){ $climateZone = "Nord-Norge, kyst";}
-	if($climateZone == '7'){ $climateZone = "Finnmark og innland Troms";}
-	$climateTemperatureOffset = $row['climateTemperatureOffset'];
-	$climateWeatherStation = $row['climateWeatherStation'];
-	
-	$startTime = $row['startTime'];
-	$endTime = $row['endTime'];
-	$opplosning = $row['opplosning'];
-	
-	$building = $row['building'];
-	$houseBuildYear = $row['houseBuildYear'];
-	
-	if($building == '1') {$building = "Enebolig";}
-	if($building == '2') {$building = "Leilighet";}
-	if($building == '3') {$building = "Rekkehus";}
-			
-	if($houseBuildYear == '1') {$houseBuildYear = "Før 1987";}
-	if($houseBuildYear == '2') {$houseBuildYear = "Mellom 1987 og 1997";}
-	if($houseBuildYear == '3') {$houseBuildYear = "Etter 1997";}
-	
+$startTime = $row['startTime'];
+$endTime = $row['endTime'];
+$opplosning = $row['opplosning'];
 
-  	$data = array(
+$building = $row['building'];
+$houseBuildYear = $row['houseBuildYear'];
+
+if($building == '1') {$building = "Enebolig";}
+if($building == '2') {$building = "Leilighet";}
+if($building == '3') {$building = "Rekkehus";}
+		
+if($houseBuildYear == '1') {$houseBuildYear = "Før 1987";}
+if($houseBuildYear == '2') {$houseBuildYear = "Mellom 1987 og 1997";}
+if($houseBuildYear == '3') {$houseBuildYear = "Etter 1997";}
+
+$data = array(
   	//array("Hus" => " "),
   	array("Type" => "Bygg Type", "Verdi" => "$building"),
   	array("Type" => "Byggeår", "Verdi" => "$houseBuildYear"),
