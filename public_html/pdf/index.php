@@ -45,6 +45,7 @@ if($houseBuildYear == '1') {$houseBuildYear = "Før 1987";}
 if($houseBuildYear == '2') {$houseBuildYear = "Mellom 1987 og 1997";}
 if($houseBuildYear == '3') {$houseBuildYear = "Etter 1997";}
 
+$pdf = new FPDF('p','mm','A4');
 
 // lager side	
 $pdf->AddPage();
