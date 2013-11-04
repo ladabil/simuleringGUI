@@ -1,6 +1,6 @@
 <?PHP
 
-$i = $_GET['id'];
+$i = $_REQUEST['id'];
 
 function kobleTil($databasenavn) 
 	{
