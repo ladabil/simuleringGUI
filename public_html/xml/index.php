@@ -36,8 +36,8 @@ function hentNokkelVerdiForXML($sqlFd, $className)
 	
 	while ( $row = mysql_fetch_assoc($result) )
 	{
-		$retStr .= "<" . $row['Value'] . ">";
-		$retStr .= $row['Name'];
+		$retStr .= "<" . $row['Name'] . ">";
+		$retStr .= $row['Value'];
 		$retStr .= "</" . $row['Name'] . ">\n";
 	}
 	
