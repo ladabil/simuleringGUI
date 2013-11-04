@@ -1278,6 +1278,12 @@ class Site
 	
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseWizardClimateZone);
+		
+		if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r($_SESSION['es']);
+		}
 	
 		return static::getMainFrame($tpl->fetch("wizard_ClimateZone.tpl.html"), "Wizard");
 	}
