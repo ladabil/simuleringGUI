@@ -21,6 +21,28 @@ function kobleTil($databasenavn)
 		}
 		return $tilkobling;
 	}
+	
+function hentNokkelVerdiForXML($sqlFd, $className)
+{
+	$retStr = "";
+	
+	$sql = "SELECT * FROM simValue WHERE Class LIKE '" . strotolower($className) . "'";
+	$result = mysql_query($sql2) or die(mysql_error());
+	
+	if ( !$result || mysql_num_rows($result) <= 0 )
+	{
+		return "";
+	}
+	
+	while ( $row = mysql_fetch_assoc($result) )
+	{
+		$retStr .= "<" . $row['Value'] . ">";
+		$retStr .= $row['Name'];
+		$retStr .= "</" . $row['Name'] . ">\n";
+	}
+	
+	return $retStr;
+}
 
 	$tilkobling =kobleTil("gruppe2it");
 		
@@ -70,7 +92,9 @@ function kobleTil($databasenavn)
 	 
 	 // Beboere
 	 $xml .= "<Familie type=\"class\">\n\t\t";
+	 	$xml .= hentNokkelVerdiForXML($tilkobling, "Familie");
 	 	$xml .= "<Person type=\"class\"> \n\t\t\t";
+	 		$xml .= hentNokkelVerdiForXML($tilkobling, "Person");
 	 		$xml .= "<Alder>50</Alder> \n\t\t\t";	
 	 		$xml .= "<Kjonn>Kvinne</Kjonn> \n\t\t";
 	 	$xml .= "<Person type=\"class\"> \n\t\t";
@@ -82,10 +106,12 @@ function kobleTil($databasenavn)
 	 
 	// Boligtyp>
 	$xml .= "<Enebolig type=\"class\">\n\t\t\t";
+	 	$xml .= hentNokkelVerdiForXML($tilkobling, "Enebolig");
 		$xml .= "<bruttoAreal>".$houseTotalArea."</bruttoAreal> \n\t\t\t";
 		$xml .= "<pRomAreal>".$housePrimaryArea."</pRomAreal> \n\t\t";
 		$xml .= "<Varmetap type=\"class\"> \n\t\t\t";
- 			$xml .= "<byggstandard>".$houseBuildYear."</byggstandard>\n\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
+	 		$xml .= hentNokkelVerdiForXML($tilkobling, "Varmetap");
+			$xml .= "<byggstandard>".$houseBuildYear."</byggstandard>\n\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
  			$xml .= "<ytterveggAreal>".$ytterveggAreal."</ytterveggAreal>\n\t\t\t";
  			$xml .= "<yttertakAreal>".$yttertakAreal."</yttertakAreal>\n\t\t\t";
  			$xml .= "<vinduDorAreal>".$vinduDorAreal."</vinduDorAreal>\n\t\t\t";
@@ -93,9 +119,11 @@ function kobleTil($databasenavn)
  			$xml .= "<onsketTemp>".$onsketTemp."</onsketTemp>\n\t\t";
 		$xml .= "</Varmetap> \n\t\t";
 		$xml .= "<Soltilskudd type=\"class\">\n\t\t";
-  			
+		$xml .= hentNokkelVerdiForXML($tilkobling, "Soltilskudd");
+		
 		$xml .= "</Soltilskudd> \n\t\t";	
 		$xml .= "<ForbrukVann type=\"class\"> \n\t\t\t";
+			$xml .= hentNokkelVerdiForXML($tilkobling, "ForbrukVann");
 			$xml .= "<priHeat>".$priHeat."</priHeat> \n\t\t\t";
 			$xml .= "<secHeat>".$secHeat."</secHeat> \n\t\t\t";
 			$xml .= "<heatDiff>".$heatDiff."</heatDiff> \n\t\t\t";
@@ -105,17 +133,20 @@ function kobleTil($databasenavn)
 			$xml .= "<priBoilerPower>".$priBoilerPower."</priBoilerPower> \n\t\t\t";
 		$xml .= "</ForbrukVann>  \n\t\t";
 		$xml .= "<Belysning type=\"class\"> \n\t\t\t";
-// 			$xml .= "<antLys>".$numLight."</antLys> \n\t\t\t";
+			$xml .= hentNokkelVerdiForXML($tilkobling, "Belysning");
+		// 			$xml .= "<antLys>".$numLight."</antLys> \n\t\t\t";
 // 			$xml .= "<priLysType>".$priLightType."</priLysType> \n\t\t\t";
 // 			$xml .= "<secLysType>".$secLightType."</secLysType> \n\t\t\t";
 			$xml .= "<brenntid>".$lightTime."</brenntid> \n\t\t\t";
 			$xml .= "<lysDiff>".$lightDiff."</lysDiff> \n\t\t";
 		$xml .= "</Belysning>  \n\t\t";
 		$xml .= "<ForbrukHvitevare type=\"class\"> \n\t\t";
-// 			$xml .= "<hvite>".$hvite."</hvite> \n\t\t";
+			$xml .= hentNokkelVerdiForXML($tilkobling, "ForbrukHvitevare");
+		// 			$xml .= "<hvite>".$hvite."</hvite> \n\t\t";
 		$xml .= "</ForbrukHvitevare> \n\t\t";
 		$xml .= "<ForbrukBrunevare type=\"class\"> \n\t\t";
-// 			$xml .= "<brune>".$brun."</brune> \n\t\t\t";
+			$xml .= hentNokkelVerdiForXML($tilkobling, "ForbrukBrunevare");
+		// 			$xml .= "<brune>".$brun."</brune> \n\t\t\t";
 		$xml .= "</ForbrukBrunevare>  \n\t";
 	$xml .= "</Enebolig>\n\t";
 	
@@ -123,12 +154,14 @@ function kobleTil($databasenavn)
 	
 	// Klima
 	$xml .= "<Klima type=\"class\">\n\t\t";
+		$xml .= hentNokkelVerdiForXML($tilkobling, "Klima");
 		$xml .= "<maalestasjon>86600</maalestasjon>\n\t\t";
 	 	$xml .= "<sone>".$climateZone."</sone>\n\t";
 	$xml .= "</Klima>\n\t";
 	
 	// Tidsrom
 	$xml .= "<Tidsrom type=\"class\">\n\t\t";
+		$xml .= hentNokkelVerdiForXML($tilkobling, "Tidsrom");
 		$xml .= "<startDateTime>".$startTime." CET</startDateTime>\n\t\t";
 		$xml .= "<endDateTime>".$endTime." CET</endDateTime>\n\t\t";
 		$xml .= "<opplosning>".$opplosning."</opplosning>\n\t";
