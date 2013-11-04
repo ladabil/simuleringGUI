@@ -53,7 +53,7 @@ class Site
 	
 	public static $funcUpdateWeatherStationList = "funcUpdateWeatherStationList";
 	
-	public static $doDebug = false;
+	public static $doDebug = true;
 	
 	//simhentings variabler
 	public static $fetchedName = "0";
@@ -1125,6 +1125,11 @@ class Site
 		$tpl = new MySmarty();
 		
 		$sql = "SELECT * FROM FamilyStore WHERE StoredName = '".$_REQUEST['beboereValgt']."'";
+
+		if ( static::$doDebug )
+		{
+			echo "Query: " . $sql . "<br>\n";
+		}
 		
 		if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
 		{
@@ -1135,11 +1140,26 @@ class Site
 		//$tmpRes = $res->fetch_Assoc();
 		while($row = mysqli_fetch_array($res,MYSQLI_ASSOC))
 		{
+			if ( static::$doDebug )
+			{
+				echo "<pre>\n";
+				print_r($row);
+				echo "</pre>\n";
+			}
 			array_push(static::$families["Yrke"], $row['work']);
 			array_push(static::$families["Alder"], $row['age']);
 			//array_push($_SESSION['es']->_inhabitantsWork, $row['work']);
 			//array_push($_SESSION['es']->_inhabitantsAge, $row['age']);	
 		}
+		
+		if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r(static::$families["Yrke"]);
+			print_r(static::$families["Alder"]);
+			echo "</pre>\n";
+		}
+		
 		$_SESSION['es']->_inhabitantsWork = static::$families["Yrke"];
 		$_SESSION['es']->_inhabitantsAge = static::$families["Alder"];
 		
@@ -1346,6 +1366,7 @@ class Site
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseWizardClimateZone);
 		
+<<<<<<< HEAD
 		$getSQL = "SELECT stnr, name, department FROM weatherStations";
 		
 		if ( ($res = Base::getMysqli()->query($getSQL)) === FALSE )
@@ -1363,6 +1384,13 @@ class Site
 		
 		// 		$tpl->assign('function', static::$funcUpdateKeyValue);
 		$tpl->assign('weatherStation' , static::$weatherstation_array);
+=======
+		if ( static::$doDebug )
+		{
+			echo "<pre>\n";
+			print_r($_SESSION['es']);
+		}
+>>>>>>> 2de15eefa305a8562cd1997e5cc92c253f7f45cb
 	
 		return static::getMainFrame($tpl->fetch("wizard_ClimateZone.tpl.html"), "Wizard");
 	}

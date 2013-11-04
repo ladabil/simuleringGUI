@@ -7,7 +7,7 @@
 	<form method="post" action="{$scriptURL}">
 		<select name="beboereValgt">
 {foreach from=$storedBeboere item=i}
-			<option value="{$i.id}">{$i.StoredName}</option>
+			<option value="{$i.StoredName}">{$i.StoredName}</option>
 {/foreach}
 		</select>
 		<input type="hidden" name="function" value="{$function}" />

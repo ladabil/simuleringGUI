@@ -132,7 +132,10 @@ $opplosning = $row['opplosning'];
 		$xml .= hentNokkelVerdiForXML($tilkobling, "Tidsrom");
 		$xml .= "<startDateTime>".$startTime." CET</startDateTime>\n\t\t";
 		$xml .= "<endDateTime>".$endTime." CET</endDateTime>\n\t\t";
-		$xml .= "<opplosning>".$opplosning."</opplosning>\n\t";
+		if ( intval($opplosning) > 0 )
+		{
+			$xml .= "<opplosning>".$opplosning."</opplosning>\n\t";
+		}
 	$xml .= "</Tidsrom>\n";
 	
 	
