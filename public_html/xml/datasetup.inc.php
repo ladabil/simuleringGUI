@@ -9,7 +9,16 @@ $row = mysql_fetch_array ($result2);
 $climateZone = $row['climateZone'];
 $climateTemperatureOffset = $row['climateTemperatureOffset'];
 $climateWeatherStation = $row['climateWeatherStation'];
-$climateWeatherStationTxt = hentVaerstasjonsNavn($tilkobling, $climateWeatherStation);
+
+if ( intval($climateWeatherStation) > 0 )
+{
+	$climateWeatherStationTxt = hentVaerstasjonsNavn($tilkobling, $climateWeatherStation);
+}
+else
+{
+	$climateWeatherStationTxt = "ikke valgt, benytter klimasone";
+}
+
 
 $climateZone = $row['climateZone'];
 $climateZoneTxt = "";
