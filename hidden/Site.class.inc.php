@@ -53,7 +53,7 @@ class Site
 	
 	public static $funcUpdateWeatherStationList = "funcUpdateWeatherStationList";
 	
-	public static $doDebug = true;
+	public static $doDebug = false;
 	
 	//simhentings variabler
 	public static $fetchedName = "0";
@@ -1277,8 +1277,7 @@ class Site
 		// Verifiser token f�rst..
 		Base::verifyTokenFromRequest("setupSimulator");
 		
-		$submit = $_POST['submit'];
-		if($submit == "Hent Beboere")
+		if( isset($_REQUEST['getInhabSubmit']) && strcasecmp($_REQUEST['getInhabSubmit'],"Hent Beboere") == 0)
 		{
 			return static::showGetBeboere();
 		}
@@ -1349,12 +1348,11 @@ class Site
 			echo "<pre>\n";
 			print_r($_SESSION['es']);
 		}
-		
-		if($submit == "Lagre Beboere")
+
+		if(isset($_REQUEST['storeInhabSubmit']) && strcasecmp($_REQUEST['storeInhabSubmit'],"Lagre Beboere") == 0)
 		{
 			return static::showStoreBeboere();
 		}
-		
 		
 		return static::showWizClimateZone();
 	}
@@ -1380,17 +1378,8 @@ class Site
 		{
 			static::$weatherstation_array[] = $row;
 		}
-		
-		// 		$tpl->assign('function', static::$funcUpdateKeyValue);
 
 		$tpl->assign('climateWeatherStation' , static::$weatherstation_array);
-		
-		if ( static::$doDebug )
-		{
-			echo "<pre>\n";
-			print_r($_SESSION['es']);
-		}
-
 		return static::getMainFrame($tpl->fetch("wizard_ClimateZone.tpl.html"), "Wizard");
 	}
 	
