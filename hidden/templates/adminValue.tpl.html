@@ -14,14 +14,16 @@
 				
 				<tr>
 					<td><strong>Klasse</strong></td>
-					<td width="250px"><strong>Navn</strong></td>
+					<td><strong>Navn</strong></td>
 					<td><strong>Verdi</strong></td>
+					<td><strong>Tidsverdi</strong></td>
 				</tr>
 				{foreach from=$simValue item=i}
 				<tr>
 					<td>{$i.Class}</td>
 					<td>{$i.Name}</td>
-					<td><input type="hidden" name="id[]" value="{$i.id}"><input type="text" name="value[]" value="{$i.Value}"></td>
+					<td><input type="hidden" name="id[]" value="{$i.id}"><input type="text" style="width: 75px" name="value[]" value="{$i.Value}"></td>
+					<td><input type="text" style="width: 75px" name="time[]" value="{$i.timeuse}"></td>
 				</tr>
 				{/foreach}
 

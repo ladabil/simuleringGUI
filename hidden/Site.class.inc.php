@@ -53,7 +53,7 @@ class Site
 	
 	public static $funcUpdateWeatherStationList = "funcUpdateWeatherStationList";
 	
-	public static $doDebug = false;
+	public static $doDebug = true;
 	
 	//simhentings variabler
 	public static $fetchedName = "0";
@@ -608,7 +608,7 @@ class Site
 		{
 			for ( $i=0; $i<count($_REQUEST['id']); $i++ )
 			{
-      			static::updateKeyValue($_REQUEST['id'][$i], $_REQUEST['value'][$i]);
+      			static::updateKeyValue($_REQUEST['id'][$i], $_REQUEST['value'][$i], $_REQUEST['time'][$i]);
 			}
 			Base::redirectNow(static::$funcShowValue);
 		}
@@ -621,11 +621,12 @@ class Site
 		return static::getMainFrame($tpl->fetch("adminValue.tpl.html"), "Admin-side - Nøkkelverdier");
 	}
 	
-	static function updateKeyValue($id, $value)
+	static function updateKeyValue($id, $value, $time)
 	{
 		$query = "UPDATE simValue
     		SET
-       		`Value`='" . $value . "'
+       		`Value`='" . $value . "',
+       		`timeuse`='" . $time . "'
     		WHERE
        		`id`=" . $id . "
     
@@ -633,8 +634,8 @@ class Site
 	
 		if ( ($res = Base::getMysqli()->query($query)) === FALSE )
 		{
-// 			echo "<pre>\n";
-// 			echo $query;
+ 			echo "<pre>\n";
+ 			echo $query;
 			die(Base::getMysqli()->error);
 		}
 	
