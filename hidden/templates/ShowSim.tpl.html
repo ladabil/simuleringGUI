@@ -143,10 +143,21 @@
 			<td><strong>Type</strong></td>
 			<td><strong>Verdi</strong></td>
 		</tr>
+		{if ($climateWeatherStation) > 0 }
+			<tr>
+				<td width="300px">Værstasjon id</td>
+				<td>{$climateWeatherStation}</td>
+			</tr>
+		{else}
+			<tr>
+				<td width="300px">Klimasone</td>
+				<td>{$climateZone}</td>
+			</tr>
+		{/if}
 		<tr>
-			<td width="300px">Klimasone</td>
-			<td>{$climateZone}</td>
-		</tr>
+			<td>Endring temperatur</td>
+			<td>{$climateTemperatureOffset}</td>
+		</tr>		
 		<tr>
 			<td>Start tid</td>
 			<td>{$startTime} CET</td>
