@@ -1738,7 +1738,7 @@ class Site
 	{
 		if ( intval($authLibUserId) <= 0 )
 		{
-			die(__LINE__ . ": Invalid authLibUserId<br>\n");
+			die(__LINE__ . ": Invalid authLibUserId: '" . $authLibUserId . "'<br>\n");
 		}
 		
 		$query = "
