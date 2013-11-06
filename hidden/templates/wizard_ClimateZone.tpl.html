@@ -34,7 +34,14 @@
 		Start tid: <input type="datetime-local" name="startTime" value="{$smarty.session.es->_startTime}" /> <br />
 		Slutt tid: <input type="datetime-local" name="endTime" value="{$smarty.session.es->_endTime}"/> 
 		<br /><br />
-		Oppl&oslash;sning i simulering: <input type="number" name="opplosning" value="{$smarty.session.es->_opplosning}" /> Auto 3600s
+		Oppl&oslash;sning i simulering: 
+		<select name="opplosning" value="{$smarty.session.es->_opplosning}">
+			<option value="3600">Time</option>
+			<option value="86400">D&oslash;gn</option>
+			<option value="604800">Uke</option>
+			<option value="259200">M&aring;ned</option>
+			<option value="31536000">&Aring;r</option>
+		</select><br />
 		<br /><br />
 	
 		<input type="hidden" name="function" value="{$function}" />
