@@ -1736,6 +1736,10 @@ class Site
 	 */
 	static function insertSimulatorTask($storingId, $xmlId, $authLibUserId)
 	{
+		echo "storingId: " . $storingId . "<br>\n";
+		echo "xmlId: " . $xmlId . "<br>\n";
+		echo "authLibUserId: " . $authLibUserId . "<br>\n";
+		
 		if ( intval($authLibUserId) <= 0 )
 		{
 			die(__LINE__ . ": Invalid authLibUserId: '" . $authLibUserId . "'<br>\n");
