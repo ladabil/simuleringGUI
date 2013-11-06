@@ -1519,8 +1519,14 @@ class Site
 		
 		$errMsg = "";
 		
-		$query = "SELECT * 
-						FROM 
+		$query = "SELECT 
+						`SimStoring`.*
+						,`SimTask`.`id` AS `stId`
+						,`SimTask`.`TimeStarted`
+						,`SimTask`.`TimeEnded`
+						,`SimTask`.`TimeCreated`
+						,`SimTask`.`TimeUpdated`
+					FROM 
 						`SimTask`
 						LEFT JOIN `SimStoring` ON (`SimTask`.`SimStoringId`=`SimStoring`.`id`)
 					WHERE 
