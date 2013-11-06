@@ -9,14 +9,14 @@
 			<td colspan="2" width="450px" style="background-color: #3f3e50; color: #eb8602;"><strong>Hus</strong></td>
 		</tr>
 		<tr>
-			<th width="100">KjøreID</th>
-			<th width="150">XMLID</th>
-			<th width="150">Kjørt når</th>
+			<th width="70">KjøreID</th>
+			<th width="190">Simuleringsnavn</th>
+			<th width="140">Kjørt når</th>
 		</tr>
 {foreach from=$simTaskArr item=i}
 		<tr>
 			<td>{$i.id}</td>
-			<td>{$i.xmlId}</td>
+			<td>{$i.name}</td>
 			<td>{$i.TimeCreated}</td>
 		</tr>
 {/foreach}
