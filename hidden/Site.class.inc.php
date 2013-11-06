@@ -1523,7 +1523,7 @@ class Site
 		$xmlId = date("Ymd") . "_" . time();
 		
 		$timeEstimate = static::createXMLForSimMotor($simStoringId, $xmlId);
-		static::insertSimulatorTask($storingId, $xmlId, AuthLib::getUserId());
+		static::insertSimulatorTask($simStoringId, $xmlId, AuthLib::getUserId());
 		
 		die("Sender simuleringen for {$simStoring->_name} til kalkulering <br><br>
 		Simuleringsperiode fra {$simStoring->_startTime} til {$simStoring->_endTime} <br><br>
