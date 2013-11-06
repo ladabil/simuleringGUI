@@ -1508,16 +1508,16 @@ class Site
 	/*
 	 * Opprett en SimTask for en kjøring av simuleringen..
 	 */
-	static function createSimulatorTask($storingId = NULL)
+	static function createSimulatorTask($simStoringId = NULL)
 	{
-		if ( $storingId == NULL )
+		if ( $simStoringId == NULL )
 		{
 			if ( !isset($_REQUEST['simStoringId']) || intval($_REQUEST['simStoringId']) < 0 )
 			{
 				die("Invalid simStoringId");
 			}
 			
-			$storingId = intval($_REQUEST['simStoringId']);
+			$simStoringId = intval($_REQUEST['simStoringId']);
 		}
 		
 		$xmlId = date("Ymd") . "_" . time();
