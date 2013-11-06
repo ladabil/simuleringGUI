@@ -380,19 +380,19 @@ class AuthLib {
 	static function getUserId()
 	{
 		echo "<pre>\n";
-		print_r($_SESSION['authLibUser']->getAuthLibUser());
+		print_r($_SESSION['authLibUser']);
 		
 		if ( !isset($_SESSION['authLibUser']) || !is_object($_SESSION['authLibUser']) )
 		{
 			return -1;
 		}
 	
-		if ( $_SESSION['authLibUser']->getAuthLibUser() === NULL )
+		if ( $_SESSION['authLibUser'] === NULL )
 		{
 			return -2;
 		}
 		
-		return $_SESSION['authLibUser']->getAuthLibUser()->getDbId();
+		return $_SESSION['authLibUser']->getDbId();
 	}	
 	
 	/*
