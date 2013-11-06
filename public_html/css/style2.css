@@ -44,6 +44,7 @@ input,select {
 table {
 	
 	border: 2px solid #eb8602;
+	background-color: #e3e3e3;
 	-moz-border-radius: 5px;
 	border-radius: 2px;
 	border-collapse:collapse;
@@ -51,6 +52,7 @@ table {
 }
 td {
 	border: 2px solid #eb8602;
+	background-color: #e3e3e3;
 	-moz-border-radius: 5px;
 	border-radius: 2px;
 	text-align: left;

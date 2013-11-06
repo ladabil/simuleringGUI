@@ -42,7 +42,7 @@
   	
   	?>
   </select>
-  <input type="submit" name="Submit" value="Submit" id="Submit">
+  <input type="submit" name="Submit" value="Submit" class="button" id="Submit">
 </form>
 
 <?php
