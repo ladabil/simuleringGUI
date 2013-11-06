@@ -379,6 +379,8 @@ class AuthLib {
 	 */
 	static function getUserId()
 	{
+		echo "<pre>\n";
+		print_r($_SESSION['authLibUser']->getAuthLibUser());
 		
 		if ( !isset($_SESSION['authLibUser']) || !is_object($_SESSION['authLibUser']) )
 		{
