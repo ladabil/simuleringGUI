@@ -487,9 +487,9 @@ class Site
 		{
 			$tpl -> assign("alUsername", $_REQUEST["alUsername"]);
 				
-			if ( strlen($_REQUEST["alUsername"]) < 4 )
+			if ( strlen($_REQUEST["alUsername"]) <= 4 )
 			{
-				$errMsg .= "Brukernavnet mï¿½ vï¿½re mer en 4 tegn<br>\n";
+				$errMsg .= "Brukernavnet må være mer en 4 tegn<br>\n";
 			}
 		}
 		else
@@ -519,11 +519,11 @@ class Site
 		{
 			if ( strlen($_REQUEST["alPassword"]) < 8 )
 			{
-				$errMsg .= "Passordet mï¿½ vï¿½re mer enn 8 tegn<br>\n";
+				$errMsg .= "Passordet må være mer enn 8 tegn<br>\n";
 			}
 			else if ( strcmp($_REQUEST["alPassword"], $_REQUEST["alPassword2"]) != 0) 
 			{
-				$errMsg .= "Passordene er ikke like, forsï¿½k igjen<br>\n";
+				$errMsg .= "Passordene er ikke like, forsøk igjen<br>\n";
 			}
 		}
 		else
@@ -789,12 +789,12 @@ class Site
 		}
 		else
 		{
-			$errMsg .= "Mangler Primï¿½r Areal<br>\n";
+			$errMsg .= "Mangler Primær Areal<br>\n";
 		}
 		
 		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
 		{
-			$errMsg .= "Primï¿½r Areal kan ikke vï¿½re stï¿½rre enn bruttoareal<br>\n";
+			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
 		}
 		
 		if ( strlen($errMsg) > 0 )
@@ -1670,12 +1670,12 @@ class Site
 		}
 		else
 		{
-			$errMsg .= "Mangler Primï¿½r Areal<br>\n";
+			$errMsg .= "Mangler Primær Areal<br>\n";
 		}
 		
 		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
 		{
-			$errMsg .= "Primï¿½r Areal kan ikke vï¿½re stï¿½rre enn bruttoareal<br>\n";
+			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
 		}
 		
 		
@@ -2194,12 +2194,12 @@ class Site
 		}
 		else
 		{
-			$errMsg .= "Mangler Primï¿½r Areal<br>\n";
+			$errMsg .= "Mangler Primær Areal<br>\n";
 		}
 		
 		if ( intval($_REQUEST['housePrimaryArea']) > intval($_REQUEST['houseTotalArea']) )
 		{
-			$errMsg .= "Primï¿½r Areal kan ikke vï¿½re stï¿½rre enn bruttoareal<br>\n";
+			$errMsg .= "Primær Areal kan ikke være større enn bruttoareal<br>\n";
 		}
 
 		// Antall beboere og type tidsfordiv
