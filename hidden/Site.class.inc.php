@@ -242,6 +242,7 @@ class Site
 	{
 		echo "<pre>\n";
 		print_r($_SESSION['authLibUser']->getAuthLibUser());
+		print_r($_SESSION['authLibUser']);
 		
 		if ( AuthLib::isUser() )
 		{
