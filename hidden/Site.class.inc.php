@@ -1551,6 +1551,7 @@ class Site
 		}
 
 		$tpl->assign('simTaskArr', $simTaskArr);
+		$tpl->assign('resultURL', dirname(Base::getScripturl()) . "/resultater/");
 		//		$tpl->assign('function', static::$funcParseGetSim);
 		
 		return static::getMainFrame($tpl->fetch("ShowSimulatorTaskList.tpl.html"), "Wizard");

@@ -19,7 +19,10 @@
 			<td>{$i.stId}</td>
 			<td>{$i.name}</td>
 			<td>{$i.TimeCreated}</td>
-			<td><a href="{$scriptURL}?function=parseGetSim&simValgt={$i.id}">Vis</a></td>
+			<td>
+				<a href="{$scriptURL}?function=parseGetSim&simValgt={$i.id}">Vis</a>
+				<a href="{$resultURL}/{$i.xmlId}">Res.</a>
+			</td>
 		</tr>
 {/foreach}
 	</table>
