@@ -240,6 +240,9 @@ class Site
 	
 	static function showUserDefault()
 	{
+		echo "<pre>\n";
+		print_r($_SESSION['authLibUser']->getAuthLibUser());
+		
 		if ( AuthLib::isUser() )
 		{
 			$function = NULL;
