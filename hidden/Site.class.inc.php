@@ -1557,7 +1557,7 @@ class Site
 	
 	static function createXMLForSimMotor($simStoringId, $xmlId)
 	{
-		$simStoring = static::getRowForSimMotor($simStoringId);
+		$simStoring = static::getDataForSimMotor($simStoringId);
 		
 		// Lager XML
 		echo "<?xml version=\"1.0\"?>";
