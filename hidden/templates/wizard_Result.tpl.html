@@ -3,9 +3,7 @@
 <div>
 	<img class="logo" src="gfx/logo.png" />
 	
-{if isset($EnergySimulator) && intval($EnergySimulator->getEnergyUsage()) > 0}
-	<h3>Resultat</h3>{$EnergySimulator->getEnergyUsage()} kWh i &aring;ret.	
-{/if}
+
  <br />
 
 	<form method="post" action="{$scriptURL}">

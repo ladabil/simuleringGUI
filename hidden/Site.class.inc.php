@@ -53,7 +53,7 @@ class Site
 	
 	public static $funcUpdateWeatherStationList = "funcUpdateWeatherStationList";
 	
-	public static $doDebug = true;
+	public static $doDebug = false;
 	
 	//simhentings variabler
 	public static $fetchedName = "0";
@@ -473,7 +473,7 @@ class Site
 			
 			if ( strlen($_REQUEST["alName"]) < 6 )
 			{
-				$errMsg .= "Navnet mï¿½ vï¿½re mer en 6 tegn<br>\n";
+				$errMsg .= "Navnet må være mer en 6 tegn<br>\n";
 			}
 		}
 		else
@@ -1474,7 +1474,7 @@ class Site
 			print_r($_SESSION['es']);
 		}
 	
-		return static::showWizResult();
+		return static::showStoreSim();
 	}
 	
 	
@@ -1822,7 +1822,7 @@ class Site
 			return static::showStoreSim();
 		}
 		
-		return static::showWizResult();
+		return static::showGetSim();
 	}
 	
 	static function showGetSim()
