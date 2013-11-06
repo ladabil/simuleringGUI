@@ -6,18 +6,20 @@
 	<form method="post" action="{$scriptURL}">
 	<table width="100%" border="1">
 		<tr>
-			<td colspan="2" width="450px" style="background-color: #3f3e50; color: #eb8602;"><strong>Hus</strong></td>
+			<th colspan="4" width="450px" style="background-color: #3f3e50; color: #eb8602;">Kjørte simuleringer</th>
 		</tr>
 		<tr>
-			<th width="70">KjøreID</th>
+			<th width="50">KjøreID</th>
 			<th width="190">Simuleringsnavn</th>
-			<th width="140">Kjørt når</th>
+			<th width="120">Kjørt når</th>
+			<th width="40">Action</th>
 		</tr>
 {foreach from=$simTaskArr item=i}
 		<tr>
-			<td>{$i.id}</td>
+			<td>{$i.stId}</td>
 			<td>{$i.name}</td>
 			<td>{$i.TimeCreated}</td>
+			<td><a href="{$scriptURL}?function=parseGetSim&simValgt={$i.id}">Vis</a></td>
 		</tr>
 {/foreach}
 	</table>
