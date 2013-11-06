@@ -1736,6 +1736,11 @@ class Site
 	 */
 	static function insertSimulatorTask($storingId, $xmlId, $authLibUserId)
 	{
+		if ( intval($authLibUserId) <= 0 )
+		{
+			die(__LINE__ . ": Invalid authLibUserId<br>\n");
+		}
+		
 		$query = "
 				INSERT INTO
 						`SimTask`
