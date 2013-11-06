@@ -1745,7 +1745,7 @@ class Site
 						,`AuthLibUserId`=" . $authLibUserId . "
 				";
 		
-		if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+		if ( ($res = Base::getMysqli()->query($query)) === FALSE )
 		{
 			die(Base::getMysqli()->error);
 		}
