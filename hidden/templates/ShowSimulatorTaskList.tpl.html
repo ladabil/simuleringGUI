@@ -11,11 +11,13 @@
 		<tr>
 			<th>KjøreID</th>
 			<th>XMLID</th>
+			<th>Kjørt når</th>
 		</tr>
 {foreach from=$simTaskArr item=i}
 		<tr>
 			<td>{$i.id}</td>
 			<td>{$i.xmlId}</td>
+			<td>{$i.TimeCreated}</td>
 		</tr>
 {/foreach}
 	</table>
