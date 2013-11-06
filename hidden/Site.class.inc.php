@@ -1583,16 +1583,16 @@ class Site
 		// Boligtyp>
 		$xml .= "<Enebolig type=\"class\">\n\t\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Enebolig");
-		$xml .= "<bruttoAreal>". $simStoring->_houseTotalArea . "</bruttoAreal> \n\t\t\t";
-		$xml .= "<pRomAreal>". $simStoring->_housePrimaryArea."</pRomAreal> \n\t\t";
+		$xml .= "<bruttoAreal>". ($simStoring->_houseTotalArea) . "</bruttoAreal> \n\t\t\t";
+		$xml .= "<pRomAreal>". ($simStoring->_housePrimaryArea)."</pRomAreal> \n\t\t";
 		$xml .= "<Varmetap type=\"class\"> \n\t\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Varmetap");
-		$xml .= "<byggstandard>" . $simStoring->_houseBuildYearParsed . "</byggstandard>\n\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
-		$xml .= "<ytterveggAreal>". $simStoring->_ytterveggAreal."</ytterveggAreal>\n\t\t\t";
-		$xml .= "<yttertakAreal>". $simStoring->_yttertakAreal."</yttertakAreal>\n\t\t\t";
-		$xml .= "<vinduDorAreal>". $simStoring->_vinduDorAreal."</vinduDorAreal>\n\t\t\t";
-		$xml .= "<luftVolum>". $simStoring->_luftVolum."</luftVolum>\n\t\t\t";
-		$xml .= "<onsketTemp>". $simStoring->_onsketTemp."</onsketTemp>\n\t\t";
+		$xml .= "<byggstandard>" . ($simStoring->_houseBuildYearParsed) . "</byggstandard>\n\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
+		$xml .= "<ytterveggAreal>". ($simStoring->_ytterveggAreal) . "</ytterveggAreal>\n\t\t\t";
+		$xml .= "<yttertakAreal>". ($simStoring->_yttertakAreal) . "</yttertakAreal>\n\t\t\t";
+		$xml .= "<vinduDorAreal>". ($simStoring->_vinduDorAreal) . "</vinduDorAreal>\n\t\t\t";
+		$xml .= "<luftVolum>". ($simStoring->_luftVolum)."</luftVolum>\n\t\t\t";
+		$xml .= "<onsketTemp>". ($simStoring->_onsketTemp)."</onsketTemp>\n\t\t";
 		$xml .= "</Varmetap> \n\t\t";
 		$xml .= "<Soltilskudd type=\"class\">\n\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Soltilskudd");
@@ -1600,21 +1600,21 @@ class Site
 		$xml .= "</Soltilskudd> \n\t\t";
 		$xml .= "<ForbrukVann type=\"class\"> \n\t\t\t";
 		$xml .= static::hentNokkelVerdiForXML("ForbrukVann");
-		$xml .= "<priHeat>". $simStoring->_priHeat."</priHeat> \n\t\t\t";
-		$xml .= "<secHeat>". $simStoring->_secHeat."</secHeat> \n\t\t\t";
-		$xml .= "<heatDiff>". $simStoring->_heatDiff."</heatDiff> \n\t\t\t";
-		$xml .= "<floorHeatWa>". $simStoring->_floorHeatWa."</floorHeatWa> \n\t\t\t";
-		$xml .= "<floorHeatEl>". $simStoring->_floorHeatEl."</floorHeatEl> \n\t\t\t";
-		$xml .= "<priBoilerSize>". $simStoring->_priBoilerSize."</priBoilerSize> \n\t\t\t";
-		$xml .= "<priBoilerPower>". $simStoring->_priBoilerPower."</priBoilerPower> \n\t\t\t";
+		$xml .= "<priHeat>". ($simStoring->_priHeat)."</priHeat> \n\t\t\t";
+		$xml .= "<secHeat>". ($simStoring->_secHeat)."</secHeat> \n\t\t\t";
+		$xml .= "<heatDiff>". ($simStoring->_heatDiff)."</heatDiff> \n\t\t\t";
+		$xml .= "<floorHeatWa>". ($simStoring->_floorHeatWa)."</floorHeatWa> \n\t\t\t";
+		$xml .= "<floorHeatEl>". ($simStoring->_floorHeatEl)."</floorHeatEl> \n\t\t\t";
+		$xml .= "<priBoilerSize>". ($simStoring->_priBoilerSize)."</priBoilerSize> \n\t\t\t";
+		$xml .= "<priBoilerPower>". ($simStoring->_priBoilerPower)."</priBoilerPower> \n\t\t\t";
 		$xml .= "</ForbrukVann>  \n\t\t";
 		$xml .= "<Belysning type=\"class\"> \n\t\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Belysning");
 		// 			$xml .= "<antLys>". $simStoring->_numLight."</antLys> \n\t\t\t";
 		// 			$xml .= "<priLysType>". $simStoring->_priLightType."</priLysType> \n\t\t\t";
 		// 			$xml .= "<secLysType>". $simStoring->_secLightType."</secLysType> \n\t\t\t";
-		$xml .= "<brenntid>". $simStoring->_lightTime."</brenntid> \n\t\t\t";
-		$xml .= "<lysDiff>". $simStoring->_lightDiff."</lysDiff> \n\t\t";
+		$xml .= "<brenntid>". ($simStoring->_lightTime)."</brenntid> \n\t\t\t";
+		$xml .= "<lysDiff>". ($simStoring->_lightDiff)."</lysDiff> \n\t\t";
 		$xml .= "</Belysning>  \n\t\t";
 		$xml .= "<ForbrukHvitevare type=\"class\"> \n\t\t";
 		$xml .= static::hentNokkelVerdiForXML("ForbrukHvitevare");
@@ -1653,11 +1653,11 @@ class Site
 		// Tidsrom
 		$xml .= "<Tidsrom type=\"class\">\n\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Tidsrom");
-		$xml .= "<startDateTime>". $simStoring->_startTime." CET</startDateTime>\n\t\t";
-		$xml .= "<endDateTime>". $simStoring->_endTime." CET</endDateTime>\n\t\t";
+		$xml .= "<startDateTime>". ($simStoring->_startTime) ." CET</startDateTime>\n\t\t";
+		$xml .= "<endDateTime>". ($simStoring->_endTime)." CET</endDateTime>\n\t\t";
 		if ( intval($opplosning) > 0 )
 		{
-			$xml .= "<opplosning>". $simStoring->_opplosning."</opplosning>\n\t";
+			$xml .= "<opplosning>". ($simStoring->_opplosning)."</opplosning>\n\t";
 		}
 		$xml .= "</Tidsrom>\n";
 		
