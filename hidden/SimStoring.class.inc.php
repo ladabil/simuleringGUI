@@ -43,45 +43,45 @@ class SimStoring
 	var $_endTime = NULL;
 	var $_opplosning = NULL;
 	
-	public function __construct($row)
+	public function __construct($this->_row)
 	{
-		$this->_row = $row;
+		$this->_row = $this->_row;
 		$this->parseRow();
 	}
 	
 	public function parseRow()
 	{
-		$this->_name = $row['name'];
-		$this->_priHeat = $row['priHeat'];
-		$this->_secHeat = $row['secHeat'];
-		$this->_houseTotalArea = $row['houseTotalArea'];
-		$this->_housePrimaryArea = $row['housePrimaryArea'];
-		$this->_houseBuildYear = $row['houseBuildYear'];
+		$this->_name = $this->_row['name'];
+		$this->_priHeat = $this->_row['priHeat'];
+		$this->_secHeat = $this->_row['secHeat'];
+		$this->_houseTotalArea = $this->_row['houseTotalArea'];
+		$this->_housePrimaryArea = $this->_row['housePrimaryArea'];
+		$this->_houseBuildYear = $this->_row['houseBuildYear'];
 		
 		$this->_houseBuildYearParsed = 0;
 		
-		$this->_ytterveggAreal = $row['ytterveggAreal'];
-		$this->_yttertakAreal = $row['yttertakAreal'];
-		$this->_vinduDorAreal = $row['vinduDorAreal'];
-		$this->_luftVolum = $row['luftVolum'];
-		$this->_onsketTemp = $row['onsketTemp'];
+		$this->_ytterveggAreal = $this->_row['ytterveggAreal'];
+		$this->_yttertakAreal = $this->_row['yttertakAreal'];
+		$this->_vinduDorAreal = $this->_row['vinduDorAreal'];
+		$this->_luftVolum = $this->_row['luftVolum'];
+		$this->_onsketTemp = $this->_row['onsketTemp'];
 		
-		$this->_heatDiff = $row['heatDiff'];
-		$this->_floorHeatWa = $row['floorHeatWa'];
-		$this->_floorHeatEl = $row['floorHeatEl'];
-		$this->_priBoilerSize = $row['priBoilerSize'];
-		$this->_priBoilerPower = $row['priBoilerPower'];
-		$this->_numLight = $row['numLight'];
-		$this->_priLightType = $row['priLightType'];
-		$this->_secLightType = $row['secLightType'];
-		$this->_lightTime = $row['lightTime'];
-		$this->_lightDiff = $row['lightDiff'];
-		$this->_numHvit = $row['numHvit'];
-		$this->_numBrun = $row['numBrun'];
+		$this->_heatDiff = $this->_row['heatDiff'];
+		$this->_floorHeatWa = $this->_row['floorHeatWa'];
+		$this->_floorHeatEl = $this->_row['floorHeatEl'];
+		$this->_priBoilerSize = $this->_row['priBoilerSize'];
+		$this->_priBoilerPower = $this->_row['priBoilerPower'];
+		$this->_numLight = $this->_row['numLight'];
+		$this->_priLightType = $this->_row['priLightType'];
+		$this->_secLightType = $this->_row['secLightType'];
+		$this->_lightTime = $this->_row['lightTime'];
+		$this->_lightDiff = $this->_row['lightDiff'];
+		$this->_numHvit = $this->_row['numHvit'];
+		$this->_numBrun = $this->_row['numBrun'];
 		
-		$this->_startTime = $row['startTime'];
-		$this->_endTime = $row['endTime'];
-		$this->_opplosning = $row['opplosning'];		
+		$this->_startTime = $this->_row['startTime'];
+		$this->_endTime = $this->_row['endTime'];
+		$this->_opplosning = $this->_row['opplosning'];		
 
 		switch ( $this->_houseBuildYear )
 		{
@@ -100,11 +100,11 @@ class SimStoring
 		}
 		
 		
-		$this->_climateZone = $row['climateZone'];
-		$this->_climateTemperatureOffset = $row['climateTemperatureOffset'];
-		$this->_climateWeatherStation = $row['climateWeatherStation'];
+		$this->_climateZone = $this->_row['climateZone'];
+		$this->_climateTemperatureOffset = $this->_row['climateTemperatureOffset'];
+		$this->_climateWeatherStation = $this->_row['climateWeatherStation'];
 		
-		$this->_climateZone = $row['climateZone'];
+		$this->_climateZone = $this->_row['climateZone'];
 		$this->_climateZoneTxt = "";
 		
 		
