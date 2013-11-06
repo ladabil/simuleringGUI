@@ -1520,7 +1520,7 @@ class Site
 			$simStoringId = intval($_REQUEST['simStoringId']);
 		}
 		
-		$xmlId = date("Ymd") . "_" . time();
+		$xmlId = date("Ymd") . "_" . time() . "_" . rand(1000,9999);
 		
 		$timeEstimate = static::createXMLForSimMotor($simStoringId, $xmlId);
 		static::insertSimulatorTask($simStoringId, $xmlId, AuthLib::getUserId());
