@@ -1,6 +1,8 @@
 <?php
 
 require_once($GLOBALS["cfg_hiddendir"] . "/MySmarty.class.inc.php");
+require_once($GLOBALS["cfg_hiddendir"] . "/SimStoring.class.inc.php");
+
 include($GLOBALS["cfg_hiddendir"] . "/config.inc.php");
 
 class Site 
@@ -45,6 +47,9 @@ class Site
 	public static $funcDeleteUser = "deleteUser";
 	public static $funcShowValue = "showValue";
 	public static $funcUpdateKeyValue = "updateKeyValue";
+	
+	public static $funcCreateSimulatorTask = "createSimulatorTask";
+	
 	public static $value_array;
 	public static $storedSim_array;
 	public static $weatherstation_array;
@@ -313,6 +318,9 @@ class Site
 					break;
 				case static::$funcParseGetBeboere:
 					echo static::parseGetBeboere();
+					break;
+				case static::$funcCreateSimulatorTask:
+					echo static::createSimulatorTask();
 					break;
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
@@ -1495,6 +1503,243 @@ class Site
 		$tpl->assign('function', static::$funcSetupEnergySimulator);
 		
  		return static::getMainFrame($tpl->fetch("wizard.tpl.html"), "Wizard");
+	}
+	
+	/*
+	 * Opprett en SimTask for en kjøring av simuleringen..
+	 */
+	static function createSimulatorTask($storingId)
+	{
+		$xmlId = date("Ymd") . "_" . time();
+		
+		$timeEstimate = createXMLForSimMotor($simStoringId, $xmlId);
+		insertSimulatorTask($storingId, $xmlId, AuthLib::getUserId());
+		
+		die("Sender simuleringen for {$simStoring->_name} til kalkulering <br><br>
+		Simuleringsperiode fra {$simStoring->_startTime} til {$simStoring->_endTime} <br><br>
+		Simuleringstiden er {$interval->format('%R%a dager')} <br><br>
+		Estimert tidsfobruk er {$tidsforbruk} sekunder <br>
+		<i>med forbehold om kø i beregning og kommunikasjonsfeil</i><br><br>");
+	}
+	
+	static function getDataForSimMotor($simStoringId)
+	{
+		$retStr = "";
+		
+		$sql = "SELECT * FROM `SimStoring` WHERE `id`=" . intval($simStoringId) . " LIMIT 1";
+		
+		if ( ($result = Base::getMysqli()->query($sql)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		
+		if ( !$result || mysqli_num_rows($result) !== 1 )
+		{
+			die("Fant ingen oppføring i databasen for: " . $simStoringId . " - Query: '" . $sql . "'");
+		}
+		
+		$row = $result->fetch_assoc();
+		
+		$simStoring = new SimStoring($row);
+		
+		return $simStoring;
+	}
+	
+	static function createXMLForSimMotor($simStoringId, $xmlId)
+	{
+		$simStoring = static::getRowForSimMotor($simStoringId);
+		
+		// Lager XML
+		echo "<?xml version=\"1.0\"?>";
+		$xml = '<simulering>';
+		$xml .= "\n\t";	// For DOM - human readable \n <- line break, \t <- tab for each class
+		
+		// Beboere
+		$xml .= "<Familie type=\"class\">\n\t\t";
+		$xml .= static::hentNokkelVerdiForXML("Familie");
+		$xml .= "<Person type=\"class\"> \n\t\t\t";
+		$xml .= static::hentNokkelVerdiForXML("Person");
+		$xml .= "<Alder>50</Alder> \n\t\t\t";
+		$xml .= "<Kjonn>Kvinne</Kjonn> \n\t\t";
+		$xml .= "<Person type=\"class\"> \n\t\t";
+		$xml .= "</Person> \n\t\t\t";
+		$xml .= "<Alder>60</Alder> \n\t\t\t";
+		$xml .= "<Kjonn>Mann</Kjonn> \n\t\t";
+		$xml .= "</Person> \n\t";
+		$xml .= "</Familie>\n\t";
+		
+		// Boligtyp>
+		$xml .= "<Enebolig type=\"class\">\n\t\t\t";
+		$xml .= static::hentNokkelVerdiForXML("Enebolig");
+		$xml .= "<bruttoAreal>". $simStoring->_houseTotalArea . "</bruttoAreal> \n\t\t\t";
+		$xml .= "<pRomAreal>". $simStoring->_housePrimaryArea."</pRomAreal> \n\t\t";
+		$xml .= "<Varmetap type=\"class\"> \n\t\t\t";
+		$xml .= static::hentNokkelVerdiForXML("Varmetap");
+		$xml .= "<byggstandard>" . $simStoring->_houseBuildYearParsed . "</byggstandard>\n\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
+		$xml .= "<ytterveggAreal>". $simStoring->_ytterveggAreal."</ytterveggAreal>\n\t\t\t";
+		$xml .= "<yttertakAreal>". $simStoring->_yttertakAreal."</yttertakAreal>\n\t\t\t";
+		$xml .= "<vinduDorAreal>". $simStoring->_vinduDorAreal."</vinduDorAreal>\n\t\t\t";
+		$xml .= "<luftVolum>". $simStoring->_luftVolum."</luftVolum>\n\t\t\t";
+		$xml .= "<onsketTemp>". $simStoring->_onsketTemp."</onsketTemp>\n\t\t";
+		$xml .= "</Varmetap> \n\t\t";
+		$xml .= "<Soltilskudd type=\"class\">\n\t\t";
+		$xml .= static::hentNokkelVerdiForXML("Soltilskudd");
+		
+		$xml .= "</Soltilskudd> \n\t\t";
+		$xml .= "<ForbrukVann type=\"class\"> \n\t\t\t";
+		$xml .= static::hentNokkelVerdiForXML("ForbrukVann");
+		$xml .= "<priHeat>". $simStoring->_priHeat."</priHeat> \n\t\t\t";
+		$xml .= "<secHeat>". $simStoring->_secHeat."</secHeat> \n\t\t\t";
+		$xml .= "<heatDiff>". $simStoring->_heatDiff."</heatDiff> \n\t\t\t";
+		$xml .= "<floorHeatWa>". $simStoring->_floorHeatWa."</floorHeatWa> \n\t\t\t";
+		$xml .= "<floorHeatEl>". $simStoring->_floorHeatEl."</floorHeatEl> \n\t\t\t";
+		$xml .= "<priBoilerSize>". $simStoring->_priBoilerSize."</priBoilerSize> \n\t\t\t";
+		$xml .= "<priBoilerPower>". $simStoring->_priBoilerPower."</priBoilerPower> \n\t\t\t";
+		$xml .= "</ForbrukVann>  \n\t\t";
+		$xml .= "<Belysning type=\"class\"> \n\t\t\t";
+		$xml .= static::hentNokkelVerdiForXML("Belysning");
+		// 			$xml .= "<antLys>". $simStoring->_numLight."</antLys> \n\t\t\t";
+		// 			$xml .= "<priLysType>". $simStoring->_priLightType."</priLysType> \n\t\t\t";
+		// 			$xml .= "<secLysType>". $simStoring->_secLightType."</secLysType> \n\t\t\t";
+		$xml .= "<brenntid>". $simStoring->_lightTime."</brenntid> \n\t\t\t";
+		$xml .= "<lysDiff>". $simStoring->_lightDiff."</lysDiff> \n\t\t";
+		$xml .= "</Belysning>  \n\t\t";
+		$xml .= "<ForbrukHvitevare type=\"class\"> \n\t\t";
+		$xml .= static::hentNokkelVerdiForXML("ForbrukHvitevare");
+		// 			$xml .= "<hvite>". $simStoring->_hvite."</hvite> \n\t\t";
+		$xml .= "</ForbrukHvitevare> \n\t\t";
+		$xml .= "<ForbrukBrunevare type=\"class\"> \n\t\t";
+		$xml .= static::hentNokkelVerdiForXML("ForbrukBrunevare");
+		// 			$xml .= "<brune>". $simStoring->_brun."</brune> \n\t\t\t";
+		$xml .= "</ForbrukBrunevare>  \n\t";
+		$xml .= "</Enebolig>\n\t";
+		
+		// Klima
+		$xml .= "<Klima type=\"class\">\n\t\t";
+		$xml .= static::hentNokkelVerdiForXML("Klima");
+		if ( floatval($climateTemperatureOffset) <> 0.0 )
+		{
+			$xml .= "<temperatureoffset>" . $climateTemperatureOffset . "</temperatureoffset>\n\t\t";
+		}
+		
+		if ( intval($climateWeatherStation) > 0 )
+		{
+			$xml .= "<maalestasjon>" . intval($climateWeatherStation) . "</maalestasjon>\n\t\t";
+		}
+		else
+		{
+			if ( intval($climateZone) <= 0 || intval($climateZone) > 7 )
+			{
+				// Default klimasone er 1 -> Sør-norge
+				$climateZone = 1;
+			}
+				
+			$xml .= "<sone>".intval($climateZone)."</sone>\n\t";
+		}
+		$xml .= "</Klima>\n\t";
+		
+		// Tidsrom
+		$xml .= "<Tidsrom type=\"class\">\n\t\t";
+		$xml .= static::hentNokkelVerdiForXML("Tidsrom");
+		$xml .= "<startDateTime>". $simStoring->_startTime." CET</startDateTime>\n\t\t";
+		$xml .= "<endDateTime>". $simStoring->_endTime." CET</endDateTime>\n\t\t";
+		if ( intval($opplosning) > 0 )
+		{
+			$xml .= "<opplosning>". $simStoring->_opplosning."</opplosning>\n\t";
+		}
+		$xml .= "</Tidsrom>\n";
+		
+		
+		$xml .= "</simulering>\n\r";
+		$xmlobj = new SimpleXMLElement($xml);
+		// 	$xmlobj -> asXML ("testData.xml");
+		
+		// DOMDocument for output in human readable file
+		$dom = new DOMDocument('1.0');
+		$dom->preserveWhiteSpace = true;
+		$dom->formatOutput = true;
+		$dom->loadXML($xmlobj->asXML());
+		//echo $dom->saveXML(); // For test -> viser xml datene
+		$filename = "/home/gruppe2/new/" . $xmlId . ".xml";
+		$dom->save($filename);
+		
+		$datetime1 = new DateTime($simStoring->_startTime);
+		$datetime2 = new DateTime($simStoring->_endTime);
+		$interval = $datetime1->diff($datetime2);
+		$tidsforbruk = ( ( ($datetime2->getTimestamp()/1973963) - ($datetime1->getTimestamp()/1973963) )  ) * 2.65 ; //973963
+
+		return $tidsforbruk;
+	}
+
+	static function hentNokkelVerdiForXML($className)
+	{
+		$retStr = "";
+	
+		$sql = "SELECT * FROM simValue WHERE Class LIKE '" . strtolower($className) . "'";
+	
+		if ( ($result = Base::getMysqli()->query($sql)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		
+		if ( !$result || mysqli_num_rows($result) <= 0 )
+		{
+			return "";
+		}
+	
+		while ( $row = $result->fetch_assoc() )
+		{
+			$retStr .= "<" . $row['Name'] . ">";
+			$retStr .= $row['Value'];
+			$retStr .= "</" . $row['Name'] . ">\n";
+		}
+	
+		return $retStr;
+	}
+	
+	
+	static function hentVaerstasjonsNavn($wsId)
+	{
+		$retStr = "";
+	
+		$sql = "SELECT `name` FROM `weatherStations` WHERE `stnr`=" . intval($wsId) . " LIMIT 1";
+		
+		if ( ($result = Base::getMysqli()->query($sql)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+	
+		if ( !$result || mysqli_num_rows($result) !== 1 )
+		{
+			return "Ukjent";
+		}
+		
+		$row = $result->fetch_assoc();
+		
+		return $row['name'];
+	}	
+	
+	
+	
+	/*
+	 * lagre SimTask i databasen...
+	 */
+	static function insertSimulatorTask($storingId, $xmlId, $authLibUserId)
+	{
+		$query = "
+				INSERT INTO
+						`SimTask`
+					SET
+						`xmlId`='" . $xmlId . "'
+						,`SimStoringId`=" . $storingId . "
+						,`AuthLibUserId`=" . $authLibUserId . "
+				";
+		
+		if ( ($res = Base::getMysqli()->query($sql)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		
 	}
 	
 	// storing to DB
