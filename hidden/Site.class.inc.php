@@ -1822,7 +1822,15 @@ class Site
 			return static::showStoreSim();
 		}
 		
-		return static::showGetSim();
+		Base::redirectNow(static::$funcParseGetSim
+			,Array(
+				"simValgt"=>Base::getMysqli()->insert_id
+				)
+				);
+		
+		die($errMsg);
+		
+// 		return static::showGetSim();
 	}
 	
 	static function showGetSim()
