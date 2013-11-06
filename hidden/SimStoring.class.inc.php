@@ -43,9 +43,9 @@ class SimStoring
 	var $_endTime = NULL;
 	var $_opplosning = NULL;
 	
-	public function __construct($this->_row)
+	public function __construct($row)
 	{
-		$this->_row = $this->_row;
+		$this->_row = $row;
 		$this->parseRow();
 	}
 	
