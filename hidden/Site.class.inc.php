@@ -1512,12 +1512,12 @@ class Site
 	{
 		if ( $storingId == NULL )
 		{
-			if ( !isset($_REQEUST['simStoringId']) || intval($_REQEUST['simStoringId']) < 0 )
+			if ( !isset($_REQUEST['simStoringId']) || intval($_REQUEST['simStoringId']) < 0 )
 			{
 				die("Invalid simStoringId");
 			}
 			
-			$storingId = intval($_REQEUST['simStoringId']);
+			$storingId = intval($_REQUEST['simStoringId']);
 		}
 		
 		$xmlId = date("Ymd") . "_" . time();
