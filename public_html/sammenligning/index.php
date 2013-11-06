@@ -1,3 +1,6 @@
+<link href="http://jenna.bendiksens.net/~gruppe2/css/style2.css" rel="stylesheet" type="text/css" media="screen" />
+
+
 <form name=	"testform" id="testform" action="?x=submit" method="post">
   <select name="dropdown" id="dropdown">
   	<option value="nothing" selected="selected">Velg Simuleringsresultat</option>
@@ -14,7 +17,7 @@
 
 		while($row = mysqli_fetch_array($res))
 		{
-			echo "<option value='http://jenna.bendiksens.net/~gruppe2/resultater/".$row['xmlId'].".xml.csv'>".$row['xmlId']."</option>";
+			echo "<option value='http://jenna.bendiksens.net/~gruppe2/resultater/".$row['xmlId'].".csv'>".$row['xmlId']."</option>";
 		}
   	
   	?>
@@ -34,7 +37,7 @@
 
 		while($row = mysqli_fetch_array($res))
 		{
-			echo "<option value='http://jenna.bendiksens.net/~gruppe2/resultater/".$row['xmlId'].".xml.csv'>".$row['xmlId']."</option>";
+			echo "<option value='http://jenna.bendiksens.net/~gruppe2/resultater/".$row['xmlId'].".csv'>".$row['xmlId']."</option>";
 		}
   	
   	?>
