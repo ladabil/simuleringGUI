@@ -1508,8 +1508,18 @@ class Site
 	/*
 	 * Opprett en SimTask for en kjøring av simuleringen..
 	 */
-	static function createSimulatorTask($storingId)
+	static function createSimulatorTask($storingId = NULL)
 	{
+		if ( $storingId == NULL )
+		{
+			if ( !isset($_REQEUST['simStoringId']) || intval($_REQEUST['simStoringId']) < 0 )
+			{
+				die("Invalid simStoringId");
+			}
+			
+			$storingId = intval($_REQEUST['simStoringId']);
+		}
+		
 		$xmlId = date("Ymd") . "_" . time();
 		
 		$timeEstimate = createXMLForSimMotor($simStoringId, $xmlId);
