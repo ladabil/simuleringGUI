@@ -49,6 +49,7 @@ class Site
 	public static $funcUpdateKeyValue = "updateKeyValue";
 	
 	public static $funcCreateSimulatorTask = "createSimulatorTask";
+	public static $funcShowSimulatorTaskList = "showSimulatorTaskList";
 	
 	public static $value_array;
 	public static $storedSim_array;
@@ -322,6 +323,10 @@ class Site
 				case static::$funcCreateSimulatorTask:
 					echo static::createSimulatorTask();
 					break;
+				case static::$funcShowSimulatorTaskList:
+					echo static::showSimulatorTaskList();
+					break;
+					
 				default:
 					return static::getMainFrame($tpl->fetch("userMain.tpl.html"), "Energi simulatoren");
 					break;
@@ -1506,6 +1511,44 @@ class Site
 	}
 	
 	/*
+	 * Vis en liste over alle mine simuleringer
+	 */
+	static function showSimulatorTaskList()
+	{
+		$tpl = new MySmarty();
+		
+		$errMsg = "";
+		
+		$query = "SELECT id, name 
+						FROM 
+						`SimTask`
+						LEFT JOIN `SimStoring` ON (`SimTask`.`SimStoringId`=`SimStoring`.`id`)
+					WHERE 
+						`SimTask`.`AuthLibUserId`=" . intval(AuthLib::getUserId()) . "
+					ORDER BY
+						`SimTask`.`TimeCreated` DESC
+						,`SimStoring`.`id` DESC
+					";
+		
+		if ( ($res = Base::getMysqli()->query($query)) === FALSE )
+		{
+			die(Base::getMysqli()->error);
+		}
+		
+		$simTaskArr = Array();
+		
+		while($row = $res->fetch_assoc())
+		{
+			$simTaskArr[] = $row;
+		}
+
+		$tpl->assign('simTaskArr', $simTaskArr);
+		//		$tpl->assign('function', static::$funcParseGetSim);
+		
+		return static::getMainFrame($tpl->fetch("ShowSimulatorTaskList.tpl.html"), "Wizard");
+	}
+	
+	/*
 	 * Opprett en SimTask for en kjøring av simuleringen..
 	 */
 	static function createSimulatorTask($simStoringId = NULL)
@@ -1754,6 +1797,7 @@ class Site
 						`xmlId`='" . $xmlId . "'
 						,`SimStoringId`=" . $storingId . "
 						,`AuthLibUserId`=" . $authLibUserId . "
+						,`TimeCreated`=NOW()
 				";
 		
 		if ( ($res = Base::getMysqli()->query($query)) === FALSE )
