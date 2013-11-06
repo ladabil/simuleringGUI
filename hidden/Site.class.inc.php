@@ -1542,6 +1542,10 @@ class Site
 			$simTaskArr[] = $row;
 		}
 
+		echo "<pre>\n";
+		print_r($simTaskArr);
+		die('test');
+		
 		$tpl->assign('simTaskArr', $simTaskArr);
 		//		$tpl->assign('function', static::$funcParseGetSim);
 		
