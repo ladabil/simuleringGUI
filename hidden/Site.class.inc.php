@@ -1530,9 +1530,10 @@ class Site
 					FROM 
 						`SimTask`
 						LEFT JOIN `SimStoring` ON (`SimTask`.`SimStoringId`=`SimStoring`.`id`)
-					WHERE 
-						`SimTask`.`AuthLibUserId`=" . intval(AuthLib::getUserId()) . "
-					ORDER BY
+				";
+//					WHERE 
+//						`SimTask`.`AuthLibUserId`=" . intval(AuthLib::getUserId()) . "
+		$query .= "ORDER BY
 						`SimTask`.`TimeCreated` DESC
 						,`SimStoring`.`id` DESC
 					";
