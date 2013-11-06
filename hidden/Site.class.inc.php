@@ -1522,6 +1522,7 @@ class Site
 		$query = "SELECT 
 						`SimStoring`.*
 						,`SimTask`.`id` AS `stId`
+						,`SimTask`.`xmlId`
 						,`SimTask`.`TimeStarted`
 						,`SimTask`.`TimeEnded`
 						,`SimTask`.`TimeCreated`
