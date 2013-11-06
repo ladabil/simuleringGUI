@@ -1519,7 +1519,7 @@ class Site
 		
 		$errMsg = "";
 		
-		$query = "SELECT id, name 
+		$query = "SELECT * 
 						FROM 
 						`SimTask`
 						LEFT JOIN `SimStoring` ON (`SimTask`.`SimStoringId`=`SimStoring`.`id`)
