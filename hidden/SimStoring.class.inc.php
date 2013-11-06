@@ -4,7 +4,6 @@ class SimStoring
 {
 	var $_row;
 	
-	var $_climateZone = NULL;
 	var $_climateTemperatureOffset = NULL;
 	var $_climateWeatherStation = NULL;
 	
