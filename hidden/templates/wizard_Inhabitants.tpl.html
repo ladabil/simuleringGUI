@@ -110,15 +110,7 @@ function removeTag(divid)
 		</div>
 		
 		<!-- Beboere ferdig -->
-		
-		<!--  Hvitevarer / Brunevarer -->
-		<br /><br />
-		<label>Antall hvitevarer</label><br />
-		<input type="text" name="antall_hvitevarer" value="{$smarty.session.es->_numHvit}" /><br />
-		
-		<label>Antall brunevarer</label><br />
-		<input type="text" name="antall_brunevarer" value="{$smarty.session.es->_numBrun}" /><br /><br />
-		
+
 		<br />
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("setupSimulator")}

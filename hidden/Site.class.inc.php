@@ -1329,26 +1329,6 @@ class Site
 			$errMsg .= "Mangler beboere og deres yrker..<br>\n";
 		}
 		
-		// Hvite og brunevarer
-		if ( isset($_REQUEST['antall_hvitevarer']) && intval($_REQUEST['antall_hvitevarer']) >= 0 )
-		{
-			$_SESSION['es']->_numHvit = intval($_REQUEST['antall_hvitevarer']);
-		}
-		else
-		{
-			// Default 2 hvitevarer
-			$_SESSION['es']->_numHvit = 2;
-		}
-		
-		if ( isset($_REQUEST['antall_brunevarer']) && intval($_REQUEST['antall_brunevarer']) >= 0 )
-		{
-			$_SESSION['es']->_numBrun = intval($_REQUEST['antall_brunevarer']);
-		}
-		else
-		{
-			// Default 2 brunevarer
-			$_SESSION['es']->_numBrun = 2;
-		}
 		
 		// Parse return and redirect
 		if ( strlen($errMsg) > 0 )
@@ -1404,7 +1384,7 @@ class Site
 		$errMsg = "";
 		static::wizardInit();
 	
-		// Verifiser token fï¿½rst..
+		// Verifiser token først..
 		Base::verifyTokenFromRequest("setupSimulator");
 	
 		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
@@ -1427,6 +1407,16 @@ class Site
 			$_SESSION['es']->_climateWeatherStation = 0;
 		}
 		
+
+		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
+		{
+			$_SESSION['es']->_climateZone = intval($_REQUEST['klima']);
+		}
+		else
+		{
+			// Default 1 (Sør-norge?)
+			$_SESSION['es']->_climateZone = 1;
+		}
 		if ( isset($_REQUEST['startTime']) && intval($_REQUEST['startTime']) >= 0 )
 		{
 			$_SESSION['es']->_startTime = ($_REQUEST['startTime']);
@@ -2286,8 +2276,8 @@ class Site
 		
 //		print_r($weatherStations);
 
-		$infoMsg = "Oppdatering/innlegging av værstasjoner gikk bra ";
-		$infoMsg .= " (Antall værstasjoner: " . count($weatherStations) . ")";
+		$infoMsg = "Oppdatering/innlegging av v&aering;rstasjoner gikk bra ";
+		$infoMsg .= " (Antall v&aering;rstasjoner: " . count($weatherStations) . ")";
 //		$infoMsg = "(Nye: ";
 //		$infoMsg .= (count($weatherStations) - $numUpdated) . " - Oppdaterte: " . $numUpdated . ")";
 		

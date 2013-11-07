@@ -3,40 +3,10 @@
 <div>
 	<img class="logo" src="gfx/logo.png" />
 
-	<!-- Script for valg av veiviser type -->	
-	<script type="text/javascript">
-		function displayForm(show){
-			if(show.value == "lightSimple"){
-				document.getElementById("simpleLight").style.visibility='visible';
-				document.getElementById("simpleLight").style.display='inline';
-				document.getElementById("customLight").style.visibility='hidden';
-				document.getElementById("customLight").style.display='none';
-			}
-			else if(show.value == "lightCustom"){
-				document.getElementById("simpleLight").style.visibility='hidden';
-				document.getElementById("simpleLight").style.display='none';
-				document.getElementById("customLight").style.visibility='visible';
-				document.getElementById("customLight").style.display='inline';
-			}
-			else{
-				
-			}
-		}
-		
-	</script>
-	
-	<!-- Formen -->
-	
-	<!--  Valg veiviser lyskilder -->
-	<form>
-		<label class="header_wiz">Belysning</label><br /><br />
-		
-		<input type="radio" name="light" value="lightSimple" onClick="displayForm(this)">Enkel veiviser belysning<br />
-		<input type="radio" name="light" value="lightCustom" onClick="displayForm(this)">Egendefinert belysning<br />
-	</form><br />
+
 	
 	<!-- Enkel innlegging av lyskilder -->
-	<form style="visibility:hidden" id="simpleLight" align="top" method="post" action="{$scriptURL}">
+	<form id="simpleLight" align="top" method="post" action="{$scriptURL}">
 		
 		<label>Prim&aelig;r belysning</label><br />
 		<select name="pri_belysningstype" value="{$smarty.session.es->_priLightType}">
@@ -72,25 +42,6 @@
 		<label>Gjennomsnittelig brenntid (timer per dag)</label><br />
 		<input type="text" name="lys_brenntid" value="{$smarty.session.es->_lightTime}" /><br />
 
-	</form>
-	
-	<!-- Egendefinert innlegging av lyspunkter -->
-	
-	<form style="visibility:hidden" id="customLight" align="top" method="post" action="{$scriptURL}">
-	
-		<label><b>Dette kommer i en senere sprint</b></label>
-		<br /><br />
-		
-		<label>Kommentar</label>
-		<input type="text" name="c_belys" value="" />
-		<label>Effekt belysning</label>
-		<input type="text" name="w_belys" value="" />
-		<label>P&aring;sl&aring;tt mellom kl: </label>
-		<input type="text" name="tpa_belys" value="" />
-		<label>til kl: </label>
-		<input type="text" name="tav_belys" value="" />
-		<!--  <input type="image" onClick="addLight(); return false;" src="gfx/16x16_addplus.png" class="javaButton" /> -->
-		<br />
 	</form>
 	
 	<form method="post" action="{$scriptURL}">
