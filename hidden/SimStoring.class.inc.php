@@ -87,6 +87,9 @@ class SimStoring
 		
 		$this->_inhabitantsArr = unserialize($tmpRes['inhabitantsSerialized']);
 		
+		echo "<pre>\n";
+		print_r($this->_inhabitantsArr);
+		
 		if ( $this->_inhabitantsArr === FALSE || !is_array($this->_inhabitantsArr) || count($this->_inhabitantsArr) <= 0 )
 		{
 			$this->_inhabitantsArr = NULL;
