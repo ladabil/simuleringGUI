@@ -1577,15 +1577,18 @@ class Site
 		$timeEstimate = static::createXMLForSimMotor($simStoringId, $xmlId);
 		$simTaskId = static::insertSimulatorTask($simStoringId, $xmlId, AuthLib::getUserId());
 		
-		$infoMsg = "Simuleringen er lagt til i køen, kjøreId: " . $simTaskId . "<br>";
-		$infoMsg .= "Estimert simuleringstid er: : " . $timeEstimate . " sekunder<br>";
-		$infoMsg .= "<i>med forbehold om kø i beregning og kommunikasjonsfeil</i><br>";
+		$infoMsg = "Simuleringen er lagt til i køen, kjøreId: " . $simTaskId . "<br>\n";
+		$infoMsg .= "Estimert simuleringstid er: : " . $timeEstimate . " sekunder<br>\n";
+		$infoMsg .= "<i>med forbehold om kø i beregning og kommunikasjonsfeil</i><br>\n";
+		
+		die("Here: " . $infoMsg);
 		
 		Base::redirectNow(static::$funcShowSimulatorTaskList
 							,Array(
 									"infoMessage"=>$infoMsg
 							)
 		);
+		
 	}
 	
 	static function getDataForSimMotor($simStoringId)
@@ -1817,7 +1820,6 @@ class Site
 		}
 		
 		return Base::getMysqli()->insert_id;
-		
 	}
 	
 	// storing to DB
