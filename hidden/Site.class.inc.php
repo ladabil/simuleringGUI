@@ -1162,6 +1162,7 @@ class Site
 			}
 			array_push(static::$families["Yrke"], $row['work']);
 			array_push(static::$families["Alder"], $row['age']);
+			array_push(static::$families["Sex"], $row['sex']);
 			//array_push($_SESSION['es']->_inhabitantsWork, $row['work']);
 			//array_push($_SESSION['es']->_inhabitantsAge, $row['age']);	
 		}
@@ -1171,11 +1172,13 @@ class Site
 			echo "<pre>\n";
 			print_r(static::$families["Yrke"]);
 			print_r(static::$families["Alder"]);
+			print_r(static::$families["sex"]);
 			echo "</pre>\n";
 		}
 		
 		$_SESSION['es']->_inhabitantsWork = static::$families["Yrke"];
 		$_SESSION['es']->_inhabitantsAge = static::$families["Alder"];
+		$_SESSION['es']->_inhabitantsSex = static::$families["Sex"];
 		
 		return static::showWizClimateZone();
 	}
@@ -1243,12 +1246,14 @@ class Site
 				(
 					work,
 					age,	
+					sex,	
 					StoredName
 				) 
 				VALUES
 				(
 					".$_SESSION['es']->_inhabitantsWork[$i].",
 					".$_SESSION['es']->_inhabitantsAge[$i].", 	
+					".$_SESSION['es']->_inhabitantsSex[$i].", 	
 					'".$_REQUEST['StorageName']."'
 				)";
 				
@@ -1323,6 +1328,7 @@ class Site
 		) {
 			$_SESSION['es']->_inhabitantsWork = $_REQUEST['inhabitantsWork'];
 			$_SESSION['es']->_inhabitantsAge = $_REQUEST['inhabitantsAge'];
+			$_SESSION['es']->_inhabitantsSex = $_REQUEST['inhabitantsSex'];
 		}
 		else
 		{
@@ -1611,28 +1617,35 @@ class Site
 		// Lager XML
 		$xml = "<?xml version=\"1.0\"?>";
 		$xml .= '<simulering>';
-		$xml .= "\n\t";	// For DOM - human readable \n <- line break, \t <- tab for each class
+		$xml .= "\n";	// For DOM - human readable \n <- line break, \t <- tab for each class
 		
 		// Beboere
-		$xml .= "<Familie type=\"class\">\n\t\t";
+		$xml .= "\t<Familie type=\"class\">\n";
 		$xml .= static::hentNokkelVerdiForXML("Familie");
-		$xml .= "<Person type=\"class\"> \n\t\t\t";
-		$xml .= static::hentNokkelVerdiForXML("Person");
-		$xml .= "<Alder>50</Alder> \n\t\t\t";
-		$xml .= "<Kjonn>Kvinne</Kjonn> \n\t\t";
-		$xml .= "<Person type=\"class\"> \n\t\t";
-		$xml .= "</Person> \n\t\t\t";
-		$xml .= "<Alder>60</Alder> \n\t\t\t";
-		$xml .= "<Kjonn>Mann</Kjonn> \n\t\t";
-		$xml .= "</Person> \n\t";
-		$xml .= "</Familie>\n\t";
+		
+		if ( !is_array($simStoring->_inhabitantsArr) || $simStoring->_inhabitantsArr === NULL )
+		{
+			die('Invalid beboere..');
+		}
+		
+		foreach ( $simStoring->_inhabitantsArr as $inhabitant )
+		{
+			$xml .= "\t\t<Person type=\"class\"> \n";
+			$xml .= static::hentNokkelVerdiForXML("Person");
+			$xml .= "\t\t\t<Alder>" . $inhabitant->age . "</Alder> \n";
+			$xml .= "\t\t\t<Kjonn>" . $inhabitant->sex . "</Kjonn> \n";
+			$xml .= "\t\t\t<Virke>" . $inhabitant->work . "</Virke> \n";
+			$xml .= "\t\t<Person type=\"class\"> \n\t\t";
+		}
+		
+		$xml .= "\t</Familie>\n";
 		
 		// Boligtyp>
-		$xml .= "<Enebolig type=\"class\">\n\t\t\t";
+		$xml .= "\t<Enebolig type=\"class\">\n\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Enebolig");
-		$xml .= "<bruttoAreal>". ($simStoring->_houseTotalArea) . "</bruttoAreal> \n\t\t\t";
+		$xml .= "<bruttoAreal>". ($simStoring->_houseTotalArea) . "</bruttoAreal> \n\t\t";
 		$xml .= "<pRomAreal>". ($simStoring->_housePrimaryArea)."</pRomAreal> \n\t\t";
-		$xml .= "<Varmetap type=\"class\"> \n\t\t\t";
+		$xml .= "<Varmetap type=\"class\"> \n\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Varmetap");
 		$xml .= "<byggstandard>" . ($simStoring->_houseBuildYearParsed) . "</byggstandard>\n\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
 		$xml .= "<ytterveggAreal>". ($simStoring->_ytterveggAreal) . "</ytterveggAreal>\n\t\t\t";
@@ -1814,7 +1827,8 @@ class Site
 			$inhabitant = new StdClass();
 			$inhabitant->work = $_SESSION['es']->_inhabitantsWork[$key];
 			$inhabitant->age = $_SESSION['es']->_inhabitantsAge[$key];
-			
+			$inhabitant->sex = $_SESSION['es']->_inhabitantsSex[$key];
+				
 			$inhabitantsArr[] = $inhabitant;
 		}		
 	
@@ -2348,6 +2362,19 @@ class Site
 		
 		$inhabitantsArr = unserialize($tmpRes['inhabitantsSerialized']);
 		
+		foreach ( $inhabitantsArr as $key=>$value )
+		{
+			if ( $inhabitantsArr[$key]->sex == 1 ) 
+			{
+				$inhabitantsArr[$key]->sexAsText = "Kvinne";
+			}
+			else
+			{
+				$inhabitantsArr[$key]->sexAsText = "Mann";
+			}
+		}
+		
+		
 		if($fetchedBuilding == '1') {$fetchedBuilding = "Enebolig";}
 		if($fetchedBuilding == '2') {$fetchedBuilding = "Leilighet";}
 		if($fetchedBuilding == '3') {$fetchedBuilding = "Rekkehus";}
@@ -2542,6 +2569,7 @@ class Site
 		) {
 			$es->_inhabitantsWork = $_REQUEST['inhabitantsWork'];
 			$es->_inhabitantsAge = $_REQUEST['inhabitantsAge'];
+			$es->_inhabitantsSex = $_REQUEST['inhabitantsSex'];
 		}
 		else
 		{

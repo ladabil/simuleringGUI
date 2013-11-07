@@ -12,15 +12,17 @@ function addInhabitant()
 {
 	var inhabitantsAgeOpt = document.getElementById('tmpInhabAge');
 	var inhabitantsWorkOpt = document.getElementById('tmpInhabWork');
+	var inhabitantsSexOpt = document.getElementById('tmpInhabSex');
 
 	addInhabitantHelper(inhabitantsAgeOpt.options[inhabitantsAgeOpt.selectedIndex].value
+						,inhabitantsSexOpt.options[inhabitantsSexOpt.selectedIndex].value
 						,inhabitantsWorkOpt.options[inhabitantsWorkOpt.selectedIndex].value
 						);
 	
 	return false;
 }
 
-function addInhabitantHelper(ageId, workId)
+function addInhabitantHelper(ageId, sexId, workId)
 {
 	if ( ageId < 0 )
 	{
@@ -36,6 +38,8 @@ function addInhabitantHelper(ageId, workId)
 	
 	var inhabitantsAgeOpt = document.getElementById('tmpInhabAge');
 	var inhabitantsWorkOpt = document.getElementById('tmpInhabWork');
+	var inhabitantsSexOpt = document.getElementById('tmpInhabSex');
+
 	var inhabitantsAgeArr = document.getElementsByName('inhabitantsAge[]');
 	
 	if ( inhabitantsAgeArr == null )
@@ -58,12 +62,17 @@ function addInhabitantHelper(ageId, workId)
 		}
 	}
 	
+	if ( )
+	
 	newDiv.innerHTML = 'Alder: ' + ageId
 						+ '<input type="hidden" name="inhabitantsAge[]"'
 						+ ' value="' + ageId + '" />' 
+						+ ' Kjønn: ' + sex
+						+ '<input type="hidden" name="inhabitantsSex[]"'
+						+ ' value="' + sexId + '" />' 
+						+ ' Yrke: ' + work
 						+ '<input type="hidden" name="inhabitantsWork[]"'
 						+ ' value="' + workId + '" />' 
-						+ ' Yrke: ' + work
 						+ '&nbsp;<input class="javaButton" type="image" src="gfx/16x16_redcross.png" value="fjern" onclick="javascript:removeTag(\'' + newDiv.id + '\');" />'
 						;
 						
@@ -93,6 +102,12 @@ function removeTag(divid)
 		{for $i=0 to 120}
 			<option value="{$i}">{$i}</option>
 		{/for}
+		</select>
+
+		<label>Kjønn:</label>
+		<select id="tmpInhabSex" name="tmpInhabSex">
+		<option value="1">Kvinne</option>
+		<option value="2">Mann</option>
 		</select>
 
 		<label>Yrke:</label>
@@ -127,7 +142,7 @@ function removeTag(divid)
 
 {if count($EnergySimulator->_inhabitantsWork) > 0 }
 	{for $i=0 to (count($EnergySimulator->_inhabitantsWork) - 1)}
-		addInhabitantHelper({$EnergySimulator->_inhabitantsAge[$i]}, {$EnergySimulator->_inhabitantsWork[$i]});
+		addInhabitantHelper({$EnergySimulator->_inhabitantsAge[$i]}, {$EnergySimulator->_inhabitantsSex[$i]}, {$EnergySimulator->_inhabitantsWork[$i]});
 	{/for}
 {/if}
 

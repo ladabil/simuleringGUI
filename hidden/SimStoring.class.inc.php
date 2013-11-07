@@ -43,6 +43,8 @@ class SimStoring
 	var $_endTime = NULL;
 	var $_opplosning = NULL;
 	
+	var $_inhabitantsArr = NULL;
+	
 	public function __construct($row)
 	{
 		$this->_row = $row;
@@ -82,6 +84,13 @@ class SimStoring
 		$this->_startTime = $this->_row['startTime'];
 		$this->_endTime = $this->_row['endTime'];
 		$this->_opplosning = $this->_row['opplosning'];		
+		
+		$this->_inhabitantsArr = unserialize($tmpRes['inhabitantsSerialized']);
+		
+		if ( $this->_inhabitantsArr === FALSE || !is_array($this->_inhabitantsArr) || count($this->_inhabitantsArr) <= 0 )
+		{
+			$this->_inhabitantsArr = NULL;
+		}
 
 		switch ( $this->_houseBuildYear )
 		{
