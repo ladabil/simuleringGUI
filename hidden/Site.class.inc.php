@@ -59,7 +59,7 @@ class Site
 	
 	public static $funcUpdateWeatherStationList = "funcUpdateWeatherStationList";
 	
-	public static $doDebug = false;
+	public static $doDebug = true;
 	
 	//simhentings variabler
 	public static $fetchedName = "0";
@@ -1023,7 +1023,7 @@ class Site
 		return static::showWizLight();
 		
 	}
-	
+
 	static function showWizLight()
 	{
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
@@ -1656,9 +1656,9 @@ class Site
 		$xml .= "</ForbrukVann>  \n\t\t";
 		$xml .= "<Belysning type=\"class\"> \n\t\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Belysning");
-		// 			$xml .= "<antLys>". $simStoring->_numLight."</antLys> \n\t\t\t";
-		// 			$xml .= "<priLysType>". $simStoring->_priLightType."</priLysType> \n\t\t\t";
-		// 			$xml .= "<secLysType>". $simStoring->_secLightType."</secLysType> \n\t\t\t";
+		$xml .= "<antLys>". $simStoring->_numLight."</antLys> \n\t\t\t";
+		$xml .= "<priLysType>". $simStoring->_priLightType."</priLysType> \n\t\t\t";
+		$xml .= "<secLysType>". $simStoring->_secLightType."</secLysType> \n\t\t\t";
 		$xml .= "<brenntid>". ($simStoring->_lightTime)."</brenntid> \n\t\t\t";
 		$xml .= "<lysDiff>". ($simStoring->_lightDiff)."</lysDiff> \n\t\t";
 		$xml .= "</Belysning>  \n\t\t";
@@ -1718,7 +1718,7 @@ class Site
 		$dom->formatOutput = true;
 		$dom->loadXML($xmlobj->asXML());
 		//echo $dom->saveXML(); // For test -> viser xml datene
-		$filename = "/home/gruppe2/new/" . $xmlId . ".xml";
+		$filename = $xmlId . ".xml";
 		$dom->save($filename);
 		
 		$datetime1 = new DateTime($simStoring->_startTime);
