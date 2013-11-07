@@ -1378,7 +1378,7 @@ class Site
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseWizardClimateZone);
 		
-		$getSQL = "SELECT stnr, name, department FROM weatherStations";
+		$getSQL = "SELECT stnr, name, department FROM weatherStations ORDER BY department ASC, name ASC";
 		
 		if ( ($res = Base::getMysqli()->query($getSQL)) === FALSE )
 		{
@@ -1414,7 +1414,7 @@ class Site
 		else
 		{
 			// Default 0
-			$_SESSION['es']->_climateZone = 0;
+			$_SESSION['es']->_climateZone = 1;
 		}
 		
 		if ( isset($_REQUEST['climateWeatherStation']) && intval($_REQUEST['climateWeatherStation']) > 0 )
@@ -1427,15 +1427,6 @@ class Site
 			$_SESSION['es']->_climateWeatherStation = 0;
 		}
 		
-		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
-		{
-			$_SESSION['es']->_climateZone = intval($_REQUEST['klima']);
-		}
-		else
-		{
-			// Default 1 (Sï¿½r-norge?)
-			$_SESSION['es']->_climateZone = 1;
-		}
 		if ( isset($_REQUEST['startTime']) && intval($_REQUEST['startTime']) >= 0 )
 		{
 			$_SESSION['es']->_startTime = ($_REQUEST['startTime']);
@@ -1700,19 +1691,13 @@ class Site
 			$xml .= "<temperatureoffset>" . $climateTemperatureOffset . "</temperatureoffset>\n\t\t";
 		}
 		
-		if ( intval($climateWeatherStation) > 0 )
+		if ( intval($simStoring->_climateWeatherStation) > 0 )
 		{
-			$xml .= "<maalestasjon>" . intval($climateWeatherStation) . "</maalestasjon>\n\t\t";
+			$xml .= "<maalestasjon>" . intval($simStoring->_climateWeatherStation) . "</maalestasjon>\n\t\t";
 		}
 		else
 		{
-			if ( intval($climateZone) <= 0 || intval($climateZone) > 7 )
-			{
-				// Default klimasone er 1 -> Sør-norge
-				$climateZone = 1;
-			}
-				
-			$xml .= "<sone>".intval($climateZone)."</sone>\n\t";
+			$xml .= "<sone>".intval($simStoring->climateZone)."</sone>\n\t";
 		}
 		$xml .= "</Klima>\n\t";
 		
@@ -1830,6 +1815,21 @@ class Site
 	// storing to DB
 	static function storeDB($definedStoreName)
 	{
+	
+		/* Klargjør beboere */
+		$inhabitantsArr = Array();
+		
+		foreach ($_SESSION['es']->_inhabitantsWork as $key=>$value)
+		{
+			$inhabitant = new StdClass();
+			$inhabitant->work = $_SESSION['es']->_inhabitantsWork[$key];
+			$inhabitant->age = $_SESSION['es']->_inhabitantsAge[$key];
+			
+			$inhabitantsArr[] = $inhabitant;
+		}		
+	
+		$inhabitantsSerialized = serialize($inhabitantsArr);
+		
 		$sql = "INSERT INTO SimStoring
 		(
 			building,
@@ -1863,6 +1863,7 @@ class Site
 			opplosning, 
 			numHvit, 
 			numBrun,
+			inhabitantsSerialized,
 			name
 		) 
 		VALUES
@@ -1898,6 +1899,7 @@ class Site
 			'".$_SESSION['es']->_opplosning."',
 			'".$_SESSION['es']->_numHvit."', 
 			'".$_SESSION['es']->_numBrun."',
+			'" . $inhabitantsSerialized . "',
 			'".$definedStoreName."'
 			
 		)";
@@ -2354,6 +2356,8 @@ class Site
 		$fetchedBuilding = $tmpRes['building'];
 		$fetchedHouseBuildYear = $tmpRes['houseBuildYear'];
 		
+		$inhabitantsArr = unserialize($tmpRes['inhabitantsSerialized']);
+		
 		if($fetchedBuilding == '1') {$fetchedBuilding = "Enebolig";}
 		if($fetchedBuilding == '2') {$fetchedBuilding = "Leilighet";}
 		if($fetchedBuilding == '3') {$fetchedBuilding = "Rekkehus";}
@@ -2403,6 +2407,7 @@ class Site
 		$tpl->assign('opplosning', $fetchedopplosning);
 		$tpl->assign('numHvit', $fetchedNumHvit);
 		$tpl->assign('numBrun', $fetchedNumBrun);
+		$tpl->assign('inhabitantsArr', $inhabitantsArr);
 		
 		return static::getMainFrame($tpl->fetch("ShowSim.tpl.html"), "Vis Tidligere Simulering");
 	}

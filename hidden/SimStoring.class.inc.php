@@ -100,7 +100,6 @@ class SimStoring
 		}
 		
 		
-		$this->_climateZone = $this->_row['climateZone'];
 		$this->_climateTemperatureOffset = $this->_row['climateTemperatureOffset'];
 		$this->_climateWeatherStation = $this->_row['climateWeatherStation'];
 		
