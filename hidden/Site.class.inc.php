@@ -1635,13 +1635,10 @@ class Site
 			$xml .= "\t\t\t<Alder>" . $inhabitant->age . "</Alder> \n";
 			$xml .= "\t\t\t<Kjonn>" . $inhabitant->sex . "</Kjonn> \n";
 			$xml .= "\t\t\t<Virke>" . $inhabitant->work . "</Virke> \n";
-			$xml .= "\t\t<Person type=\"class\"> \n\t\t";
+			$xml .= "\t\t</Person> \n\t\t";
 		}
 		
 		$xml .= "\t</Familie>\n";
-		
-		die($xml);
-		
 		
 		// Boligtyp>
 		$xml .= "\t<Enebolig type=\"class\">\n\t\t";
