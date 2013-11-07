@@ -1573,6 +1573,15 @@ class Site
 		}
 		
 		$xmlId = date("Ymd") . "_" . time() . "_" . rand(1000,9999);
+
+		$infoMsg = "test";
+		
+		Base::redirectNow(static::$funcShowSimulatorTaskList
+								,Array(
+										"infoMessage"=>$infoMsg
+								)
+		);
+		
 		
 		$timeEstimate = static::createXMLForSimMotor($simStoringId, $xmlId);
 		$simTaskId = static::insertSimulatorTask($simStoringId, $xmlId, AuthLib::getUserId());
@@ -1618,8 +1627,8 @@ class Site
 		$simStoring = static::getDataForSimMotor($simStoringId);
 		
 		// Lager XML
-		echo "<?xml version=\"1.0\"?>";
-		$xml = '<simulering>';
+		$xml = "<?xml version=\"1.0\"?>";
+		$xml .= '<simulering>';
 		$xml .= "\n\t";	// For DOM - human readable \n <- line break, \t <- tab for each class
 		
 		// Beboere
