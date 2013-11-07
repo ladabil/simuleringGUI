@@ -129,10 +129,10 @@
 	{foreach from=$inhabitantsArr item=i}
 		<tr>
 			<td rowspan="2">Person</td>
-			<td>Alder: {$i.age}</td>
+			<td>Alder: {$i->age}</td>
 		</tr>
 		<tr>
-			<td>Yrke: {$i.work}</td>
+			<td>Yrke: {$i->work}</td>
 		</tr>
 	{/foreach}
 {else}
