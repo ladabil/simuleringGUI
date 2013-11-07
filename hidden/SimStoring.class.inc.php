@@ -85,10 +85,7 @@ class SimStoring
 		$this->_endTime = $this->_row['endTime'];
 		$this->_opplosning = $this->_row['opplosning'];		
 		
-		$this->_inhabitantsArr = unserialize($tmpRes['inhabitantsSerialized']);
-		
-		echo "<pre>\n";
-		print_r($this->_inhabitantsArr);
+		$this->_inhabitantsArr = unserialize($this->_row['inhabitantsSerialized']);
 		
 		if ( $this->_inhabitantsArr === FALSE || !is_array($this->_inhabitantsArr) || count($this->_inhabitantsArr) <= 0 )
 		{
