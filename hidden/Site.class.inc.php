@@ -108,8 +108,9 @@ class Site
 	public static $families = array
  	(
   		"Yrke"=>array(),
-		"Alder"=>array()
-  	);
+		"Alder"=>array(),
+  		"sex"=>array()
+ 	);
 	
 	
 	static function parseRequest()
