@@ -1574,6 +1574,8 @@ class Site
 		
 		$xmlId = date("Ymd") . "_" . time() . "_" . rand(1000,9999);
 
+		$timeEstimate = static::createXMLForSimMotor($simStoringId, $xmlId);
+		
 		$infoMsg = "test";
 		
 		Base::redirectNow(static::$funcShowSimulatorTaskList
@@ -1583,7 +1585,6 @@ class Site
 		);
 		
 		
-		$timeEstimate = static::createXMLForSimMotor($simStoringId, $xmlId);
 		$simTaskId = static::insertSimulatorTask($simStoringId, $xmlId, AuthLib::getUserId());
 		
 		$infoMsg = "Simuleringen er lagt til i køen, kjøreId: " . $simTaskId . "<br>\n";
