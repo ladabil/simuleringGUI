@@ -1547,6 +1547,11 @@ class Site
 		
 		while($row = $res->fetch_assoc())
 		{
+			if ( file_exists(dirname(__FILE__) . "../resultater/" . $row['xmlId']) . ".csv" )
+			{
+				$row['simStarted'] = TRUE;
+			}
+			
 			$simTaskArr[] = $row;
 		}
 
