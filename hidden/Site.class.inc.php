@@ -1583,7 +1583,7 @@ class Site
 		
 		Base::redirectNow(static::$funcShowSimulatorTaskList
 								,Array(
-										"infoMessage"=>$infoMsg
+										"infoMessage"=>urlencode($infoMsg)
 								)
 		);
 		
