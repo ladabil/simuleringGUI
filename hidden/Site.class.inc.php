@@ -1547,7 +1547,7 @@ class Site
 		
 		while($row = $res->fetch_assoc())
 		{
-			echo dirname(__FILE__) . "/../public_html/resultater/" . $row['xmlId'] . ".csv" . "<br>\n";
+			// sett simStarted hvis output-filen eksisterer
 			if ( file_exists(dirname(__FILE__) . "/../public_html/resultater/" . $row['xmlId'] . ".csv" ) )
 			{
 				$row['simStarted'] = TRUE;
