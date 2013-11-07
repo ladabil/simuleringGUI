@@ -1640,6 +1640,9 @@ class Site
 		
 		$xml .= "\t</Familie>\n";
 		
+		die($xml);
+		
+		
 		// Boligtyp>
 		$xml .= "\t<Enebolig type=\"class\">\n\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Enebolig");
