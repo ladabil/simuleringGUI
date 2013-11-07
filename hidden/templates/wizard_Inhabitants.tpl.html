@@ -26,16 +26,22 @@ function addInhabitantHelper(ageId, sexId, workId)
 {
 	if ( ageId < 0 )
 	{
-		alert('Du mï¿½ velge alder');
+		alert('Du må velge alder');
 		return false;
 	}
 	
 	if ( workId < 0 )
 	{
-		alert('Du mï¿½ velge yrke');
+		alert('Du må velge yrke');
 		return false;
 	}
 	
+	if ( sexId < 0 )
+	{
+		alert('Du må velge kjønn');
+		return false;
+	}
+
 	var inhabitantsAgeOpt = document.getElementById('tmpInhabAge');
 	var inhabitantsWorkOpt = document.getElementById('tmpInhabWork');
 	var inhabitantsSexOpt = document.getElementById('tmpInhabSex');
@@ -62,7 +68,16 @@ function addInhabitantHelper(ageId, sexId, workId)
 		}
 	}
 	
-	if ( )
+	var sex = '';
+	
+	if ( sexId == 1 )
+	{
+		sex = 'Kvinne';
+	}
+	else
+	{
+		sex = 'Mann';
+	}
 	
 	newDiv.innerHTML = 'Alder: ' + ageId
 						+ '<input type="hidden" name="inhabitantsAge[]"'
