@@ -1163,7 +1163,7 @@ class Site
 			}
 			array_push(static::$families["Yrke"], $row['work']);
 			array_push(static::$families["Alder"], $row['age']);
-			array_push(static::$families["Sex"], $row['sex']);
+			array_push(static::$families["sex"], $row['sex']);
 			//array_push($_SESSION['es']->_inhabitantsWork, $row['work']);
 			//array_push($_SESSION['es']->_inhabitantsAge, $row['age']);	
 		}
