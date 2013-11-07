@@ -1581,14 +1581,13 @@ class Site
 		$infoMsg .= "Estimert simuleringstid er: : " . $timeEstimate . " sekunder<br>\n";
 		$infoMsg .= "<i>med forbehold om kø i beregning og kommunikasjonsfeil</i><br>\n";
 		
-		die("Here: " . $infoMsg);
-		
 		Base::redirectNow(static::$funcShowSimulatorTaskList
-							,Array(
-									"infoMessage"=>$infoMsg
-							)
+					,Array(
+							"infoMessage"=>$infoMsg
+						)
 		);
 		
+		die($infoMsg);
 	}
 	
 	static function getDataForSimMotor($simStoringId)
