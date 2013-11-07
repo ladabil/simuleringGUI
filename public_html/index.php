@@ -1,8 +1,5 @@
 <?php
 
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
-
 require_once(dirname(__FILE__) . "/../hidden/config.inc.php");
 require_once($GLOBALS["cfg_hiddendir"] . "/AuthLib.class.inc.php");
 require_once($GLOBALS["cfg_hiddendir"] . "/Site.class.inc.php");
@@ -13,6 +10,12 @@ require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
 
 session_start();
 ob_start();
+
+if ( Site::$doDebug == TRUE )
+{
+	ini_set('display_errors', '1');
+	error_reporting(E_ALL);
+}
 
 echo Site::parseRequest();
 

@@ -170,7 +170,7 @@ class Base
 		return "/";
 	}
 	
-	static  function redirectNow($func = NULL, $varArr = NULL) {
+	static function redirectNow($func = NULL, $varArr = NULL) {
 		$newurl = Base::getScripturl($func, $varArr);
 		$numvar = 0;
 	
