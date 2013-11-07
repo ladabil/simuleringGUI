@@ -1,7 +1,7 @@
 <div>
 	<img class="logo" src="gfx/logo.png" />
 
-	<h3>Simulerings resultat for {$simName}</h3>
+	<h3>Simuleringsoppsettet "{$simName}"</h3>
 	
 	<table width="100%" border="1">
 		<tr>
@@ -125,14 +125,32 @@
 			<td><strong>Type</strong></td>
 			<td><strong>Verdi</strong></td>
 		</tr>
+{if isset($inhabitantsArr) && count($inhabitantsArr) > 0}
+	{foreach from=$inhabitantsArr item=i}
 		<tr>
+			<td rowspan="3">Person</td>
+			<td>Alder: {$i->age}</td>
+		</tr>
+		<tr>
+			<td>Kjønn: {$i->sexAsText}</td>
+		</tr>
+		<tr>
+			<td>Yrke: {$i->work}</td>
+		</tr>
+	{/foreach}
+{else}
+		<tr>
+			<td>Ingen beboere funnet</td>
+		</tr>
+{/if}
+<!-- 	<tr>
 			<td>Antall Hvitevarer</td>
 			<td>{$numHvit}</td>
 		</tr>
 		<tr>
 			<td>Antall Brunevarer</td>
 			<td>{$numBrun}</td>
-		</tr>
+		</tr>-->
 	</table>
 	<br />
 	<table width="100%" border="1">
