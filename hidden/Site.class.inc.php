@@ -1173,7 +1173,7 @@ class Site
 			echo "<pre>\n";
 			print_r(static::$families["Yrke"]);
 			print_r(static::$families["Alder"]);
-			print_r(static::$families["sex"]);
+			print_r(static::$families["Sex"]);
 			echo "</pre>\n";
 		}
 		
