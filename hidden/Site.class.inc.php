@@ -1700,7 +1700,7 @@ class Site
 		}
 		else
 		{
-			$xml .= "<sone>".intval($simStoring->climateZone)."</sone>\n\t";
+			$xml .= "<sone>".intval($simStoring->_climateZone)."</sone>\n\t";
 		}
 		$xml .= "</Klima>\n\t";
 		
