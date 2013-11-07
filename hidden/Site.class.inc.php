@@ -1404,7 +1404,7 @@ class Site
 		$errMsg = "";
 		static::wizardInit();
 	
-		// Verifiser token fï¿½rst..
+		// Verifiser token først..
 		Base::verifyTokenFromRequest("setupSimulator");
 	
 		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
@@ -1433,7 +1433,7 @@ class Site
 		}
 		else
 		{
-			// Default 1 (Sï¿½r-norge?)
+			// Default 1 (Sør-norge?)
 			$_SESSION['es']->_climateZone = 1;
 		}
 		if ( isset($_REQUEST['startTime']) && intval($_REQUEST['startTime']) >= 0 )
