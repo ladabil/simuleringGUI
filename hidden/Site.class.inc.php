@@ -1551,6 +1551,10 @@ class Site
 			{
 				$row['simStarted'] = TRUE;
 			}
+			else
+			{
+				$row['simStarted'] = FALSE;
+			}
 			
 			$simTaskArr[] = $row;
 		}
