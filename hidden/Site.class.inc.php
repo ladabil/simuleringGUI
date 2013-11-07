@@ -1578,7 +1578,7 @@ class Site
 		$simTaskId = static::insertSimulatorTask($simStoringId, $xmlId, AuthLib::getUserId());
 		
 		$infoMsg = "Simuleringen er lagt til i køen, kjøreId: " . $simTaskId . "<br>\n";
-		$infoMsg .= "Estimert simuleringstid er: : " . $timeEstimate . " sekunder<br>\n";
+		$infoMsg .= "Estimert simuleringstid er: : " . number_format($timeEstimate,0) . " sekunder<br>\n";
 		$infoMsg .= "<i>med forbehold om kø i beregning og kommunikasjonsfeil</i><br>\n";
 		
 		Base::redirectNow(static::$funcShowSimulatorTaskList
