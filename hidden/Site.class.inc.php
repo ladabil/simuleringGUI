@@ -1329,26 +1329,6 @@ class Site
 			$errMsg .= "Mangler beboere og deres yrker..<br>\n";
 		}
 		
-		// Hvite og brunevarer
-		if ( isset($_REQUEST['antall_hvitevarer']) && intval($_REQUEST['antall_hvitevarer']) >= 0 )
-		{
-			$_SESSION['es']->_numHvit = intval($_REQUEST['antall_hvitevarer']);
-		}
-		else
-		{
-			// Default 2 hvitevarer
-			$_SESSION['es']->_numHvit = 2;
-		}
-		
-		if ( isset($_REQUEST['antall_brunevarer']) && intval($_REQUEST['antall_brunevarer']) >= 0 )
-		{
-			$_SESSION['es']->_numBrun = intval($_REQUEST['antall_brunevarer']);
-		}
-		else
-		{
-			// Default 2 brunevarer
-			$_SESSION['es']->_numBrun = 2;
-		}
 		
 		// Parse return and redirect
 		if ( strlen($errMsg) > 0 )
@@ -2284,8 +2264,8 @@ class Site
 		
 //		print_r($weatherStations);
 
-		$infoMsg = "Oppdatering/innlegging av værstasjoner gikk bra ";
-		$infoMsg .= " (Antall værstasjoner: " . count($weatherStations) . ")";
+		$infoMsg = "Oppdatering/innlegging av v&aering;rstasjoner gikk bra ";
+		$infoMsg .= " (Antall v&aering;rstasjoner: " . count($weatherStations) . ")";
 //		$infoMsg = "(Nye: ";
 //		$infoMsg .= (count($weatherStations) - $numUpdated) . " - Oppdaterte: " . $numUpdated . ")";
 		
