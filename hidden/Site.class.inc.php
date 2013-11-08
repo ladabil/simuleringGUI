@@ -2291,8 +2291,8 @@ class Site
 		
 //		print_r($weatherStations);
 
-		$infoMsg = "Oppdatering/innlegging av v&aering;rstasjoner gikk bra ";
-		$infoMsg .= " (Antall v&aering;rstasjoner: " . count($weatherStations) . ")";
+		$infoMsg = "Oppdatering/innlegging av v&aelig;rstasjoner gikk bra ";
+		$infoMsg .= " (Antall v&aelig;rstasjoner: " . count($weatherStations) . ")";
 //		$infoMsg = "(Nye: ";
 //		$infoMsg .= (count($weatherStations) - $numUpdated) . " - Oppdaterte: " . $numUpdated . ")";
 		
