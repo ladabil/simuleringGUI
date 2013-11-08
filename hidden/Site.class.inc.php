@@ -1173,6 +1173,10 @@ class Site
 			print_r(static::$families["Yrke"]);
 			print_r(static::$families["Alder"]);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+			print_r(static::$families["Sex"]);
+>>>>>>> df372067e100a5513d0c4a5a3c69b1504946653c
 =======
 			print_r(static::$families["Sex"]);
 >>>>>>> df372067e100a5513d0c4a5a3c69b1504946653c
