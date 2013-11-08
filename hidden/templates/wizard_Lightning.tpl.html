@@ -42,6 +42,9 @@
 		<label>Gjennomsnittelig brenntid (timer per dag)</label><br />
 		<input type="text" name="lys_brenntid" value="{$smarty.session.es->_lightTime}" /><br />
 
+	</form>
+	
+	<form method="post" action="{$scriptURL}">
 		<br />
 		<input type="hidden" name="function" value="{$function}" />
 		{Base::getTokenforFORM("setupSimulator")}

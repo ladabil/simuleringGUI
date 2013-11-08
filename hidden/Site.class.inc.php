@@ -59,7 +59,7 @@ class Site
 	
 	public static $funcUpdateWeatherStationList = "funcUpdateWeatherStationList";
 	
-	public static $doDebug = false;
+	public static $doDebug = true;
 	
 	//simhentings variabler
 	public static $fetchedName = "0";
@@ -1024,7 +1024,7 @@ class Site
 		return static::showWizLight();
 		
 	}
-	
+
 	static function showWizLight()
 	{
 		require_once($GLOBALS["cfg_hiddendir"] . "/EnergySimulator.class.inc.php");
@@ -1163,6 +1163,7 @@ class Site
 			}
 			array_push(static::$families["Yrke"], $row['work']);
 			array_push(static::$families["Alder"], $row['age']);
+			array_push(static::$families["Sex"], $row['sex']);
 			//array_push($_SESSION['es']->_inhabitantsWork, $row['work']);
 			//array_push($_SESSION['es']->_inhabitantsAge, $row['age']);	
 		}
@@ -1172,14 +1173,19 @@ class Site
 			echo "<pre>\n";
 			print_r(static::$families["Yrke"]);
 			print_r(static::$families["Alder"]);
+<<<<<<< HEAD
 
 			print_r(static::$families["Sex"]);
 
+=======
+			print_r(static::$families["sex"]);
+>>>>>>> parent of df8e0ab... a
 			echo "</pre>\n";
 		}
 		
 		$_SESSION['es']->_inhabitantsWork = static::$families["Yrke"];
 		$_SESSION['es']->_inhabitantsAge = static::$families["Alder"];
+		$_SESSION['es']->_inhabitantsSex = static::$families["Sex"];
 		
 		return static::showWizClimateZone();
 	}
@@ -1247,12 +1253,14 @@ class Site
 				(
 					work,
 					age,	
+					sex,	
 					StoredName
 				) 
 				VALUES
 				(
 					".$_SESSION['es']->_inhabitantsWork[$i].",
 					".$_SESSION['es']->_inhabitantsAge[$i].", 	
+					".$_SESSION['es']->_inhabitantsSex[$i].", 	
 					'".$_REQUEST['StorageName']."'
 				)";
 				
@@ -1327,6 +1335,7 @@ class Site
 		) {
 			$_SESSION['es']->_inhabitantsWork = $_REQUEST['inhabitantsWork'];
 			$_SESSION['es']->_inhabitantsAge = $_REQUEST['inhabitantsAge'];
+			$_SESSION['es']->_inhabitantsSex = $_REQUEST['inhabitantsSex'];
 		}
 		else
 		{
@@ -1362,7 +1371,7 @@ class Site
 		$tpl = static::wizardInit();
 		$tpl->assign('function', static::$funcParseWizardClimateZone);
 		
-		$getSQL = "SELECT stnr, name, department FROM weatherStations";
+		$getSQL = "SELECT stnr, name, department FROM weatherStations ORDER BY department ASC, name ASC";
 		
 		if ( ($res = Base::getMysqli()->query($getSQL)) === FALSE )
 		{
@@ -1398,7 +1407,7 @@ class Site
 		else
 		{
 			// Default 0
-			$_SESSION['es']->_climateZone = 0;
+			$_SESSION['es']->_climateZone = 1;
 		}
 		
 		if ( isset($_REQUEST['climateWeatherStation']) && intval($_REQUEST['climateWeatherStation']) > 0 )
@@ -1411,6 +1420,7 @@ class Site
 			$_SESSION['es']->_climateWeatherStation = 0;
 		}
 		
+
 		if ( isset($_REQUEST['klima']) && intval($_REQUEST['klima']) > 0 )
 		{
 			$_SESSION['es']->_climateZone = intval($_REQUEST['klima']);
@@ -1614,28 +1624,35 @@ class Site
 		// Lager XML
 		$xml = "<?xml version=\"1.0\"?>";
 		$xml .= '<simulering>';
-		$xml .= "\n\t";	// For DOM - human readable \n <- line break, \t <- tab for each class
+		$xml .= "\n";	// For DOM - human readable \n <- line break, \t <- tab for each class
 		
 		// Beboere
-		$xml .= "<Familie type=\"class\">\n\t\t";
+		$xml .= "\t<Familie type=\"class\">\n";
 		$xml .= static::hentNokkelVerdiForXML("Familie");
-		$xml .= "<Person type=\"class\"> \n\t\t\t";
-		$xml .= static::hentNokkelVerdiForXML("Person");
-		$xml .= "<Alder>50</Alder> \n\t\t\t";
-		$xml .= "<Kjonn>Kvinne</Kjonn> \n\t\t";
-		$xml .= "<Person type=\"class\"> \n\t\t";
-		$xml .= "</Person> \n\t\t\t";
-		$xml .= "<Alder>60</Alder> \n\t\t\t";
-		$xml .= "<Kjonn>Mann</Kjonn> \n\t\t";
-		$xml .= "</Person> \n\t";
-		$xml .= "</Familie>\n\t";
+		
+		if ( !is_array($simStoring->_inhabitantsArr) || $simStoring->_inhabitantsArr === NULL )
+		{
+			die('Invalid beboere..');
+		}
+		
+		foreach ( $simStoring->_inhabitantsArr as $inhabitant )
+		{
+			$xml .= "\t\t<Person type=\"class\"> \n";
+			$xml .= static::hentNokkelVerdiForXML("Person");
+			$xml .= "\t\t\t<Alder>" . $inhabitant->age . "</Alder> \n";
+			$xml .= "\t\t\t<Kjonn>" . $inhabitant->sex . "</Kjonn> \n";
+			$xml .= "\t\t\t<Virke>" . $inhabitant->work . "</Virke> \n";
+			$xml .= "\t\t</Person> \n\t\t";
+		}
+		
+		$xml .= "\t</Familie>\n";
 		
 		// Boligtyp>
-		$xml .= "<Enebolig type=\"class\">\n\t\t\t";
+		$xml .= "\t<Enebolig type=\"class\">\n\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Enebolig");
-		$xml .= "<bruttoAreal>". ($simStoring->_houseTotalArea) . "</bruttoAreal> \n\t\t\t";
+		$xml .= "<bruttoAreal>". ($simStoring->_houseTotalArea) . "</bruttoAreal> \n\t\t";
 		$xml .= "<pRomAreal>". ($simStoring->_housePrimaryArea)."</pRomAreal> \n\t\t";
-		$xml .= "<Varmetap type=\"class\"> \n\t\t\t";
+		$xml .= "<Varmetap type=\"class\"> \n\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Varmetap");
 		$xml .= "<byggstandard>" . ($simStoring->_houseBuildYearParsed) . "</byggstandard>\n\t\t\t";			// Hardkodet ihht testData.xml TODO: Legg inn felter i bygning
 		$xml .= "<ytterveggAreal>". ($simStoring->_ytterveggAreal) . "</ytterveggAreal>\n\t\t\t";
@@ -1684,19 +1701,13 @@ class Site
 			$xml .= "<temperatureoffset>" . $climateTemperatureOffset . "</temperatureoffset>\n\t\t";
 		}
 		
-		if ( intval($climateWeatherStation) > 0 )
+		if ( intval($simStoring->_climateWeatherStation) > 0 )
 		{
-			$xml .= "<maalestasjon>" . intval($climateWeatherStation) . "</maalestasjon>\n\t\t";
+			$xml .= "<maalestasjon>" . intval($simStoring->_climateWeatherStation) . "</maalestasjon>\n\t\t";
 		}
 		else
 		{
-			if ( intval($climateZone) <= 0 || intval($climateZone) > 7 )
-			{
-				// Default klimasone er 1 -> Sør-norge
-				$climateZone = 1;
-			}
-				
-			$xml .= "<sone>".intval($climateZone)."</sone>\n\t";
+			$xml .= "<sone>".intval($simStoring->_climateZone)."</sone>\n\t";
 		}
 		$xml .= "</Klima>\n\t";
 		
@@ -1722,7 +1733,7 @@ class Site
 		$dom->formatOutput = true;
 		$dom->loadXML($xmlobj->asXML());
 		//echo $dom->saveXML(); // For test -> viser xml datene
-		$filename = "/home/gruppe2/new/" . $xmlId . ".xml";
+		$filename = $xmlId . ".xml";
 		$dom->save($filename);
 		
 		$datetime1 = new DateTime($simStoring->_startTime);
@@ -1814,6 +1825,22 @@ class Site
 	// storing to DB
 	static function storeDB($definedStoreName)
 	{
+	
+		/* Klargjør beboere */
+		$inhabitantsArr = Array();
+		
+		foreach ($_SESSION['es']->_inhabitantsWork as $key=>$value)
+		{
+			$inhabitant = new StdClass();
+			$inhabitant->work = $_SESSION['es']->_inhabitantsWork[$key];
+			$inhabitant->age = $_SESSION['es']->_inhabitantsAge[$key];
+			$inhabitant->sex = $_SESSION['es']->_inhabitantsSex[$key];
+				
+			$inhabitantsArr[] = $inhabitant;
+		}		
+	
+		$inhabitantsSerialized = serialize($inhabitantsArr);
+		
 		$sql = "INSERT INTO SimStoring
 		(
 			building,
@@ -1847,6 +1874,7 @@ class Site
 			opplosning, 
 			numHvit, 
 			numBrun,
+			inhabitantsSerialized,
 			name
 		) 
 		VALUES
@@ -1882,6 +1910,7 @@ class Site
 			'".$_SESSION['es']->_opplosning."',
 			'".$_SESSION['es']->_numHvit."', 
 			'".$_SESSION['es']->_numBrun."',
+			'" . $inhabitantsSerialized . "',
 			'".$definedStoreName."'
 			
 		)";
@@ -2338,6 +2367,21 @@ class Site
 		$fetchedBuilding = $tmpRes['building'];
 		$fetchedHouseBuildYear = $tmpRes['houseBuildYear'];
 		
+		$inhabitantsArr = unserialize($tmpRes['inhabitantsSerialized']);
+		
+		foreach ( $inhabitantsArr as $key=>$value )
+		{
+			if ( $inhabitantsArr[$key]->sex == 1 ) 
+			{
+				$inhabitantsArr[$key]->sexAsText = "Kvinne";
+			}
+			else
+			{
+				$inhabitantsArr[$key]->sexAsText = "Mann";
+			}
+		}
+		
+		
 		if($fetchedBuilding == '1') {$fetchedBuilding = "Enebolig";}
 		if($fetchedBuilding == '2') {$fetchedBuilding = "Leilighet";}
 		if($fetchedBuilding == '3') {$fetchedBuilding = "Rekkehus";}
@@ -2387,6 +2431,7 @@ class Site
 		$tpl->assign('opplosning', $fetchedopplosning);
 		$tpl->assign('numHvit', $fetchedNumHvit);
 		$tpl->assign('numBrun', $fetchedNumBrun);
+		$tpl->assign('inhabitantsArr', $inhabitantsArr);
 		
 		return static::getMainFrame($tpl->fetch("ShowSim.tpl.html"), "Vis Tidligere Simulering");
 	}
@@ -2531,6 +2576,7 @@ class Site
 		) {
 			$es->_inhabitantsWork = $_REQUEST['inhabitantsWork'];
 			$es->_inhabitantsAge = $_REQUEST['inhabitantsAge'];
+			$es->_inhabitantsSex = $_REQUEST['inhabitantsSex'];
 		}
 		else
 		{
