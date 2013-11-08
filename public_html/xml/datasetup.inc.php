@@ -61,6 +61,21 @@ if ( $inhabitantsArr === FALSE || !is_array($inhabitantsArr) || count($inhabitan
 {
 	$inhabitantsArr = NULL;
 }
+else
+{
+	foreach ( $inhabitantsArr as $key=>$value )
+	{
+		if ( $inhabitantsArr[$key]->sex == 1 )
+		{
+			$inhabitantsArr[$key]->sexAsText = "Kvinne";
+		}
+		else
+		{
+			$inhabitantsArr[$key]->sexAsText = "Mann";
+		}
+	}
+}
+
 
 
 ?>
