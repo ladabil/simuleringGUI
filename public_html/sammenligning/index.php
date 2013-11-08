@@ -6,13 +6,13 @@ $array2 = $_POST['navn'];
 
 if (count($array) < 2)
 {
-	echo "Du har valg mindre enn 2 sammenligninger.. så her er det ingen grunn for å sammenligne.";
+	echo "<font color='red'>Du har valg mindre enn 2 sammenligninger.. så her er det ingen grunn for å sammenligne.</font>";
 	die;
 }
 
 if (count($array) > 2)
 {
-	echo "Du har valg mere en 2 sammenligninger.. maks antall er 2.";
+	echo "<font color='red'>Du har valg mere en 2 sammenligninger.. maks antall er 2.</font>";
 	die;
 }
 
