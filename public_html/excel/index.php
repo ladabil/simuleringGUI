@@ -49,7 +49,7 @@ if ( isset($inhabitantsArr) && count($inhabitantsArr) > 0 )
 {
 	foreach ( $inhabitantsArr as $inhabitant )
 	{
-		$inhabForCSVArr[] = array("Type" => "Person", "Verdi" => utf8_encode('Person: '. $inhabitant->age . 'År, ' . $inhabitant->sexAsText . ', Yrke: ' . $inhabitant->work . ''));
+		$inhabForCSVArr[] = array("Type" => "Person", "Verdi" => utf8_encode('Person: '. $inhabitant->age . ' År, ' . $inhabitant->sexAsText . ', Yrke: ' . $inhabitant->work . ''));
 	}
 }
 else
