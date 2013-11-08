@@ -121,7 +121,7 @@ if ( isset($inhabitantsArr) && count($inhabitantsArr) > 0 )
 {
 	foreach ( $inhabitantsArr as $inhabitant )
 	{
-		$pdf->Cell(0,5, utf8_encode('Person: '. $inhabitant->age . 'År, ' . $inhabitant->sexAsText . ', Yrke: ' . $inhabitant->work . '') ,0,2,'l');
+		$pdf->Cell(0,5, 'Person: '. $inhabitant->age . ' År, ' . $inhabitant->sexAsText . ', Yrke: ' . $inhabitant->work . '' ,0,2,'l');
 	}
 }
 else
