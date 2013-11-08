@@ -108,8 +108,9 @@ class Site
 	public static $families = array
  	(
   		"Yrke"=>array(),
-		"Alder"=>array()
-  	);
+		"Alder"=>array(),
+  		"Sex"=>array()
+ 	);
 	
 	
 	static function parseRequest()
@@ -1171,6 +1172,10 @@ class Site
 			echo "<pre>\n";
 			print_r(static::$families["Yrke"]);
 			print_r(static::$families["Alder"]);
+<<<<<<< HEAD
+=======
+			print_r(static::$families["Sex"]);
+>>>>>>> df372067e100a5513d0c4a5a3c69b1504946653c
 			echo "</pre>\n";
 		}
 		
