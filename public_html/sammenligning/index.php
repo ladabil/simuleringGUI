@@ -6,13 +6,13 @@ $array2 = $_POST['navn'];
 
 if (count($array) < 2)
 {
-	echo "<font color='red'>Du har valg mindre enn 2 sammenligninger.. så her er det ingen grunn for å sammenligne.</font>";
+	echo "<font color='red'>Ikke nokk antall for å sammenligne.</font>";
 	die;
 }
 
 if (count($array) > 2)
 {
-	echo "<font color='red'>Du har valg mere en 2 sammenligninger.. maks antall er 2.</font>";
+	echo "<font color='red'>Du har valgt mere enn 2 sammenligninger.. maks antall er 2.</font>";
 	die;
 }
 
@@ -52,7 +52,9 @@ if (count($array) > 2)
 		
 		echo "
 		<div style='float: left; margin-right: 5px;'>
-		" . $array2[0] . " <br /> <br />
+		<center>
+		<font style='background-color: #3f3e50; color: #eb8602;'>
+		" . $array2[0] . "</font></center><br />
 			<table border='1'>
 			<tr>
 			<td><strong>startTime</strong></td>
@@ -77,7 +79,9 @@ if (count($array) > 2)
 		
 		echo "
 		<div>
-			" . $array2[1] . " <br /> <br />
+		<center>
+		<font style='background-color: #3f3e50; color: #eb8602;'>
+			" . $array2[1] . "</font></center><br />
 			<table border='1'>
 			<tr>
 			<td><strong>startTime</strong></td>
