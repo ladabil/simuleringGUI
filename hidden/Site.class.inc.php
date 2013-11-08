@@ -1173,13 +1173,7 @@ class Site
 			echo "<pre>\n";
 			print_r(static::$families["Yrke"]);
 			print_r(static::$families["Alder"]);
-<<<<<<< HEAD
-
 			print_r(static::$families["Sex"]);
-
-=======
-			print_r(static::$families["sex"]);
->>>>>>> parent of df8e0ab... a
 			echo "</pre>\n";
 		}
 		
