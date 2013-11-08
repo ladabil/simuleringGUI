@@ -125,6 +125,25 @@
 			<td><strong>Type</strong></td>
 			<td><strong>Verdi</strong></td>
 		</tr>
+		{if isset($inhabitantsArr) && count($inhabitantsArr) > 0}
+  			{foreach from=$inhabitantsArr item=i}
+			<tr>
+      			<td rowspan="3">Person</td>
+				<td>Alder: {$i->age}</td>
+			</tr>
+			<tr>
+				<td>Kjønn: {$i->sexAsText}</td>
+			</tr>
+			<tr>
+				<td>Yrke: {$i->work}</td>
+			</tr>
+			{/foreach}
+		{else}
+			<tr>
+				<td>Ingen beboere funnet</td>
+			</tr>
+		{/if}
+
 	</table>
 	<br />
 	<table width="100%" border="1">
