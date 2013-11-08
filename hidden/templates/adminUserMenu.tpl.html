@@ -16,6 +16,8 @@
 				<td>{$registeredUsers->getDbId()} {$registeredUsers->getFullName()}</td>
 				<td>{$registeredUsers->getUsername()}</td>
 				<td><a href="mailto:{$registeredUsers->getEmailAddress()}">{$registeredUsers->getEmailAddress()}</a></td>
+				
+				<td>
 				<a href="{$scriptURL}?function=deleteUser&amp;userId={$registeredUsers->getDbId()}" 
 					onClick="
 					{if ( $registeredUsers->getDbId()) == 1 }
