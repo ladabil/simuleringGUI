@@ -1690,9 +1690,9 @@ class Site
 		// Klima
 		$xml .= "<Klima type=\"class\">\n\t\t";
 		$xml .= static::hentNokkelVerdiForXML("Klima");
-		if ( floatval($climateTemperatureOffset) <> 0.0 )
+		if ( floatval($simStoring->_climateTemperatureOffset) <> 0.0 )
 		{
-			$xml .= "<temperatureoffset>" . $climateTemperatureOffset . "</temperatureoffset>\n\t\t";
+			$xml .= "<temperatureoffset>" . $simStoring->_climateTemperatureOffset . "</temperatureoffset>\n\t\t";
 		}
 		
 		if ( intval($simStoring->_climateWeatherStation) > 0 )
