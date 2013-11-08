@@ -2,7 +2,13 @@
 <?php
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 $array = $_POST['sammenlign'];
+$array2 = $_POST['navn'];
 
+if (count($array) < 2)
+{
+	echo "Du har valg mindre enn 2 sammenligninger.. så her er det ingen grunn for å sammenligne.";
+	die;
+}
 
 if (count($array) > 2)
 {
@@ -40,12 +46,13 @@ if (count($array) > 2)
 	}
 	if($array[0] != "" && $array[1] != "" )
 	{
-		$CSV  = parse_csv_file("http://jenna.bendiksens.net/~gruppe2/resultater/" . $array[0]);
+		$CSV  = parse_csv_file("http://jenna.bendiksens.net/~gruppe2/resultater/" . $array[0] . ".csv");
 
 		$antall = count($CSV);
 		
 		echo "
 		<div style='float: left; margin-right: 5px;'>
+		" . $array2[0] . " <br /> <br />
 			<table border='1'>
 			<tr>
 			<td><strong>startTime</strong></td>
@@ -64,12 +71,13 @@ if (count($array) > 2)
 		echo "</table>
 		</div>";
 		
-		$CSV2  = parse_csv_file("http://jenna.bendiksens.net/~gruppe2/resultater/" . $array[1]);
+		$CSV2  = parse_csv_file("http://jenna.bendiksens.net/~gruppe2/resultater/" . $array[1]  . ".csv");
 
 		$antall2 = count($CSV2);
 		
 		echo "
 		<div>
+			" . $array2[1] . " <br /> <br />
 			<table border='1'>
 			<tr>
 			<td><strong>startTime</strong></td>

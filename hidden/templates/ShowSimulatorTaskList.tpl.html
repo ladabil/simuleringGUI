@@ -7,18 +7,21 @@
 -->
 
 	
-	<form method="post" action="sammenligning/index.php">
+	<form id="formz0r" method="post" action="sammenligning/index.php">
 		<input type="submit" class="button" value='Sammenlign' />
+		<br />
+		<br />
 	<table width="100%" border="1">
 		<tr>
-			<th colspan="4" width="450px" style="background-color: #3f3e50; color: #eb8602;">Kjørte simuleringer</th>
+			<th colspan="5" width="500px" style="background-color: #3f3e50; color: #eb8602;">Kjørte simuleringer</th>
 		</tr>
 		<tr>
 			<th width="50">KjøreID</th>
 			<th width="190">Simuleringsnavn</th>
 			<th width="120">Kjørt når</th>
 			<th width="40">Action</th>
-			<th width="40"></th>
+			<th widht="40"></th>
+			
 		</tr>
 {foreach from=$simTaskArr item=i}
 		<tr>
@@ -33,7 +36,10 @@
 			</td>
 			
 			<td>
-				<input type="checkbox" name="sammenlign[]" value="{$i.xmlId}.csv" />	
+			
+				<input type="checkbox" name="sammenlign[]" value="{$i.xmlId}" />
+				<input type="hidden" name="navn[]" value="{$i.name}" />
+			
 			</td>
 		</tr>
 {/foreach}
@@ -47,6 +53,14 @@
 		-->
 		
 	</form>
+
+<script>
+	var myForm = document.getElementById('formz0r');
+	myForm.onsubmit = function() {
+    var w = window.open('about:blank','Popup_Window','toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=700,height=600,left = 312,top = 134');
+    this.target = 'Popup_Window';
+};
 	
+</script>
 
 </div>
