@@ -130,8 +130,8 @@ else
 	
 }
 
-$pdf->Cell(0,5, utf8_decode('Antall Hvitevarer: '.$numHvit) ,0,2,'l');
-$pdf->Cell(0,5, utf8_decode('Antall Brunevarer: '.$numBrun) ,0,2,'l');
+//$pdf->Cell(0,5, utf8_decode('Antall Hvitevarer: '.$numHvit) ,0,2,'l');
+//$pdf->Cell(0,5, utf8_decode('Antall Brunevarer: '.$numBrun) ,0,2,'l');
 
 
 // undertittel for Klimasone
