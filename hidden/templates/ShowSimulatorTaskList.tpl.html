@@ -36,10 +36,10 @@
 			</td>
 			
 			<td>
-				{if {$i.simStarted} == TRUE }
+				
 				<input type="checkbox" name="sammenlign[]" value="{$i.xmlId}" />
-				<input type="hidden" name="navn[]" value="{$i.name}" />
-				{/if}
+				<input type="hidden" name="navn_{$i.xmlId}" value="{$i.name}" />
+				
 			</td>
 		</tr>
 {/foreach}

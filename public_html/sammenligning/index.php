@@ -2,7 +2,8 @@
 <?php
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 $array = $_POST['sammenlign'];
-$array2 = $_POST['navn'];
+$navn1 = $_REQUEST['navn_' . $array[0]];
+$navn2 = $_REQUEST['navn_' . $array[1]];
 
 if (count($array) < 2)
 {
@@ -54,7 +55,7 @@ if (count($array) > 2)
 		<div style='float: left; margin-right: 5px;'>
 		<center>
 		<font style='background-color: #3f3e50; color: #eb8602;'>
-		" . $array2[0] . "</font></center><br />
+		" . $navn1 . "</font></center><br />
 			<table border='1'>
 			<tr>
 			<td><strong>startTime</strong></td>
@@ -81,7 +82,7 @@ if (count($array) > 2)
 		<div>
 		<center>
 		<font style='background-color: #3f3e50; color: #eb8602;'>
-			" . $array2[1] . "</font></center><br />
+			" . $navn2 . "</font></center><br />
 			<table border='1'>
 			<tr>
 			<td><strong>startTime</strong></td>
@@ -100,5 +101,6 @@ if (count($array) > 2)
 		echo "</table>
 		</div>";
 	}
+
 
 ?>
