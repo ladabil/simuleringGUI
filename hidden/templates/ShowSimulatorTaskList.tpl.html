@@ -3,10 +3,12 @@
 	
 	<h3>Liste over kjørte simuleringer</h3>
 		
-	<a href="#" onClick="MyWindow=window.open('http://jenna.bendiksens.net/~gruppe2/sammenligning/','MyWindow','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=800,height=300'); return false;"><input type="button" class="button" value='Sammenlign' /></a> 
+	<!--<a href="#" onClick="MyWindow=window.open('http://jenna.bendiksens.net/~gruppe2/sammenligning/','MyWindow','toolbar=no,location=no,directories=no,status=no, menubar=no,scrollbars=no,resizable=no,width=800,height=300'); return false;"><input type="button" class="button" value='Sammenlign' /></a> 
+-->
 
 	
-	<form method="post" action="{$scriptURL}">
+	<form method="post" action="sammenligning/index.php">
+		<input type="submit" class="button" value='Sammenlign' />
 	<table width="100%" border="1">
 		<tr>
 			<th colspan="4" width="450px" style="background-color: #3f3e50; color: #eb8602;">Kjørte simuleringer</th>
@@ -16,6 +18,7 @@
 			<th width="190">Simuleringsnavn</th>
 			<th width="120">Kjørt når</th>
 			<th width="40">Action</th>
+			<th width="40"></th>
 		</tr>
 {foreach from=$simTaskArr item=i}
 		<tr>
@@ -28,6 +31,10 @@
 				<a href="{$resultURL}/{$i.xmlId}.csv">Res.</a>
 				{/if}
 			</td>
+			
+			<td>
+				<input type="checkbox" name="sammenlign[]" value="{$i.xmlId}.csv" />	
+			</td>
 		</tr>
 {/foreach}
 	</table>
@@ -36,7 +43,7 @@
 		{Base::getTokenforFORM("setupSimulator")}
 		
 		<br />
-		<input type="submit" class="button" value='Hent simuleringsoppsett' />
+		
 		-->
 		
 	</form>

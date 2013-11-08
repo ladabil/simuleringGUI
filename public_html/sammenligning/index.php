@@ -1,54 +1,14 @@
 <link href="http://jenna.bendiksens.net/~gruppe2/css/style2.css" rel="stylesheet" type="text/css" media="screen" />
-
-
-<form name=	"testform" id="testform" action="?x=submit" method="post">
-  <select name="dropdown" id="dropdown">
-  	<option value="nothing" selected="selected">Velg Simuleringsresultat</option>
-  	<?php
-  	$mysqli = new mysqli("jenna.bendiksens.net", "gruppe2it", "123", "gruppe2it");
-
-
-	$sql = "SELECT * FROM SimTask";
-		
-		if ( ($res = $mysqli->query($sql)) === FALSE )
-		{
-			die("error");
-		}
-
-		while($row = mysqli_fetch_array($res))
-		{
-			echo "<option value='http://jenna.bendiksens.net/~gruppe2/resultater/".$row['xmlId'].".csv'>".$row['xmlId']."</option>";
-		}
-  	
-  	?>
-  </select>
-  <select name="dropdown2" id="dropdown">
-  	<option value="nothing" selected="selected">Velg Simuleringsresultat</option>
-  	<?php
-  	$mysqli = new mysqli("jenna.bendiksens.net", "gruppe2it", "123", "gruppe2it");
-
-
-	$sql = "SELECT * FROM SimTask";
-		
-		if ( ($res = $mysqli->query($sql)) === FALSE )
-		{
-			die("error");
-		}
-
-		while($row = mysqli_fetch_array($res))
-		{
-			echo "<option value='http://jenna.bendiksens.net/~gruppe2/resultater/".$row['xmlId'].".csv'>".$row['xmlId']."</option>";
-		}
-  	
-  	?>
-  </select>
-  <input type="submit" name="Submit" value="Submit" class="button" id="Submit">
-</form>
-
 <?php
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
-if($_GET['x'] == 'submit')
+$array = $_POST['sammenlign'];
+
+
+if (count($array) > 2)
 {
+	echo "Du har valg mere en 2 sammenligninger.. maks antall er 2.";
+	die;
+}
 
 	function parse_csv_file($csvfile) {
 	    $csv = Array();
@@ -78,9 +38,9 @@ if($_GET['x'] == 'submit')
 	    }
 	    return $csv;
 	}
-	if($_POST['dropdown'] != "nothing" && $_POST['dropdown2'] != "nothing" )
+	if($array[0] != "" && $array[1] != "" )
 	{
-		$CSV  = parse_csv_file($_POST['dropdown']);
+		$CSV  = parse_csv_file("http://jenna.bendiksens.net/~gruppe2/resultater/" . $array[0]);
 
 		$antall = count($CSV);
 		
@@ -104,7 +64,7 @@ if($_GET['x'] == 'submit')
 		echo "</table>
 		</div>";
 		
-		$CSV2  = parse_csv_file($_POST['dropdown2']);
+		$CSV2  = parse_csv_file("http://jenna.bendiksens.net/~gruppe2/resultater/" . $array[1]);
 
 		$antall2 = count($CSV2);
 		
@@ -128,5 +88,5 @@ if($_GET['x'] == 'submit')
 		echo "</table>
 		</div>";
 	}
-}
+
 ?>
