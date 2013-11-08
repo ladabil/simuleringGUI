@@ -16,10 +16,7 @@
 				<td>{$registeredUsers->getDbId()} {$registeredUsers->getFullName()}</td>
 				<td>{$registeredUsers->getUsername()}</td>
 				<td><a href="mailto:{$registeredUsers->getEmailAddress()}">{$registeredUsers->getEmailAddress()}</a></td>
-				<td>
-				<a href="{$scriptURL}?function=changeUser&amp;userId={$registeredUsers->getDbId()}">Endre</a>
-					<input type="hidden" name="userId" value={$registeredUsers->getDbId()}>
-				</td>
+				
 				<td>
 				<a href="{$scriptURL}?function=deleteUser&amp;userId={$registeredUsers->getDbId()}" 
 					onClick="
