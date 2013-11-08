@@ -43,6 +43,21 @@ if($houseBuildYear == '1') {$houseBuildYear = "Før 1987";}
 if($houseBuildYear == '2') {$houseBuildYear = "Mellom 1987 og 1997";}
 if($houseBuildYear == '3') {$houseBuildYear = "Etter 1997";}
 
+
+$inhabForCSVArr = Array();
+if ( isset($inhabitantsArr) && count($inhabitantsArr) > 0 )
+{
+	foreach ( $inhabitantsArr as $inhabitant )
+	{
+		$inhabForCSVArr[] = array("Type" => "Person", "Verdi" => 'Person: '. $inhabitant->age . '�r, ' . $inhabitant->sexAsText . ', Yrke: ' . $inhabitant->work . '');
+	}
+}
+else
+{
+	$inhabForCSVArr[] = array("Type" => "Person", "Verdi" => "Ingen beboere funnet");
+}
+
+
 $data = array(
   	//array("Hus" => " "),
   	array("Type" => "Bygg Type", "Verdi" => "$building"),
@@ -68,9 +83,13 @@ $data = array(
 	array("Type" => "Sekundær Belysning", "Verdi" => "$secLightType"),
 	array("Type" => "Gjennomsnittlig Brennetid (timer per dag)", "Verdi" => "$lightTime"),
 	array("Type" => "Lys Differanse", "Verdi" => "$lightDiff"."%"),
-	array("Type" => "", "Verdi" => ""),
-	array("Type" => "Antall Hvitevarer", "Verdi" => "$numHvit"),
-	array("Type" => "Antall Brunevarer", "Verdi" => "$numBrun"),
+	array("Type" => "", "Verdi" => "")
+		);
+
+$data = array_merge($data, $inhabForCSVArr);
+		
+		
+$data2 = Array(
 	array("Type" => "", "Verdi" => ""),
 	array("Type" => "Klimasone", "Verdi" => $climateZone),
 	array("Type" => "VærstasjonsId", "Verdi" => $climateWeatherStation),
@@ -79,6 +98,9 @@ $data = array(
   	array("Type" => "Slutt tid", "Verdi" => "$endTime"),
   	array("Type" => "Oppløsning", "Verdi" => "$opplosning")
   );
+
+$data = array_merge($data, $data2);
+
 ?>
 
 <?PHP

@@ -116,6 +116,20 @@ $pdf->Cell(0,6, 'Beboere', 0,2,'l');
 // verdier
 $pdf->SetFont('Times','',12);
 $pdf->ln(2);
+
+if ( isset($inhabitantsArr) && count($inhabitantsArr) > 0 )
+{
+	foreach ( $inhabitantsArr as $inhabitant )
+	{
+		$pdf->Cell(0,5, utf8_decode('Person: '. $inhabitant->age . 'År, ' . $inhabitant->sexAsText . ', Yrke: ' . $inhabitant->work . '') ,0,2,'l');
+	}
+}
+else
+{
+	$pdf->Cell(0,5, utf8_decode("Ingen beboere funne") ,0,2,'l');
+	
+}
+
 $pdf->Cell(0,5, utf8_decode('Antall Hvitevarer: '.$numHvit) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Antall Brunevarer: '.$numBrun) ,0,2,'l');
 

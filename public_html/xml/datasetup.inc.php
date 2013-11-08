@@ -55,4 +55,12 @@ switch ( $climateZone )
 		break;
 }
 
+$this->_inhabitantsArr = unserialize($this->_row['inhabitantsSerialized']);
+
+if ( $this->_inhabitantsArr === FALSE || !is_array($this->_inhabitantsArr) || count($this->_inhabitantsArr) <= 0 )
+{
+	$this->_inhabitantsArr = NULL;
+}
+
+
 ?>
