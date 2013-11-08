@@ -142,7 +142,7 @@ $pdf->Cell(0,6, 'Klima og tidsrom', 0,2,'l');
 // verdier
 $pdf->SetFont('Times','',12);
 $pdf->ln(2);
-$pdf->Cell(0,5, utf8_decode('Klimasone: ' . climateZoneTxt . " (". $climateZone . ")") ,0,2,'l');
+$pdf->Cell(0,5, utf8_decode('Klimasone: ' . $climateZoneTxt . " (". $climateZone . ")") ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('Værstasjon: ' . $climateWeatherStationTxt . " (stnr: " . $climateWeatherStation . ")" ) ,0,2,'l');
 $pdf->Cell(0,5, utf8_decode('TemperaturOffset: '.$climateTemperatureOffset . ' grader') ,0,2,'l');
 
