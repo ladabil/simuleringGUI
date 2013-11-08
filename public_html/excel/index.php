@@ -91,7 +91,7 @@ $data = array_merge($data, $inhabForCSVArr);
 		
 $data2 = Array(
 	array("Type" => "", "Verdi" => ""),
-	array("Type" => "Klimasone", "Verdi" => $climateZone),
+	array("Type" => "Klimasone", "Verdi" => $climateZoneTxt . " (". $climateZone . ")"),
 	array("Type" => "VærstasjonsId", "Verdi" => $climateWeatherStation),
 	array("Type" => "TemperaturOffset", "Verdi" => $climateTemperatureOffset),
   	array("Type" => "Start tid", "Verdi" => "$startTime"),
